@@ -1,8 +1,8 @@
-import NavBar from "./components/NavBar";
+import LoginPage from "./pages/Login-Page";
 function App() {
   return (
     <div>
-      <NavBar />
+      <LoginPage />
     </div>
   );
 }
