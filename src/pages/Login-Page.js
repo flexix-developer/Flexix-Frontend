@@ -6,7 +6,7 @@ function LoginPage() {
       <NavBar />
       <div className="Container flex h-90/0 ">
         <div className="Left w-2/5 h-full flex justify-center items-center">
-          <img className="h-full" src={bglogin} />
+          <img className="h-full" src={bglogin} alt="" />
         </div>
         <div className="Right w-3/5 h-full flex  items-center  ">
           <div className="Right-Content mx-24 mr-80 w-full h-5/6 flex  flex-col">
@@ -18,7 +18,7 @@ function LoginPage() {
                 Email
                 <br />
                 <input
-                  className="w-full h-14 border rounded-xl border-slate-950 my-2 mb-6 text-left border rounded px-2 py-1 text-3xl"
+                  className="w-full h-14 border rounded-xl border-slate-950 my-2 mb-6 text-left px-2 py-1 text-3xl"
                   type="text"
                   name="name"
                 />
@@ -29,14 +29,14 @@ function LoginPage() {
                   Password<p className="text-blue-800">Forgot password? </p>
                 </div>
                 <input
-                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left border rounded px-2 py-1 text-3xl"
+                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-2 py-1 text-3xl"
                   type="password"
                   name="name"
                 />
               </label>
               <br />
               <input
-                className="bg-blue-900 text-white w-full  h-16 border-2 rounded-xl mt-2 text-2xl mt-4 mb-4"
+                className="bg-blue-900 text-white w-full  h-16 border-2 rounded-xl text-2xl mt-4 mb-4"
                 type="submit"
                 value="Sign in"
               />
