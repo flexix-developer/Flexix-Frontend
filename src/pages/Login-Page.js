@@ -11,7 +11,7 @@ function LoginPage() {
         <div className="Right w-3/5 h-full flex  items-center  ">
           <div className="Right-Content mx-24 mr-80 w-full h-5/6 flex  flex-col">
             <span className="text-5xl font-semibold mt-20">
-              Sing in to FLEXiX
+              Sign in to FLEXiX
             </span>
             <form className="mt-8">
               <label className="text-2xl font-normal">
@@ -50,11 +50,6 @@ function LoginPage() {
             <br />
           </div>
         </div>
-      </div>
-      <div className="">
-        <span className="ml-2 text-xl">
-          @ FLEXiX 2023 | <a>Contact Us</a> | <a>Privacy Policy</a>
-        </span>
       </div>
     </div>
   );

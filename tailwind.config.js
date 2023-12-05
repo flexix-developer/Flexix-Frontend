@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       height: {
-        "90/0": "88.5%",
+        "90/0": "90.5%",
       },
       spacing: {
         79: "19rem",
