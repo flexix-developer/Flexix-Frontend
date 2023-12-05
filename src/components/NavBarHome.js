@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 function NavBarHome() {
   return (
@@ -6,18 +7,18 @@ function NavBarHome() {
       <div className="mx-auto max-w-10xl px-2 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center">
-          <a href="/" className="text-white text-4xl font-bold">
+          <Link to="/" className="text-white text-4xl font-bold">
             FLEXiX
-          </a>
+          </Link>
         </div>
 
         {/* Sign In Button */}
         <div className="flex items-center">
-          <a href="/">
+          <Link to="/login">
             <button className="bg-white hover:bg-gray-100 text-sky-800 font-semibold py-2 px-8 border border-sky-800 rounded shadow">
               Sign in
             </button>
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
