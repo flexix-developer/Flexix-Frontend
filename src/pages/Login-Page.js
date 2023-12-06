@@ -1,5 +1,6 @@
 import NavBar from "../components/NavBar";
 import bglogin from "../images/login-bg.png";
+import { Link } from "react-router-dom";
 function LoginPage() {
   return (
     <div className="h-screen">
@@ -26,7 +27,10 @@ function LoginPage() {
               <br />
               <label className="text-2xl my-2 font-normal">
                 <div className="flex justify-between m-0">
-                  Password<p className="text-blue-800">Forgot password? </p>
+                  Password
+                  <Link to="/forgot">
+                    <p className="text-blue-800">Forgot password? </p>
+                  </Link>
                 </div>
                 <input
                   className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-2 py-1 text-3xl"
