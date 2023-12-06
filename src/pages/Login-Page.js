@@ -47,7 +47,7 @@ function LoginPage() {
             </form>
             <span className="ml-2 text-xl">
               Don't have an account ?{" "}
-              <a className="text-blue-700" href="/">
+              <a className="text-blue-700" href="/register">
                 Sign Up.
               </a>
             </span>
