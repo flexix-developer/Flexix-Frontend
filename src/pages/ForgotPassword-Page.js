@@ -12,8 +12,8 @@ function ForgotPasswordPage() {
           <img className="h-full" src={bglogin} alt="" />
         </div>
 
-        {/* <ForgotOne /> */}
-        <ForgotTwo />
+        <ForgotOne />
+        {/* <ForgotTwo /> */}
       </div>
     </div>
   );
