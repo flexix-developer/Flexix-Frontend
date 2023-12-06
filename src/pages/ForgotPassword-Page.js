@@ -1,6 +1,6 @@
 import NavBar from "../components/NavBar";
 import ForgotOne from "../components/ForgotOne";
-import ForgotTwo from "../components/ForgotTwo";
+// import ForgotTwo from "../components/ForgotTwo";
 import bglogin from "../images/login-bg.png";
 
 function ForgotPasswordPage() {
