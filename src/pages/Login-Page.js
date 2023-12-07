@@ -5,7 +5,7 @@ function LoginPage() {
   return (
     <div className="h-screen">
       <NavBar />
-      <div className="Container flex h-90/0 ">
+      <div className="Container flex h-90/0">
         <div className="Left w-2/5 h-full flex justify-center items-center">
           <img className="h-full" src={bglogin} alt="" />
         </div>
