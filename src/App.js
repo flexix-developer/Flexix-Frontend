@@ -6,6 +6,7 @@ import TutorialPage from "./pages/Tutorial-Page";
 import ForgotPasswordPage from "./pages/ForgotPassword-Page";
 import RegisterPage from "./pages/Register-Page";
 import PlatformPage from "./pages/Platform-Page";
+import WorkspacePage from "./pages/Workspace-Page";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/forgot" element={<ForgotPasswordPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/platform" element={<PlatformPage />} />
+        <Route path="/workspace" element={<WorkspacePage />} />
       </Routes>
     </>
   );
