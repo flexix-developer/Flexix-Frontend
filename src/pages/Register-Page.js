@@ -13,13 +13,13 @@ const RegisterPage = () => {
                 <div className="Left w-2/5 h-full flex justify-center items-center">
                     <img className="h-full" src={register} alt="" />
                 </div>
-                <div className="Right w-3/5 h-full flex ">
-                    <div className="Right-Content mx-24 mr-80 w-full h-5/6 flex  flex-col">
+                <div className="Right w-3/5 h-full flex justify-center">
+                    <div className="Right-Content mx-24 mr-80 w-full h-5/6 flex  flex-col ">
                         <span className="text-3xl font-semibold mt-20">
                             Sign Up
                         </span>
                         {/* columnclass */}
-                        <div className="mt-8 items-center">
+                        <div className="mt-8 flex">
                             <div>
                                 <form>
                                     <div className="grid gap-6 mb-6 md:grid-cols-2">
@@ -58,7 +58,7 @@ const RegisterPage = () => {
                                         <label for="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I would like to receive communication from FLEXiX via email</label>
                                     </div>
                                     <div className="flex flex-col justify-center items-center">
-                                        <button type="submit" className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-64 w-full px-5 py-2.5 items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                                        <button type="submit" className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-64 px-5 py-2.5 items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
                                         <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300" >Already have an account? <a href="/login" className="text-blue-600 hover:underline dark:text-blue-500">Sign in</a></label>
                                     </div>
                                 </form>
