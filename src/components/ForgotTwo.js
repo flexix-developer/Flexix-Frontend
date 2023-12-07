@@ -46,7 +46,7 @@ function ForgotTwo({ onNextStep }) {
             <label className="text-2xl font-normal">
               <div className="flex m-0">
                 We sent code to
-                <p className="ml-2 font-semibold font-semibold">
+                <p className="ml-2 font-semibold">
                   jonh_smith@gmail.com
                 </p>
               </div>
@@ -54,7 +54,7 @@ function ForgotTwo({ onNextStep }) {
                 {numbers.map((value, index) => (
                   <input
                     key={index}
-                    className="w-16 h-16 border rounded-xl border-slate-950 mt-4 my-2 mx-2 text-left px-4 py-1 text-3xl text-center"
+                    className="w-16 h-16 border rounded-xl border-slate-950 mt-4 my-2 mx-2 px-4 py-1 text-3xl text-center"
                     name="verifycode"
                     type="text"
                     value={value}
@@ -67,7 +67,7 @@ function ForgotTwo({ onNextStep }) {
 
               <span className="ml-2 text-xl">
                 Didn't receive the email?
-                <a className="text-blue-700 ml-2 underline cursor-pointer">
+                <a className="text-blue-700 ml-2 underline cursor-pointer" href="/">
                   Click here
                 </a>
               </span>
