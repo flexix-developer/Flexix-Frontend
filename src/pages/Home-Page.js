@@ -21,7 +21,7 @@ const HomePage = () => {
                   Tutorial
                 </button>
               </Link>
-              <a href="/">
+              <a href="/platform  ">
                 <button className="bg-white hover:bg-gray-100 text-sky-800 font-semibold py-2 px-8 border border-sky-800 rounded shadow">
                   Platform
                 </button>

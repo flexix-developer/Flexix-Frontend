@@ -5,7 +5,7 @@ function LoginPage() {
   return (
     <div className="h-screen">
       <NavBar />
-      <div className="Container flex h-90/0 ">
+      <div className="Container flex h-90/0">
         <div className="Left w-2/5 h-full flex justify-center items-center">
           <img className="h-full" src={bglogin} alt="" />
         </div>
@@ -19,7 +19,7 @@ function LoginPage() {
                 Email
                 <br />
                 <input
-                  className="w-full h-14 border rounded-xl border-slate-950 my-2 mb-6 text-left px-2 py-1 text-3xl"
+                  className="w-full h-14 border rounded-xl border-slate-950 my-2 mb-6 text-left px-4 py-1 text-3xl"
                   type="text"
                   name="name"
                 />
@@ -33,7 +33,7 @@ function LoginPage() {
                   </Link>
                 </div>
                 <input
-                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-2 py-1 text-3xl"
+                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-3xl"
                   type="password"
                   name="name"
                 />
