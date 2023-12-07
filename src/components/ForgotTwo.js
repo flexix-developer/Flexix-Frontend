@@ -1,6 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
+import BottomSlideBar from "./BottomSlideBar";
 
-function ForgotTwo() {
+function ForgotTwo({ onNextStep }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Perform any necessary form submission logic
+    // ...
+
+    // Move to the next step
+    onNextStep();
+  };
+
   const [numbers, setNumbers] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
 
@@ -18,8 +28,11 @@ function ForgotTwo() {
       return newNumbers;
     });
 
-    // Move focus to the next input when a digit is entered
-    if (value && index < inputRefs.current.length - 1) {
+    // If the input is empty, move focus to the previous input
+    if (!value && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    } else if (value && index < inputRefs.current.length - 1) {
+      // If a digit is entered, move focus to the next input
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -27,9 +40,9 @@ function ForgotTwo() {
   return (
     <div className="Right w-3/5 h-full flex items-center">
       <div className="h-full flex flex-col">
-        <div className="Right-Content mx-24 mr-80 w-90/0 h-5/6 flex flex-col justify-center mb-24">
+        <div className="Right-Content mx-24 mr-80 w-9/12 h-5/6 flex flex-col justify-center mb-24">
           <span className="text-5xl font-semibold mt-2">Password reset</span>
-          <form className="mt-8">
+          <form className="mt-8" onSubmit={handleSubmit}>
             <label className="text-2xl font-normal">
               <div className="flex m-0">
                 We sent code to
@@ -51,7 +64,7 @@ function ForgotTwo() {
                   />
                 ))}
               </div>
-              <br />
+
               <span className="ml-2 text-xl">
                 Didn't receive the email?
                 <a className="text-blue-700 ml-2 underline cursor-pointer">
@@ -66,16 +79,11 @@ function ForgotTwo() {
             />
           </form>
         </div>
-        <div className="flex h-2 justify-center mr-16 mt-8">
-          {Array.from({ length: 3 }).map((_, index) => (
-            <div
-              key={index}
-              className={`w-24 bg-${
-                index === 1 ? "blue-900" : "gray-400"
-              } mx-2.5 border rounded-xl`}
-            ></div>
-          ))}
-        </div>
+
+        <BottomSlideBar
+          children="flex h-2 justify-center mr-15 mt-8"
+          indexs={1}
+        />
       </div>
     </div>
   );
