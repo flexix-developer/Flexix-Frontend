@@ -10,7 +10,7 @@ const RegisterPage = () => {
         <div className="h-screen bg-gray-900 ">
             <NavBarHome />
             <div className="bg-gray-900 flex justify-center mt-auto mb-10">
-                <span className="text-white text-3xl font-semibold">
+                <span className="text-white font-bold text-4xl">
                     Platform
                 </span>
             </div>
