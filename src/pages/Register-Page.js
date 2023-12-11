@@ -1,80 +1,137 @@
-import register from "../images/login-bg.png";
+import bgregister from "../images/register-bg.png";
 import NavBarHome from "../components/NavBarHome";
-// import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const RegisterPage = () => {
-    return (
-        <div className="h-screen">
-          <NavBarHome />
-          <div className="Container flex">
-                <div className="Left w-2/5 flex flex-col justify-center items-center">
-                    <div className="flex flex-col items-center">
-                        <img className="h-full" src={register} alt="" />
-                        <label className="">
-                            What you'll enjoy:
-                            <br />
-                            - Free access to the FLEXiX platfrom
-                            <br />
-                            - Access to template, widgets, test API 
-                            <br />
-                            - Self-paced courses and certifications
-                            <br />
-                        </label>
-                    </div>
-                </div>
-            <div className="Right w-3/5 h-full flex ">
-                <div className="Right-Content w-full h-5/6 flex flex-col justify-center items-center">
-                    <span className="text-5xl font-semibold mt-20 mb-10 mr-32">
-                        Sign up to FLEXiX
-                    </span>
-                    <form>
-                        <div>
-                            <div className="flex mb-6">
-                                <div className="">
-                                    <label>First name</label>
-                                    <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 " placeholder="John" required />
-                                </div>
-                                <div className="">
-                                    <label>Last name</label>
-                                    <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5" placeholder="Smith" required />
-                                </div>
-                            </div>
-                            <div className="flex flex-col mb-6">
-                                <label>E-mail</label>
-                                <input type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5    " placeholder="john_smith@mail.com" required />
-                            </div>
-                            <div className="flex flex-col mb-6">
-                                <label>Password</label>
-                                <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" placeholder="+8 character" required />
-                            </div>
-                            <div className="flex flex-col mb-6">
-                                <label>Confirm Password</label>
-                                <input type="password" id="confirm_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5" placeholder="Confirm passoword" required />
-                            </div>
-                            <div className="flex items-start mb-6">
-                                <div className="flex items-center h-5">
-                                    <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50" required />
-                                </div>
-                                <label for="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with to <a href="/loing" className="text-blue-600 hover:underline dark:text-blue-500">FLEXiX Privacy Policy </a>.</label>
-                            </div>
-                            <div className="flex items-start mb-6 ">
-                                <div className="flex items-center h-5">
-                                    <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50" required />
-                                </div>
-                                <label for="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I would like to receive communication from FLEXiX via email</label>
-                            </div>
-                            <div className="flex flex-col items-center">
-                                <button type="submit" className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-64 px-5 py-2.5 items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-                                <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300" >Already have an account? <a href="/login" className="text-blue-600 hover:underline dark:text-blue-500">Sign in</a></label>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+  return (
+    <div className="h-screen">
+      <NavBarHome />
+      <div className="Container flex h-90/0">
+        <div className="Left w-3/6 h-full flex items-center flex-col">
+          <div className="h-10/12 w-10/12 mt-32">
+            <img className="h-full " src={bgregister} alt="" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-4xl font-semibold mt-10">
+              What you'll emjoy:
+            </span>
+            <span className="text-2xl tracking-wide">
+              <div className="my-2">
+                - Free access to the FLEXiX platfrom
+                <br />
+              </div>
+              <div className="my-2">
+                - Access to template,widgets, test API
+                <br />
+              </div>
+              <div className="my-2">
+                - Self-paced courses and certifications
+                <br />
+              </div>
+            </span>
+          </div>
+        </div>
+
+        <div className="Right w-3/5 h-full flex  items-center  ">
+          <div className="Right-Content  mr-64 w-full h-5/6 flex  flex-col">
+            <span className="text-5xl font-semibold mt-10">Sign Up</span>
+            <form className="mt-8">
+              <div className=" flex flex-row justify-between mb-2 ">
+                <label className="text-2xl font-normal w-6/12 mr-4">
+                  First Name
+                  <br />
+                  <input
+                    className="w-full h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-xl"
+                    type="text"
+                    name="name"
+                    placeholder="John"
+                  />
+                </label>
+                <label className="text-2xl font-normal w-6/12 ml-4">
+                  Last Name
+                  <br />
+                  <input
+                    className="w-full h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-xl"
+                    type="text"
+                    name="name"
+                    placeholder="Smith"
+                  />
+                </label>
+              </div>
+              <label className="text-2xl  font-normal">
+                Email
+                <input
+                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-xl"
+                  type="email"
+                  name="name"
+                  placeholder="john_smith@mail.com"
+                />
+              </label>
+              <label className="text-2xl  font-normal">
+                Password
+                <input
+                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-xl"
+                  type="password"
+                  name="name"
+                  placeholder="+8 Character"
+                />
+              </label>
+              <label className="text-2xl  font-normal">
+                Confirm Password
+                <input
+                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-xl"
+                  type="password"
+                  name="name"
+                  placeholder="Confirm password"
+                />
+              </label>
+              <div>
+                <input
+                  type="checkbox"
+                  id="agreePolicy"
+                  name="agreePolicy"
+                  value="agreePolicy"
+                  className="my-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label for="agreePolicy" className="ml-2 ">
+                  I agree with to FLEXiX Privacy Policy
+                </label>
+                <br />
+                <input
+                  type="checkbox"
+                  id="receiveInMail"
+                  name="receiveInMail"
+                  value="receiveInMail"
+                  className="my-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label for="receiveInMail" className="ml-2">
+                  I would like to receive communication from FLEXiX via email
+                </label>
+                <br />
+              </div>
+              <div className="w-full flex justify-center">
+                <input
+                  className="bg-blue-900 text-white w-2/5  h-16 border-2 rounded-xl text-2xl mt-4 mb-4"
+                  type="submit"
+                  value="Next"
+                />
+              </div>
+            </form>
+            <div className="flex justify-center">
+              <span className="ml-2 text-xl">
+                Already have an account?
+                <Link to="/login">
+                  <a className="text-blue-700 ml-2" href="/register">
+                    Sign In.
+                  </a>
+                </Link>
+              </span>
             </div>
           </div>
         </div>
-    );
-  };
-  
-  export default RegisterPage;
-  
+      </div>
+    </div>
+  );
+};
+
+export default RegisterPage;

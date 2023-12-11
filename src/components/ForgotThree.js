@@ -21,7 +21,7 @@ function ForgotThree() {
               <br />
               <input
                 className="w-full h-14 border rounded-xl border-slate-950 my-2 mb-6 text-left px-4 py-1 text-3xl"
-                type="text"
+                type="password"
                 name="name"
                 placeholder="+6 character"
               />
