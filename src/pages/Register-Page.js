@@ -1,4 +1,4 @@
-import bglogin from "../images/Register-bg.png";
+import bglogin from "../images/register-bg.png";
 import NavBarHome from "../components/NavBarHome";
 import { Link } from "react-router-dom";
 
