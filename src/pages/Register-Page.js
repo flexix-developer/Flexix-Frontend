@@ -1,4 +1,4 @@
-import bglogin from "../images/register-bg.png";
+import bgregister from "../images/register-bg.png";
 import NavBarHome from "../components/NavBarHome";
 import { Link } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const RegisterPage = () => {
       <div className="Container flex h-90/0">
         <div className="Left w-3/6 h-full flex items-center flex-col">
           <div className="h-10/12 w-10/12 mt-32">
-            <img className="h-full " src={bglogin} alt="" />
+            <img className="h-full " src={bgregister} alt="" />
           </div>
           <div className="flex flex-col">
             <span className="text-4xl font-semibold mt-10">
@@ -34,50 +34,55 @@ const RegisterPage = () => {
 
         <div className="Right w-3/5 h-full flex  items-center  ">
           <div className="Right-Content  mr-64 w-full h-5/6 flex  flex-col">
-            <span className="text-5xl font-semibold mt-10">Sign up</span>
+            <span className="text-5xl font-semibold mt-10">Sign Up</span>
             <form className="mt-8">
               <div className=" flex flex-row justify-between mb-2 ">
                 <label className="text-2xl font-normal w-6/12 mr-4">
                   First Name
                   <br />
                   <input
-                    className="w-full h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-3xl"
+                    className="w-full h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-xl"
                     type="text"
                     name="name"
+                    placeholder="John"
                   />
                 </label>
                 <label className="text-2xl font-normal w-6/12 ml-4">
                   Last Name
                   <br />
                   <input
-                    className="w-full h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-3xl"
+                    className="w-full h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-xl"
                     type="text"
                     name="name"
+                    placeholder="Smith"
                   />
                 </label>
               </div>
               <label className="text-2xl  font-normal">
                 Email
                 <input
-                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-3xl"
+                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-xl"
                   type="email"
                   name="name"
+                  placeholder="john_smith@mail.com"
                 />
               </label>
               <label className="text-2xl  font-normal">
                 Password
                 <input
-                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-3xl"
+                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-xl"
                   type="password"
                   name="name"
+                  placeholder="+8 Character"
                 />
               </label>
               <label className="text-2xl  font-normal">
                 Confirm Password
                 <input
-                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-3xl"
+                  className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-xl"
                   type="password"
                   name="name"
+                  placeholder="Confirm password"
                 />
               </label>
               <div>
