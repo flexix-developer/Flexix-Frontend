@@ -92,8 +92,9 @@ Removing frontend ... done
 Removing network react-nginx_default
 ```
 
-### Node Version 20.9.0
-### NPM Version 10.1.0
+## Version
+Node Version 20.9.0
+NPM Version 10.1.0
 
 ## Manual Run
 ```
