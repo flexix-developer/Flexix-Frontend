@@ -20,7 +20,7 @@ const RegisterPage = () => {
     let newName = event.target.value;
     newName = newName.charAt(0).toUpperCase() + newName.slice(1);
 
-    if (newName === "" || /^[A-Za-z]+$/.test(newName)) {
+    if (newName === "" || /^[A-Za-z-]+$/.test(newName)) {
       setName(newName);
       updateFormValidity();
       if (
@@ -43,7 +43,7 @@ const RegisterPage = () => {
     let newName = event.target.value;
     newName = newName.charAt(0).toUpperCase() + newName.slice(1);
 
-    if (newName === "" || /^[A-Za-z]+$/.test(newName)) {
+    if (newName === "" || /^[A-Za-z-]+$/.test(newName)) {
       setName(newName);
       // console.log("New Name:", newName);
       updateFormValidity();
@@ -81,7 +81,8 @@ const RegisterPage = () => {
 
   const isEmailValid = (email) => {
     // Regular Expression for email validation
-    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    const emailRegex =
+      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:\.[A-Za-z]{1,})?$/;
     return emailRegex.test(email);
   };
 
@@ -102,6 +103,7 @@ const RegisterPage = () => {
   };
 
   const handlePasswordChange = (event) => {
+    console.log(password);
     const newPassword = event.target.value;
     setPassword(newPassword);
 
@@ -316,6 +318,13 @@ const RegisterPage = () => {
                       <br />
                     </>
                   )}
+                  {password &&
+                    /[-!"#$%&'()*+,.:;<=>?@[\\\]^_`{|}~]/.test(password) && (
+                      <>
+                        No Special character
+                        <br />
+                      </>
+                    )}
                   {password && password.length < 8 && (
                     <> At least 8 characters</>
                   )}

@@ -1,21 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import BottomSlideBar from "./BottomSlideBar";
+import { useAuth } from "../contexts/AuthContext";
+import axios from "axios";
 
 function ForgotTwo({ onNextStep }) {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Perform any necessary form submission logic
-    // ...
-
-    // Move to the next step
-    onNextStep();
-  };
-
+  const { userData } = useAuth();
   const [numbers, setNumbers] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
 
   useEffect(() => {
-    // Focus on the first input when the component mounts
     inputRefs.current[0]?.focus();
   }, []);
 
@@ -28,12 +21,35 @@ function ForgotTwo({ onNextStep }) {
       return newNumbers;
     });
 
-    // If the input is empty, move focus to the previous input
     if (!value && index > 0) {
       inputRefs.current[index - 1]?.focus();
     } else if (value && index < inputRefs.current.length - 1) {
       // If a digit is entered, move focus to the next input
       inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const otpCode = numbers.join("");
+
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/checkotp", {
+        otp_code: otpCode,
+        email: userData.email,
+      });
+
+      if (response.status === 200) {
+        console.log(response.data.message);
+        alert("OK");
+        onNextStep();
+      } else {
+        console.error(response.data.message);
+        alert("Wrong OTP");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      alert("Please Enter Your OTP");
     }
   };
 
@@ -46,9 +62,7 @@ function ForgotTwo({ onNextStep }) {
             <label className="text-2xl font-normal">
               <div className="flex m-0">
                 We sent code to
-                <p className="ml-2 font-semibold">
-                  jonh_smith@gmail.com
-                </p>
+                <p className="ml-2 font-semibold">{userData.email}</p>
               </div>
               <div className="flex justify-center">
                 {numbers.map((value, index) => (
@@ -67,7 +81,10 @@ function ForgotTwo({ onNextStep }) {
 
               <span className="ml-2 text-xl">
                 Didn't receive the email?
-                <a className="text-blue-700 ml-2 underline cursor-pointer" href="/">
+                <a
+                  className="text-blue-700 ml-2 underline cursor-pointer"
+                  href="/"
+                >
                   Click here
                 </a>
               </span>
