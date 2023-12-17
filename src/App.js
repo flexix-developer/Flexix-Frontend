@@ -7,6 +7,7 @@ import ForgotPasswordPage from "./pages/ForgotPassword-Page";
 import RegisterPage from "./pages/Register-Page";
 import PlatformPage from "./pages/Platform-Page";
 import WorkspacePage from "./pages/Workspace-Page";
+import Toolbox from "./pages/Toolbox";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/platform" element={<PlatformPage />} />
         <Route path="/workspace" element={<WorkspacePage />} />
+        <Route path="/toolbox" element={<Toolbox />} />
       </Routes>
     </>
   );
