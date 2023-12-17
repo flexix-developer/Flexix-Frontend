@@ -1,4 +1,4 @@
-import bgregister from "../images/Register-bg.png";
+import bgregister from "../images/register-bg.png";
 import NavBarHome from "../components/NavBarHome";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
