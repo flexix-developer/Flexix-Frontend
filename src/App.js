@@ -6,10 +6,10 @@ import TutorialPage from "./pages/Tutorial-Page";
 import ForgotPasswordPage from "./pages/ForgotPassword-Page";
 import RegisterPage from "./pages/Register-Page";
 import PlatformPage from "./pages/Platform-Page";
+import DesignPage from "./pages/Designs-Page";
 import WorkspacePage from "./pages/Workspace-Page";
-import Toolbox from "./pages/Toolbox";
 
-const App = () => {
+function App() {
   return (
     <>
       <Routes>
@@ -20,10 +20,10 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/platform" element={<PlatformPage />} />
         <Route path="/workspace" element={<WorkspacePage />} />
-        <Route path="/toolbox" element={<Toolbox />} />
+        <Route path="/design" element={<DesignPage />} />
       </Routes>
     </>
   );
-};
+}
 
 export default App;
