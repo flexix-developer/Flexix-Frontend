@@ -6,7 +6,7 @@ import { CgCloseO } from "react-icons/cg";
 import { IoMdAdd } from "react-icons/io";
 
 const DesignPage = () => {
-    const [selectedComponent, setSelectedComponent] = useState(null);
+  const [selectedComponent, setSelectedComponent] = useState("Toolbox");
 
   const handleComponentClick = (component) => {
     setSelectedComponent(component);
