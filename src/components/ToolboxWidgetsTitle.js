@@ -16,7 +16,7 @@ const ToolboxWidgetsTitle = (props) => {
       className="flex flex-row w-full cursor-pointer"
       onClick={toggleMenu}
     >
-      <div className="flex items-center bg-neutral-600 text-white w-full p-1">
+      <div className="flex items-center bg-neutral-600 text-white w-full p-1 pl-4">
         {isMenuOpen ? <SlArrowDown /> : <SlArrowRight />}
         <p className="text-base ml-2">{props.title}</p>
       </div>
