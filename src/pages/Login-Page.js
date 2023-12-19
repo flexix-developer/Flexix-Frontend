@@ -1,7 +1,50 @@
 import NavBar from "../components/NavBar";
 import bglogin from "../images/login-bg.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import axios from "axios";
+
 function LoginPage() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleEmailChange = (event) => {
+    const newEmail = event.target.value;
+
+    if (newEmail === "" || /^[A-Za-z0-9._%+-@]+$/.test(newEmail)) {
+      setEmail(newEmail);
+    }
+  };
+
+  const handlePassChange = (event) => {
+    const newPass = event.target.value;
+    setPassword(newPass);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:8081/login", {
+        email: email,
+        pass: password,
+      });
+
+      const { status, message, token } = response.data;
+
+      if (status === "ok") {
+        // ลงทะเบียนสำเร็จ - ทำตามที่คุณต้องการที่นี่
+        localStorage.setItem("token", token);
+        console.log("Login Success", message);
+        console.log("Token:", token);
+        navigate("/workspace");
+      } else {
+        // ลงทะเบียนไม่สำเร็จ
+        console.error("Login Failed", message);
+      }
+    } catch (error) {
+      console.error("Error during login", error);
+    }
+  };
   return (
     <div className="h-screen">
       <NavBar />
@@ -14,14 +57,23 @@ function LoginPage() {
             <span className="text-5xl font-semibold mt-20">
               Sign in to FLEXiX
             </span>
-            <form className="mt-8">
+            <form
+              className="mt-8"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleLogin();
+              }}
+            >
               <label className="text-2xl font-normal">
                 Email
                 <br />
                 <input
                   className="w-full h-14 border rounded-xl border-slate-950 my-2 mb-6 text-left px-4 py-1 text-3xl"
                   type="text"
-                  name="name"
+                  name="email"
+                  value={email}
+                  required
+                  onChange={handleEmailChange}
                 />
               </label>
               <br />
@@ -35,7 +87,10 @@ function LoginPage() {
                 <input
                   className="w-full  h-14 border rounded-xl border-slate-950 my-2 text-left px-4 py-1 text-3xl"
                   type="password"
-                  name="name"
+                  name="password"
+                  value={password}
+                  required
+                  onChange={handlePassChange}
                 />
               </label>
               <br />

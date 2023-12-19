@@ -174,11 +174,11 @@ const RegisterPage = () => {
 
     try {
       // Your axios post request here...
-      await axios.post("http://127.0.0.1:8000/register", {
-        Fname: fname,
-        Lname: lname,
-        Email: email,
-        Pass: password,
+      await axios.post("http://127.0.0.1:8081/register", {
+        fname: fname,
+        lname: lname,
+        email: email,
+        pass: password,
       });
 
       alert("Registration Successful");

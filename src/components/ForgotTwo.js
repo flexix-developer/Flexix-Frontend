@@ -34,7 +34,7 @@ function ForgotTwo({ onNextStep }) {
     const otpCode = numbers.join("");
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/checkotp", {
+      const response = await axios.post("http://localhost:8081/check", {
         otp_code: otpCode,
         email: userData.email,
       });

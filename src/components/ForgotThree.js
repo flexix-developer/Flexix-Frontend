@@ -180,7 +180,7 @@ function ForgotThree() {
       return;
     }
 
-    const apiUrl = "http://127.0.0.1:8000/repass";
+    const apiUrl = "http://localhost:8081/reset";
 
     try {
       // Make a PUT request to the Django API

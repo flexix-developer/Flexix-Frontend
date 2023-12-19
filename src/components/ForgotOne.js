@@ -121,8 +121,8 @@ function ForgotOne({ onNextStep }) {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/forgot", {
-        Email: email,
+      const response = await axios.post("http://localhost:8081/forgot", {
+        email: email,
       });
 
       if (response.status === 200) {
