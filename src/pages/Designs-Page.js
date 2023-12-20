@@ -13,7 +13,7 @@ const DesignPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col overflow-hidden h-screen">
       <NavBarDesign />
       <div className="flex flex-row flex-1">
         <div className="flex flex-col w-2/12">
@@ -67,8 +67,8 @@ const DesignPage = () => {
             </div>
           </div>
           <div className="flex flex-col w-full h-full bg-neutral-700">
-            {selectedComponent === "Toolbox" && <Toolbox />}
-            {selectedComponent === "Properties" && <Properties />}
+          {selectedComponent === "Toolbox" && <Toolbox />}
+          {selectedComponent === "Properties" && <Properties />}
           </div>
         </div>
       </div>
