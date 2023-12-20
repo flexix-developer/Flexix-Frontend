@@ -107,9 +107,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GoArrowLeft } from "react-icons/go";
-import BottomSlideBar from "./BottomSlideBar";
+import BottomSlideBar from "../sidebar/BottomSlideBar";
 import axios from "axios";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 function ForgotOne({ onNextStep }) {
   const { setUserDataValue } = useAuth();

@@ -2,7 +2,7 @@
 // import ForgotOne from "../components/ForgotOne";
 // import ForgotTwo from "../components/ForgotTwo";
 // import ForgotThree from "../components/ForgotThree";
-// import bglogin from "../images/login-bg.png";
+// import bglogin from "../assets/images/login-bg.png";
 // import React, { useState } from "react";
 
 // function ForgotPasswordPage() {
@@ -41,12 +41,12 @@
 // export default ForgotPasswordPage;
 
 import React, { useState } from "react";
-import NavBar from "../components/NavBar";
-import ForgotOne from "../components/ForgotOne";
-import ForgotTwo from "../components/ForgotTwo";
-import ForgotThree from "../components/ForgotThree";
+import NavBar from "../components/navbar/NavBar";
+import ForgotOne from "../components/forgot/ForgotOne";
+import ForgotTwo from "../components/forgot/ForgotTwo";
+import ForgotThree from "../components/forgot/ForgotThree";
 import { AuthProvider } from "../contexts/AuthContext";
-import bglogin from "../images/login-bg.png";
+import bglogin from "../assets/images/login-bg.png";
 
 function ForgotPasswordPage() {
   const [currentStep, setCurrentStep] = useState(1);

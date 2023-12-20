@@ -5,8 +5,8 @@ import { FaLink, FaRegImage, FaCode, FaWpforms } from "react-icons/fa6";
 import { MdLabelOutline, MdOutlineInput } from "react-icons/md";
 import { RxButton, RxDropdownMenu } from "react-icons/rx";
 import { BsTextareaResize } from "react-icons/bs";
-import WidgetsTitle from "./ToolboxWidgetsTitle";
-import WidgetsElement from "./ToolboxWidgetsElement";
+import WidgetsTitle from "../toolboxWidgets/ToolboxWidgetsTitle";
+import WidgetsElement from "../toolboxWidgets/ToolboxWidgetsElement";
 
 const Toolbox = () => {
   const iconSize = 50;

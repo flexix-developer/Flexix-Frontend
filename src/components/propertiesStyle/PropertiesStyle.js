@@ -1,4 +1,4 @@
-import WidgetsTitle from "./ToolboxWidgetsTitle";
+import WidgetsTitle from "../toolboxWidgets/ToolboxWidgetsTitle";
 import { useState } from "react";
 import PropertiesStyleLayout from "./PropertiesStyleLayout";
 import PropertiesStyleBackground from "./PropertiesStyleBackground";

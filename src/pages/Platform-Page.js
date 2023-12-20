@@ -1,5 +1,5 @@
-import NavBarHome from "../components/NavBarHome";
-import platform from "../images/platform-begin.png";
+import NavBarHome from "../components/navbar/NavBarHome";
+import platform from "../assets/images/platform-begin.png";
 import { TbSquareNumber1 } from "react-icons/tb";
 import { TbSquareNumber2 } from "react-icons/tb";
 import { TbSquareNumber3 } from "react-icons/tb";

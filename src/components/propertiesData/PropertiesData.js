@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import WidgetsTitle from "./ToolboxWidgetsTitle";
+import WidgetsTitle from "../toolboxWidgets/ToolboxWidgetsTitle";
 import Select from "react-select";
 
 const PropertiesData = () => {

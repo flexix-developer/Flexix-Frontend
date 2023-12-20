@@ -1,6 +1,6 @@
-import PropertiesStyle from "./PropertiesStyle";
-import PropertiesOptions from "./PropertiesOptions";
-import PropertiesData from "./PropertiesData";
+import PropertiesStyle from "../propertiesStyle/PropertiesStyle";
+import PropertiesOptions from "../propertiesOptions/PropertiesOptions";
+import PropertiesData from "../propertiesData/PropertiesData";
 import { useState } from "react";
 
 const Properties = () => {

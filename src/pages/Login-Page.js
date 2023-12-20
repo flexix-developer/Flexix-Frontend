@@ -1,5 +1,5 @@
-import NavBar from "../components/NavBar";
-import bglogin from "../images/login-bg.png";
+import NavBar from "../components/navbar/NavBar";
+import bglogin from "../assets/images/login-bg.png";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";

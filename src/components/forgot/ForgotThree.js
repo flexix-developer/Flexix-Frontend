@@ -86,9 +86,9 @@
 // }
 
 import React, { useState } from "react";
-import BottomSlideBar from "./BottomSlideBar";
+import BottomSlideBar from "../sidebar/BottomSlideBar";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 
 function ForgotThree() {

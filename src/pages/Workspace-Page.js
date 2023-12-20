@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavBarHome from "../components/NavBarWorkspace";
+import NavBarHome from "../components/navbar/NavBarWorkspace";
 import { FiDownload, FiTrash2, FiEdit, FiCheck } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 

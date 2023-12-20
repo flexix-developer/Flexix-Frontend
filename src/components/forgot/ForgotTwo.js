@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import BottomSlideBar from "./BottomSlideBar";
-import { useAuth } from "../contexts/AuthContext";
+import BottomSlideBar from "../sidebar/BottomSlideBar";
+import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 
 function ForgotTwo({ onNextStep }) {

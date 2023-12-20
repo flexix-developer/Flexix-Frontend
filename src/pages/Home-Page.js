@@ -1,5 +1,5 @@
-import wallpaper from "../images/home-wallpaper.png";
-import NavBarHome from "../components/NavBarHome";
+import wallpaper from "../assets/images/home-wallpaper.png";
+import NavBarHome from "../components/navbar/NavBarHome";
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {

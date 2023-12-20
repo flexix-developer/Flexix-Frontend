@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import NavBarHome from "../components/NavBarHome";
+import NavBarHome from "../components/navbar/NavBarHome";
 
 const TutorialPage = () => {
   const [selectedVideo, setSelectedVideo] = useState('https://www.youtube.com/embed/JWJul9o1qwM?si=JJFmaFQLCU1_X91n');
