@@ -12,6 +12,18 @@ function NavBarDesign() {
     setDropdownOpen(!isDropdownOpen);
   };
 
+  // Function to handle click on Eye icon
+  const handleEyeIconClick = () => {
+    alert("Eye icon clicked");
+    // Add any additional code you want to execute when Eye icon is clicked
+  };
+
+  // Function to handle click on Code icon
+  const handleCodeIconClick = () => {
+    alert("Code icon clicked");
+    // Add any additional code you want to execute when Code icon is clicked
+  };
+
   return (
     <nav className="bg-gray-900">
       <div className="mx-auto max-w-10xl px-2 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
@@ -22,10 +34,10 @@ function NavBarDesign() {
           </Link>
         </div>
         <div className="flex flex-row ml-5">
-            <div className="mx-5 cursor-pointer">
+            <div className="mx-5 cursor-pointer" onClick={handleEyeIconClick}>
                 <IoEyeOutline color="white" size={30} />
             </div>
-            <div className="cursor-pointer">
+            <div className="cursor-pointer" onClick={handleCodeIconClick}>
                 <FaCode color="white" size={30} />
             </div>
         </div>
