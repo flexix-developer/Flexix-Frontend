@@ -36,10 +36,12 @@ function LoginPage() {
         localStorage.setItem("token", token);
         console.log("Login Success", message);
         console.log("Token:", token);
+        console.log("Token In Local", localStorage.getItem("token"));
         navigate("/workspace");
       } else {
         // ลงทะเบียนไม่สำเร็จ
         console.error("Login Failed", message);
+        alert("Email or Password Invalid");
       }
     } catch (error) {
       console.error("Error during login", error);

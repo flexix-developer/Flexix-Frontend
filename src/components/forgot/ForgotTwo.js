@@ -52,6 +52,26 @@ function ForgotTwo({ onNextStep }) {
       alert("Please Enter Your OTP");
     }
   };
+  const handleTrySendEmail = async (e) => {
+    e.preventDefault();
+    console.log(userData.email);
+    try {
+      const response = await axios.post("http://localhost:8081/forgot", {
+        email: userData.email,
+      });
+
+      if (response.status === 200) {
+        console.log(response.data.message);
+        alert("Send Email Agian Complete");
+      } else {
+        console.error(response.data.message);
+        alert("Email not found in the system.");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      alert("Email not found in the system.");
+    }
+  };
 
   return (
     <div className="Right w-3/5 h-full flex items-center">
@@ -83,7 +103,8 @@ function ForgotTwo({ onNextStep }) {
                 Didn't receive the email?
                 <a
                   className="text-blue-700 ml-2 underline cursor-pointer"
-                  href="/"
+                  onClick={handleTrySendEmail}
+                  href="/#"
                 >
                   Click here
                 </a>
