@@ -1,5 +1,9 @@
 import PropertiesOptionsRow from "./PropertiesOptionsRow";
 import PropertiesOptionsCol from "./PropertiesOptionsCol";
+import PropertiesOptionsText from "./PropertiesOptionsText";
+import PropertiesOptionsLink from "./PropertiesOptionsLink";
+
+import PropertiesOptionsEmbed from "./PropertiesOptionsEmbed";
 import WidgetsTitle from "../toolboxWidgets/ToolboxWidgetsTitle";
 import { useState } from "react";
 
@@ -7,7 +11,7 @@ const PropertiesOptions = () => {
 
     const [isBlockOptionVisible, setBlockOptionVisible] = useState(true);
 
-    const [selectedComponent] = useState("PropertiesOptionsCol");
+    const [selectedComponent] = useState("PropertiesOptionsEmbed");
     
     // const [selectedComponent, setSelectedComponent] = useState("PropertiesOptionsCol");
     // const handleComponentClick = (component) => {
@@ -32,7 +36,10 @@ const PropertiesOptions = () => {
             />
             {isBlockOptionVisible && 
             ((selectedComponent === "PropertiesOptionsRow" && <PropertiesOptionsRow />) 
-            || (selectedComponent === "PropertiesOptionsCol" && <PropertiesOptionsCol />)) }
+            || (selectedComponent === "PropertiesOptionsCol" && <PropertiesOptionsCol />)
+            || (selectedComponent === "PropertiesOptionsText" && <PropertiesOptionsText />)
+            || (selectedComponent === "PropertiesOptionsLink" && <PropertiesOptionsLink />)
+            || (selectedComponent === "PropertiesOptionsEmbed" && <PropertiesOptionsEmbed />)) }
         </div>
     )
 
