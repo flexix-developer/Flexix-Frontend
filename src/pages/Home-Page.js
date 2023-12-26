@@ -1,19 +1,30 @@
 import wallpaper from "../assets/images/home-wallpaper.png";
 import NavBarHome from "../components/navbar/NavBarHome";
-import { Link } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
+import useTokenCheckLogin from "../components/useTokenCheck/useTokenCheckLogin";
 const HomePage = () => {
+  useTokenCheckLogin();
   return (
     <div className="h-screen bg-gray-900 flex flex-col">
       <NavBarHome />
       <div className="flex justify-center items-center flex-1">
         <div className="mx-auto md:flex bg-gray-800 p-8 md:p-12 rounded-lg w-10/12">
           <div className="text-white mr-8 w-full md:w-5/12">
-            <p className="text-2xl md:text-lg lg:text-2xl text-white mb-1">LOW-CODE APPLICATION DEVELOPMENT PLATFORM</p>
-            <p className="text-7xl md:text-5xl lg:text-7xl text-white font-bold mb-1">WELCOME TO</p>
-            <p className="text-8xl md:text-6xl lg:text-8xl text-orange-600 font-bold mb-2">FLEXiX</p>
-            <p className="text-2xl md:text-lg lg:text-2xl text-white mb-1">Enter the next era of app development</p>
-            <p className="text-2xl md:text-lg lg:text-2xl text-white mb-10">with our platform-wide updates.</p>
+            <p className="text-2xl md:text-lg lg:text-2xl text-white mb-1">
+              LOW-CODE APPLICATION DEVELOPMENT PLATFORM
+            </p>
+            <p className="text-7xl md:text-5xl lg:text-7xl text-white font-bold mb-1">
+              WELCOME TO
+            </p>
+            <p className="text-8xl md:text-6xl lg:text-8xl text-orange-600 font-bold mb-2">
+              FLEXiX
+            </p>
+            <p className="text-2xl md:text-lg lg:text-2xl text-white mb-1">
+              Enter the next era of app development
+            </p>
+            <p className="text-2xl md:text-lg lg:text-2xl text-white mb-10">
+              with our platform-wide updates.
+            </p>
 
             <div className="mt-4 flex flex-row space-x-2">
               <Link to="/tutorial">

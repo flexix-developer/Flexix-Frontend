@@ -3,11 +3,14 @@ import bglogin from "../assets/images/login-bg.png";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
+import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 
-function LoginPage() {
+const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useTokenCheck();
 
   const handleEmailChange = (event) => {
     const newEmail = event.target.value;
@@ -116,5 +119,5 @@ function LoginPage() {
       </div>
     </div>
   );
-}
+};
 export default LoginPage;

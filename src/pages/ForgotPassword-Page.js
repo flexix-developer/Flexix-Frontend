@@ -47,8 +47,10 @@ import ForgotTwo from "../components/forgot/ForgotTwo";
 import ForgotThree from "../components/forgot/ForgotThree";
 import { AuthProvider } from "../contexts/AuthContext";
 import bglogin from "../assets/images/login-bg.png";
+import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 
 function ForgotPasswordPage() {
+  useTokenCheck();
   const [currentStep, setCurrentStep] = useState(1);
 
   const handleNextStep = () => {

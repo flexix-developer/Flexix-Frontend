@@ -1,8 +1,6 @@
-// useTokenCheck.js
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const useTokenCheck = () => {
+const useTokenCheckLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -10,11 +8,11 @@ const useTokenCheck = () => {
 
     if (!token) {
       // ถ้าไม่มี token ให้ redirect ไปที่หน้า login
-      navigate("/login");
+      navigate("/");
     } else {
       navigate("/workspace");
     }
   }, [navigate]);
 };
 
-export default useTokenCheck;
+export default useTokenCheckLogin;

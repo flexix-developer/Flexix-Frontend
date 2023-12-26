@@ -3,8 +3,10 @@ import NavBarHome from "../components/navbar/NavBarHome";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 
 const RegisterPage = () => {
+  useTokenCheck();
   const navigate = useNavigate();
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");

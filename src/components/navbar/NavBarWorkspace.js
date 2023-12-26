@@ -10,12 +10,16 @@ function NavBarWorkspace({ fname, lname }) {
     setDropdownOpen(!isDropdownOpen);
   };
 
+  const logout = () => {
+    localStorage.clear();
+  };
+
   return (
     <nav className="bg-gray-900">
       <div className="mx-auto max-w-10xl px-2 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" className="text-white text-4xl font-bold">
+          <Link to="/workspace" className="text-white text-4xl font-bold">
             FLEXiX
           </Link>
         </div>
@@ -40,7 +44,11 @@ function NavBarWorkspace({ fname, lname }) {
                 Settings
               </Link>
               <div className="border-t border-gray-200"></div>
-              <a href="/logout" className="block px-4 py-2 text-red-600">
+              <a
+                href="/login"
+                className="block px-4 py-2 text-red-600"
+                onClick={logout}
+              >
                 Logout
               </a>
             </div>
