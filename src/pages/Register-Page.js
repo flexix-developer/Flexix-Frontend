@@ -191,6 +191,7 @@ const RegisterPage = () => {
 
       // Redirect to login page after successful registration
       navigate("/login");
+      alert("Register Success!");
     } catch (err) {
       alert("This Email is already in use.");
     }

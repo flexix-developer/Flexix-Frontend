@@ -1,12 +1,44 @@
-import React, { useState } from "react";
-import NavBarHome from "../components/navbar/NavBarWorkspace";
+import React, { useState, useEffect } from "react";
+import NavBarWorkspace from "../components/navbar/NavBarWorkspace";
 import { FiDownload, FiTrash2, FiEdit, FiCheck } from "react-icons/fi";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
+import axios from "axios";
 
 const HomePage = () => {
+  useTokenCheck();
   const [projects, setProjects] = useState([]);
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editedProjectName, setEditedProjectName] = useState("");
+  const [userInfo, setUserInfo] = useState({ fname: "", lname: "" }); // State to hold user info
+
+  useEffect(() => {
+    fetchProjects();
+  }, []); // ทำให้มีลำดับเพียงครั้งเดียวที่ตอน Component ถูกโหลด
+
+  const fetchProjects = async () => {
+    try {
+      const ID = localStorage.getItem("ID");
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:8081/users/readall/${ID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // ทำตรงนี้กับข้อมูลที่ได้จาก response
+      console.log(response.data);
+      setUserInfo({
+        fname: response.data.fname,
+        lname: response.data.lname,
+      });
+    } catch (error) {
+      console.error("Error during login", error);
+    }
+  };
 
   const handleNewProject = () => {
     const newProject = {
@@ -20,7 +52,9 @@ const HomePage = () => {
   };
 
   const handleDeleteProject = (projectId) => {
-    const updatedProjects = projects.filter(project => project.id !== projectId);
+    const updatedProjects = projects.filter(
+      (project) => project.id !== projectId
+    );
     setProjects(updatedProjects);
   };
 
@@ -30,8 +64,10 @@ const HomePage = () => {
   };
 
   const handleSaveEdit = (projectId) => {
-    const updatedProjects = projects.map(project =>
-      project.id === projectId ? { ...project, name: editedProjectName } : project
+    const updatedProjects = projects.map((project) =>
+      project.id === projectId
+        ? { ...project, name: editedProjectName }
+        : project
     );
     setProjects(updatedProjects);
     setEditingProjectId(null);
@@ -40,10 +76,12 @@ const HomePage = () => {
 
   return (
     <div className="h-screen bg-white flex flex-col">
-      <NavBarHome />
+      <NavBarWorkspace fname={userInfo.fname} lname={userInfo.lname} />
       <div className="flex flex-row items-center justify-between px-6 md:px-6 lg:px-8 py-8">
         <div className="flex items-center">
-          <p className="text-3xl md:text-4xl lg:text-4xl text-Black font-bold">My Project</p>
+          <p className="text-3xl md:text-4xl lg:text-4xl text-Black font-bold">
+            My Project
+          </p>
           <button
             className="bg-green-700 hover:bg-green-600 text-white font-semibold py-2 px-5 ml-8 border border-sky-800 rounded shadow"
             onClick={handleNewProject}
@@ -61,8 +99,15 @@ const HomePage = () => {
       </div>
       <div className="flex flex-wrap w-">
         {projects.map((project) => (
-          <div key={project.id} className="flex flex-col w-2/12 bg-gray-300 m-5 ml-10">
-            <img src="https://media.gcflearnfree.org/content/55e0914924929be0279509cf_05_29_2014/start_intro_flower.jpg" className="w-full" alt="" />
+          <div
+            key={project.id}
+            className="flex flex-col w-2/12 bg-gray-300 m-5 ml-10"
+          >
+            <img
+              src="https://media.gcflearnfree.org/content/55e0914924929be0279509cf_05_29_2014/start_intro_flower.jpg"
+              className="w-full"
+              alt=""
+            />
             <div className="flex flex-row mt-1 p-2 px-4">
               <div>
                 {editingProjectId === project.id ? (
@@ -83,7 +128,9 @@ const HomePage = () => {
                     {project.name}
                     <FiEdit
                       className="ml-2 cursor-pointer text-blue-500"
-                      onClick={() => handleEditProject(project.id, project.name)}
+                      onClick={() =>
+                        handleEditProject(project.id, project.name)
+                      }
                     />
                   </p>
                 )}
@@ -91,7 +138,10 @@ const HomePage = () => {
               </div>
               <div className="ml-auto mt-4 flex">
                 <FiDownload className="mr-2" />
-                <FiTrash2 className="cursor-pointer text-red-500" onClick={() => handleDeleteProject(project.id)} />
+                <FiTrash2
+                  className="cursor-pointer text-red-500"
+                  onClick={() => handleDeleteProject(project.id)}
+                />
               </div>
             </div>
           </div>

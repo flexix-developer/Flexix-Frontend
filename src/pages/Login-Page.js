@@ -29,14 +29,16 @@ function LoginPage() {
         pass: password,
       });
 
-      const { status, message, token } = response.data;
+      const { status, message, token, ID } = response.data;
 
       if (status === "ok") {
         // ลงทะเบียนสำเร็จ - ทำตามที่คุณต้องการที่นี่
         localStorage.setItem("token", token);
+        localStorage.setItem("ID", ID);
         console.log("Login Success", message);
         console.log("Token:", token);
         console.log("Token In Local", localStorage.getItem("token"));
+        alert("Login Success!");
         navigate("/workspace");
       } else {
         // ลงทะเบียนไม่สำเร็จ

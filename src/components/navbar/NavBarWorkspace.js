@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-function NavBarWorkspace() {
+function NavBarWorkspace({ fname, lname }) {
   // State for managing the dropdown visibility
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -29,7 +29,7 @@ function NavBarWorkspace() {
               alt="User Profile"
             />
             <p className="text-white font-semibold py-2 px-4 cursor-pointer">
-              John Smith
+              {fname} {lname}
             </p>
           </div>
 
