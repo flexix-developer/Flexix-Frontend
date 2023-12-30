@@ -6,7 +6,7 @@ import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 import axios from "axios";
 
 const HomePage = () => {
-  useTokenCheck();
+  useTokenCheck("/login");
   const [projects, setProjects] = useState([]);
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editedProjectName, setEditedProjectName] = useState("");

@@ -4,8 +4,10 @@ import { TbSquareNumber1 } from "react-icons/tb";
 import { TbSquareNumber2 } from "react-icons/tb";
 import { TbSquareNumber3 } from "react-icons/tb";
 import { TbSquareNumber4 } from "react-icons/tb";
+import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 
-const RegisterPage = () => {
+const PlatformPage = () => {
+  useTokenCheck("/platform");
   return (
     <div className="h-screen bg-gray-900 ">
       <NavBarHome />
@@ -149,4 +151,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default PlatformPage;

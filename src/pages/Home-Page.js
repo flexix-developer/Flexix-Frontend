@@ -1,9 +1,10 @@
 import wallpaper from "../assets/images/home-wallpaper.png";
 import NavBarHome from "../components/navbar/NavBarHome";
 import { Link } from "react-router-dom";
-import useTokenCheckLogin from "../components/useTokenCheck/useTokenCheckLogin";
+// import useTokenCheckLogin from "../components/useTokenCheck/useTokenCheckLogin";
+import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 const HomePage = () => {
-  useTokenCheckLogin();
+  useTokenCheck("/");
   return (
     <div className="h-screen bg-gray-900 flex flex-col">
       <NavBarHome />
