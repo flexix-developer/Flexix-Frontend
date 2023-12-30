@@ -10,13 +10,14 @@ const HomePage = () => {
   const [projects, setProjects] = useState([]);
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editedProjectName, setEditedProjectName] = useState("");
-  const [userInfo, setUserInfo] = useState({ fname: "", lname: "" }); // State to hold user info
+  const [userInfo, setUserInfo] = useState({ fname: "", lname: "" });
+  const [showNewProjectPopup, setShowNewProjectPopup] = useState(false);
 
   useEffect(() => {
-    fetchProjects();
-  }, []); // ทำให้มีลำดับเพียงครั้งเดียวที่ตอน Component ถูกโหลด
+    fetchUser();
+  }, []);
 
-  const fetchProjects = async () => {
+  const fetchUser = async () => {
     try {
       const ID = localStorage.getItem("ID");
       const token = localStorage.getItem("token");
@@ -29,8 +30,7 @@ const HomePage = () => {
         }
       );
 
-      // ทำตรงนี้กับข้อมูลที่ได้จาก response
-      console.log(response.data);
+      // console.log(response.data);
       setUserInfo({
         fname: response.data.fname,
         lname: response.data.lname,
@@ -41,14 +41,7 @@ const HomePage = () => {
   };
 
   const handleNewProject = () => {
-    const newProject = {
-      id: projects.length + 1,
-      name: `Project ${projects.length + 1}`,
-      description: "Project description goes here.",
-      lastEdit: "Edit 19 Oct 2023 : 00.00",
-    };
-
-    setProjects([...projects, newProject]);
+    setShowNewProjectPopup(true);
   };
 
   const handleDeleteProject = (projectId) => {
@@ -73,6 +66,63 @@ const HomePage = () => {
     setEditingProjectId(null);
     setEditedProjectName("");
   };
+
+  const handleCreateProject = async (e) => {
+    e.preventDefault();
+
+    const ID = localStorage.getItem("ID");
+    const token = localStorage.getItem("token");
+    try {
+      // Your axios post request here...
+      // const response = await axios.post(
+      await axios.post(
+        "http://127.0.0.1:8081/users/create",
+        {
+          id: ID,
+          name: editedProjectName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // Redirect to login page after successful registration
+      // console.log(response.data);
+      alert("Create New Project Success!");
+      setShowNewProjectPopup(false);
+      setEditedProjectName("");
+    } catch (error) {
+      alert("Create New Project Failed!");
+    }
+  };
+
+  // useEffect(() => {
+  //   fetchProjects();
+  // }, []);
+
+  // const fetchProjects = async () => {
+  //   try {
+  //     const ID = localStorage.getItem("ID");
+  //     const token = localStorage.getItem("token");
+  //     const response = await axios.get(
+  //       `http://localhost:8081/users/readall/${ID}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+
+  //     console.log(response.data);
+  //     setUserInfo({
+  //       fname: response.data.fname,
+  //       lname: response.data.lname,
+  //     });
+  //   } catch (error) {
+  //     console.error("Error during login", error);
+  //   }
+  // };
 
   return (
     <div className="h-screen bg-white flex flex-col">
@@ -147,6 +197,36 @@ const HomePage = () => {
           </div>
         ))}
       </div>
+
+      {showNewProjectPopup && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-4">
+            <p className="text-lg font-semibold mb-4">New Project</p>
+            <input
+              type="text"
+              placeholder="Project Name"
+              value={editedProjectName}
+              onChange={(e) => setEditedProjectName(e.target.value)}
+              className="border border-gray-300 p-2 mb-2"
+            />
+            <button
+              className="bg-green-700 text-white py-2 px-4"
+              onClick={handleCreateProject}
+            >
+              Create Project
+            </button>
+            <button
+              className="bg-gray-400 text-black ml-2 py-2 px-4"
+              onClick={() => {
+                setShowNewProjectPopup(false);
+                setEditedProjectName("");
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
