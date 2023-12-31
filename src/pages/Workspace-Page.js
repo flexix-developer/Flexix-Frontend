@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import NavBarWorkspace from "../components/navbar/NavBarWorkspace";
 import { FiDownload, FiTrash2, FiEdit, FiCheck } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -30,7 +31,10 @@ const HomePage = () => {
         }
       );
 
-      // console.log(response.data);
+      console.log(response.data);
+      if (response.data.message === "Token is expired") {
+        localStorage.clear();
+      }
       setUserInfo({
         fname: response.data.fname,
         lname: response.data.lname,
@@ -40,8 +44,61 @@ const HomePage = () => {
     }
   };
 
+  // useEffect(() => {
+  //   fetchProject();
+  // }, []);
+
+  // const fetchProject = async () => {
+  const fetchProject = useCallback(async () => {
+    try {
+      const ID = localStorage.getItem("ID");
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:8081/users/readproject/${ID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // ลบข้อมูลเดิมใน projects
+      setProjects([]);
+
+      response.data.Projects.forEach((project) => {
+        fetchShowProject(project.ID, project.ProjectName, project.UpdatedAt);
+      });
+    } catch (error) {
+      console.error("Error during login", error);
+    }
+  }, []);
+  useEffect(() => {
+    fetchProject();
+  }, [fetchProject]);
+
   const handleNewProject = () => {
     setShowNewProjectPopup(true);
+  };
+
+  const fetchShowProject = (id, pname, uptime) => {
+    // Check if uptime is a valid Date object
+    const dateObject = uptime instanceof Date ? uptime : new Date(uptime);
+
+    // Check if dateObject is a valid Date
+    if (isNaN(dateObject.getTime())) {
+      console.error("Invalid date:", uptime);
+      return;
+    }
+
+    const formattedDate = dateObject.toISOString().split("T")[0];
+    setProjects((prevProjects) => {
+      const newProject = {
+        id: id,
+        name: pname,
+        lastEdit: `Edit ${formattedDate}`,
+      };
+      return [...prevProjects, newProject];
+    });
   };
 
   const handleDeleteProject = (projectId) => {
@@ -66,63 +123,46 @@ const HomePage = () => {
     setEditingProjectId(null);
     setEditedProjectName("");
   };
-
   const handleCreateProject = async (e) => {
     e.preventDefault();
+    console.log(editedProjectName);
+    if (editedProjectName !== "") {
+      // ตรวจสอบว่าข้อมูลที่กรอกถูกต้องตามรูปแบบหรือไม่
+      const isValidInput = /^[A-Za-z0-9._%+-]+$/.test(editedProjectName);
 
-    const ID = localStorage.getItem("ID");
-    const token = localStorage.getItem("token");
-    try {
-      // Your axios post request here...
-      // const response = await axios.post(
-      await axios.post(
-        "http://127.0.0.1:8081/users/create",
-        {
-          id: ID,
-          name: editedProjectName,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      if (isValidInput) {
+        const ID = localStorage.getItem("ID");
+        const token = localStorage.getItem("token");
+        try {
+          await axios.post(
+            "http://127.0.0.1:8081/users/create",
+            {
+              id: ID,
+              name: editedProjectName,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          alert("Create New Project Success!");
+          setShowNewProjectPopup(false);
+          setEditedProjectName("");
+          // Fetch projects after creating a new one
+          fetchProject();
+        } catch (error) {
+          alert("Create New Project Failed!");
         }
-      );
-      // Redirect to login page after successful registration
-      // console.log(response.data);
-      alert("Create New Project Success!");
-      setShowNewProjectPopup(false);
-      setEditedProjectName("");
-    } catch (error) {
-      alert("Create New Project Failed!");
+      } else {
+        alert(
+          "Invalid characters in Project Name. Please use A-Z, a-z, 0-9, ., _, %, +, -"
+        );
+      }
+    } else {
+      alert("Please Enter Project Name!");
     }
   };
-
-  // useEffect(() => {
-  //   fetchProjects();
-  // }, []);
-
-  // const fetchProjects = async () => {
-  //   try {
-  //     const ID = localStorage.getItem("ID");
-  //     const token = localStorage.getItem("token");
-  //     const response = await axios.get(
-  //       `http://localhost:8081/users/readall/${ID}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-
-  //     console.log(response.data);
-  //     setUserInfo({
-  //       fname: response.data.fname,
-  //       lname: response.data.lname,
-  //     });
-  //   } catch (error) {
-  //     console.error("Error during login", error);
-  //   }
-  // };
 
   return (
     <div className="h-screen bg-white flex flex-col">
