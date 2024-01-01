@@ -206,6 +206,9 @@ const HomePage = () => {
       alert("Please Enter Project Name!");
     }
   };
+  const handleClickProject = (id) => {
+    console.log(id);
+  };
 
   return (
     <div className="h-screen bg-white flex flex-col">
@@ -235,6 +238,7 @@ const HomePage = () => {
           <div
             key={project.id}
             className="flex flex-col w-2/12 bg-gray-300 m-5 ml-10"
+            onDoubleClick={() => handleClickProject(project.id)}
           >
             <img
               // src="https://media.gcflearnfree.org/content/55e0914924929be0279509cf_05_29_2014/start_intro_flower.jpg"
