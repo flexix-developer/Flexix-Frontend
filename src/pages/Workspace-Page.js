@@ -31,7 +31,7 @@ const HomePage = () => {
         }
       );
 
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data.message === "Token is expired") {
         localStorage.clear();
       }
@@ -40,15 +40,11 @@ const HomePage = () => {
         lname: response.data.lname,
       });
     } catch (error) {
+      // alert("Error during login", error);
       console.error("Error during login", error);
     }
   };
 
-  // useEffect(() => {
-  //   fetchProject();
-  // }, []);
-
-  // const fetchProject = async () => {
   const fetchProject = useCallback(async () => {
     try {
       const ID = localStorage.getItem("ID");
@@ -66,12 +62,19 @@ const HomePage = () => {
       setProjects([]);
 
       response.data.Projects.forEach((project) => {
-        fetchShowProject(project.ID, project.ProjectName, project.UpdatedAt);
+        fetchShowProject(
+          project.ID,
+          project.ProjectName,
+          project.UpdatedAt,
+          project.ScreenIMG
+        );
       });
     } catch (error) {
+      alert("Error during login", error);
       console.error("Error during login", error);
     }
   }, []);
+
   useEffect(() => {
     fetchProject();
   }, [fetchProject]);
@@ -80,7 +83,7 @@ const HomePage = () => {
     setShowNewProjectPopup(true);
   };
 
-  const fetchShowProject = (id, pname, uptime) => {
+  const fetchShowProject = (id, pname, uptime, img) => {
     // Check if uptime is a valid Date object
     const dateObject = uptime instanceof Date ? uptime : new Date(uptime);
 
@@ -96,16 +99,39 @@ const HomePage = () => {
         id: id,
         name: pname,
         lastEdit: `Edit ${formattedDate}`,
+        img: img,
       };
       return [...prevProjects, newProject];
     });
   };
 
-  const handleDeleteProject = (projectId) => {
-    const updatedProjects = projects.filter(
-      (project) => project.id !== projectId
-    );
-    setProjects(updatedProjects);
+  // const handleDeleteProject = (projectId) => {
+  //   const updatedProjects = projects.filter(
+  //     (project) => project.id !== projectId
+  //   );
+  //   setProjects(updatedProjects);
+  // };
+
+  const handleDeleteProject = async (projectId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(
+        `http://localhost:8081/users/delproject/${projectId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // If deletion is successful, update the state
+      const updatedProjects = projects.filter(
+        (project) => project.id !== projectId
+      );
+      setProjects(updatedProjects);
+    } catch (error) {
+      console.error("Error deleting project", error);
+    }
   };
 
   const handleEditProject = (projectId, projectName) => {
@@ -113,19 +139,36 @@ const HomePage = () => {
     setEditedProjectName(projectName);
   };
 
-  const handleSaveEdit = (projectId) => {
-    const updatedProjects = projects.map((project) =>
-      project.id === projectId
-        ? { ...project, name: editedProjectName }
-        : project
-    );
-    setProjects(updatedProjects);
-    setEditingProjectId(null);
-    setEditedProjectName("");
+  const handleSaveEdit = async (projectId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:8081/users/editname/${projectId}`,
+        { newpname: editedProjectName },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // If update is successful, update the state
+      const updatedProjects = projects.map((project) =>
+        project.id === projectId
+          ? { ...project, name: editedProjectName }
+          : project
+      );
+      setProjects(updatedProjects);
+
+      // Reset editing state
+      setEditingProjectId(null);
+      setEditedProjectName("");
+    } catch (error) {
+      console.error("Error updating project name", error);
+    }
   };
   const handleCreateProject = async (e) => {
     e.preventDefault();
-    console.log(editedProjectName);
     if (editedProjectName !== "") {
       // ตรวจสอบว่าข้อมูลที่กรอกถูกต้องตามรูปแบบหรือไม่
       const isValidInput = /^[A-Za-z0-9._%+-]+$/.test(editedProjectName);
@@ -194,7 +237,8 @@ const HomePage = () => {
             className="flex flex-col w-2/12 bg-gray-300 m-5 ml-10"
           >
             <img
-              src="https://media.gcflearnfree.org/content/55e0914924929be0279509cf_05_29_2014/start_intro_flower.jpg"
+              // src="https://media.gcflearnfree.org/content/55e0914924929be0279509cf_05_29_2014/start_intro_flower.jpg"
+              src={`data:image/png;base64,${project.img}`} // ใช้ template literals ในการนำมาแสดง
               className="w-full"
               alt=""
             />
