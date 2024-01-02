@@ -107,9 +107,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GoArrowLeft } from "react-icons/go";
-import BottomSlideBar from "./BottomSlideBar";
+import BottomSlideBar from "../sidebar/BottomSlideBar";
 import axios from "axios";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 function ForgotOne({ onNextStep }) {
   const { setUserDataValue } = useAuth();
@@ -121,8 +121,8 @@ function ForgotOne({ onNextStep }) {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/forgot", {
-        Email: email,
+      const response = await axios.post("http://localhost:8081/forgot", {
+        email: email,
       });
 
       if (response.status === 200) {

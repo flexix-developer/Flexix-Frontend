@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       height: {
         "90/0": "90.5%",
+        "95/0": "95%",
       },
       spacing: {
         79: "19rem",
@@ -13,6 +14,7 @@ module.exports = {
       width: {
         "90/0": "95%",
         85: "79%",
+        "15/0": "15%",
       },
     },
   },

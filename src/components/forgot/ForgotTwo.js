@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import BottomSlideBar from "./BottomSlideBar";
-import { useAuth } from "../contexts/AuthContext";
+import BottomSlideBar from "../sidebar/BottomSlideBar";
+import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 
 function ForgotTwo({ onNextStep }) {
@@ -34,7 +34,7 @@ function ForgotTwo({ onNextStep }) {
     const otpCode = numbers.join("");
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/checkotp", {
+      const response = await axios.post("http://localhost:8081/check", {
         otp_code: otpCode,
         email: userData.email,
       });
@@ -50,6 +50,26 @@ function ForgotTwo({ onNextStep }) {
     } catch (error) {
       console.error("An error occurred:", error);
       alert("Please Enter Your OTP");
+    }
+  };
+  const handleTrySendEmail = async (e) => {
+    e.preventDefault();
+    console.log(userData.email);
+    try {
+      const response = await axios.post("http://localhost:8081/forgot", {
+        email: userData.email,
+      });
+
+      if (response.status === 200) {
+        console.log(response.data.message);
+        alert("Send Email Agian Complete");
+      } else {
+        console.error(response.data.message);
+        alert("Email not found in the system.");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      alert("Email not found in the system.");
     }
   };
 
@@ -83,7 +103,8 @@ function ForgotTwo({ onNextStep }) {
                 Didn't receive the email?
                 <a
                   className="text-blue-700 ml-2 underline cursor-pointer"
-                  href="/"
+                  onClick={handleTrySendEmail}
+                  href="/#"
                 >
                   Click here
                 </a>

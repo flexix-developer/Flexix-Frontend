@@ -86,9 +86,9 @@
 // }
 
 import React, { useState } from "react";
-import BottomSlideBar from "./BottomSlideBar";
+import BottomSlideBar from "../sidebar/BottomSlideBar";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 
 function ForgotThree() {
@@ -180,7 +180,7 @@ function ForgotThree() {
       return;
     }
 
-    const apiUrl = "http://127.0.0.1:8000/repass";
+    const apiUrl = "http://localhost:8081/reset";
 
     try {
       // Make a PUT request to the Django API

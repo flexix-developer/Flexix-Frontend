@@ -1,10 +1,14 @@
-import bgregister from "../images/Register-bg.png";
-import NavBarHome from "../components/NavBarHome";
+import bgregister from "../assets/images/register-bg.png";
+import NavBarHome from "../components/navbar/NavBarHome";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+// import useTokenCheckRegister from "../components/useTokenCheck/useTokenCheckRegister";
+import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 
 const RegisterPage = () => {
+  useTokenCheck("/register");
+  // useTokenCheckRegister();
   const navigate = useNavigate();
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
@@ -174,11 +178,11 @@ const RegisterPage = () => {
 
     try {
       // Your axios post request here...
-      await axios.post("http://127.0.0.1:8000/register", {
-        Fname: fname,
-        Lname: lname,
-        Email: email,
-        Pass: password,
+      await axios.post("http://127.0.0.1:8081/register", {
+        fname: fname,
+        lname: lname,
+        email: email,
+        pass: password,
       });
 
       alert("Registration Successful");
@@ -191,6 +195,7 @@ const RegisterPage = () => {
 
       // Redirect to login page after successful registration
       navigate("/login");
+      alert("Register Success!");
     } catch (err) {
       alert("This Email is already in use.");
     }
