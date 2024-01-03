@@ -142,9 +142,10 @@ const HomePage = () => {
   const handleSaveEdit = async (projectId) => {
     try {
       const token = localStorage.getItem("token");
+      const id = localStorage.getItem("ID");
       await axios.put(
         `http://localhost:8081/users/editname/${projectId}`,
-        { newpname: editedProjectName },
+        { id: id, newpname: editedProjectName },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -164,6 +165,7 @@ const HomePage = () => {
       setEditingProjectId(null);
       setEditedProjectName("");
     } catch (error) {
+      alert("Error updating project name");
       console.error("Error updating project name", error);
     }
   };
