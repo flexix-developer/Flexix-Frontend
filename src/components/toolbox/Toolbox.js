@@ -5,10 +5,14 @@ import { FaLink, FaRegImage, FaCode, FaWpforms } from "react-icons/fa6";
 import { MdLabelOutline, MdOutlineInput } from "react-icons/md";
 import { RxButton, RxDropdownMenu } from "react-icons/rx";
 import { BsTextareaResize } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { addRow, addCol, addText, addLink, addImage, addEmbed, addForm, addLabel, addButton, addTextarea, addInput, addSelect } from "../../features/counter/counterSlice";
 import WidgetsTitle from "../toolboxWidgets/ToolboxWidgetsTitle";
 import WidgetsElement from "../toolboxWidgets/ToolboxWidgetsElement";
 
 const Toolbox = () => {
+  const dispatch = useDispatch();
+
   const iconSize = 50;
 
   const [isLayoutsVisible, setLayoutsVisible] = useState(true);
@@ -37,41 +41,29 @@ const Toolbox = () => {
 
   const handleElementClick = (elementName) => {
     if (elementName === "Row") {
-      // Do something specific for "Row"
-      alert("Clicked on Row");
+      dispatch(addRow());
     } else if (elementName === "Column") {
-      // Do something specific for "Column"
-      alert("Clicked on Column");
+      dispatch(addCol());
     } else if (elementName === "Text") {
-      // Do something specific for "Text"
-      alert("Clicked on Text");
+      dispatch(addText());
     } else if (elementName === "Link") {
-      // Do something specific for "Link"
-      alert("Clicked on Link");
+      dispatch(addLink());
     } else if (elementName === "Image") {
-      // Do something specific for "Image"
-      alert("Clicked on Image");
+      dispatch(addImage());
     } else if (elementName === "Embed") {
-      // Do something specific for "Embed"
-      alert("Clicked on Embed");
+      dispatch(addEmbed());
     } else if (elementName === "Form") {
-      // Do something specific for "Form"
-      alert("Clicked on Form");
+      dispatch(addForm());
     } else if (elementName === "Label") {
-      // Do something specific for "Label"
-      alert("Clicked on Label");
+      dispatch(addLabel()); 
     } else if (elementName === "Button") {
-      // Do something specific for "Button"
-      alert("Clicked on Button");
+      dispatch(addButton());
     } else if (elementName === "Textarea") {
-      // Do something specific for "Textarea"
-      alert("Clicked on Textarea");
+      dispatch(addTextarea());
     } else if (elementName === "Input") {
-      // Do something specific for "Input"
-      alert("Clicked on Input");
+      dispatch(addInput());
     } else if (elementName === "Select") {
-      // Do something specific for "Select"
-      alert("Clicked on Select");
+      dispatch(addSelect());
     } else {
       // pass
     }
