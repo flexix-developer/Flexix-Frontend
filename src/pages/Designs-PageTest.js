@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBarDesign from "../components/navbar/NavbarDesign";
 import Properties from "../components/properties/Properties";
-import Toolbox from "../components/toolbox/Toolbox";
+import Toolbox from "../components/toolbox/toolboxTest";
 import { CgCloseO } from "react-icons/cg";
 import { IoMdAdd } from "react-icons/io";
 import { parse } from "node-html-parser";
