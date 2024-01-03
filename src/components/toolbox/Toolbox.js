@@ -65,7 +65,7 @@ const Toolbox = () => {
     } else if (elementName === "Select") {
       dispatch(addSelect());
     } else {
-      // pass
+      console.log("Element not found");
     }
   };
 
