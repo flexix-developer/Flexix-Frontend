@@ -8,6 +8,7 @@ import RegisterPage from "./pages/Register-Page";
 import PlatformPage from "./pages/Platform-Page";
 import DesignPage from "./pages/Designs-Page";
 import WorkspacePage from "./pages/Workspace-Page";
+import DesignPageTest from "./pages/Designs-PageTest";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/platform" element={<PlatformPage />} />
         <Route path="/workspace" element={<WorkspacePage />} />
         <Route path="/design" element={<DesignPage />} />
+        <Route path="/designTest" element={<DesignPageTest />} />
       </Routes>
     </>
   );
