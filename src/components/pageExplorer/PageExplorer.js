@@ -1,6 +1,6 @@
-import { IoMdFolderOpen } from "react-icons/io";
+// import { IoMdFolderOpen } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
-import { GrDocumentText } from "react-icons/gr";
+// import { GrDocumentText } from "react-icons/gr";
 
 const PageExplorer = () => {
 
