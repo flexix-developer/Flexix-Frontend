@@ -11,7 +11,7 @@ const DesignWorkspace = () => {
       {/* Use dangerouslySetInnerHTML to render sanitized HTML */}
       <div
         dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
-        className="design-workspace"
+        style={{ border: "1px solid #ccc", padding: "10px", minHeight: "200px" }}
       ></div>
     </div>
   );
