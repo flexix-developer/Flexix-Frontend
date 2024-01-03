@@ -4,6 +4,7 @@ import Properties from "../components/properties/Properties";
 import Toolbox from "../components/toolbox/Toolbox";
 import PageExplorer from "../components/pageExplorer/PageExplorer";
 import LayerExplorer from "../components/layerExplorer/LayerExplorer";
+import DesignWorkspace from "../components/genarateHTML/DesignWorkspace";
 import { CgCloseO } from "react-icons/cg";
 import { IoMdAdd } from "react-icons/io";
 
@@ -61,8 +62,8 @@ const DesignPage = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white">{/* Main */}
-          
+          <div>
+                <DesignWorkspace />
           </div>
         </div>
         <div className="flex flex-col w-2/12">
