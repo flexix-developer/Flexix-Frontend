@@ -72,6 +72,7 @@ const PropertiesStyle = () => {
         />
         {isBorderVisible && <PropertiesStyleBoarder />}
       </div>
+      <p className="invisible">Hello Hacker!</p>
     </div>
   );
 };

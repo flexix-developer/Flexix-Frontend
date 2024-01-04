@@ -22,25 +22,25 @@ const DesignPage = () => {
         <div className="flex flex-col w-2/12">
           <div className="flex flex-row w-full">
             <div
-                onClick={() => LayerComponentClick("PageExplorer")}
-                className={`flex flex-col cursor-pointer w-6/12 items-center p-1 bg-neutral-700 text-white text-xl ${
-                  selectedLayer === "PageExplorer"
-                    ? "bg-neutral-700"
-                    : "bg-neutral-800"
-                }`}
-              >
-                <p>Page Explorer</p>
-              </div>
-              <div
-                onClick={() => LayerComponentClick("LayerExplorer")}
-                className={`flex flex-col cursor-pointer w-6/12 items-center p-1 bg-neutral-700 text-white text-xl ${
-                  selectedLayer === "LayerExplorer"
-                    ? "bg-neutral-700"
-                    : "bg-neutral-800"
-                }`}
-              >
-                <p>Layer Explorer</p>
-              </div>
+              onClick={() => LayerComponentClick("PageExplorer")}
+              className={`flex flex-col cursor-pointer w-6/12 items-center p-1 bg-neutral-700 text-white text-xl ${
+                selectedLayer === "PageExplorer"
+                  ? "bg-neutral-700"
+                  : "bg-neutral-800"
+              }`}
+            >
+              <p>Page Explorer</p>
+            </div>
+            <div
+              onClick={() => LayerComponentClick("LayerExplorer")}
+              className={`flex flex-col cursor-pointer w-6/12 items-center p-1 bg-neutral-700 text-white text-xl ${
+                selectedLayer === "LayerExplorer"
+                  ? "bg-neutral-700"
+                  : "bg-neutral-800"
+              }`}
+            >
+              <p>Layer Explorer</p>
+            </div>
           </div>
           <div className="flex flex-col w-full h-full bg-neutral-700">
             {selectedLayer === "LayerExplorer" && <LayerExplorer />}
@@ -63,7 +63,7 @@ const DesignPage = () => {
             </div>
           </div>
           <div>
-                <DesignWorkspace />
+            <DesignWorkspace />
           </div>
         </div>
         <div className="flex flex-col w-2/12">
