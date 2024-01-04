@@ -4,6 +4,9 @@ import { GrDocumentText } from "react-icons/gr";
 
 const PageExplorer = () => {
 
+        const handleDivClick = (message) => {
+          window.alert(message);
+        };
 
     return (
         <div className="flex flex-col text-white ">
@@ -20,12 +23,12 @@ const PageExplorer = () => {
                     <IoMdFolderOpen  size={29}/>
                     <p className="pl-2 text-center text-xl">Keycion</p>
                 </div>
-                <div className="flex flex-row ml-20 mt-2">
-                    <GrDocumentText  size={22}/>
+                <div className="flex flex-row ml-20 mt-2" onClick={() => handleDivClick('Click Page Home')}>
+                    <GrDocumentText size={22} />
                     <p className="pl-2 text-center text-xl">Home</p>
                 </div>
-                <div className="flex flex-row ml-20 mt-2">
-                    <GrDocumentText  size={22}/>
+                <div className="flex flex-row ml-20 mt-2" onClick={() => handleDivClick('Click Page Slaes')}>
+                    <GrDocumentText size={22} />
                     <p className="pl-2 text-center text-xl">Sales</p>
                 </div>
             </div>
