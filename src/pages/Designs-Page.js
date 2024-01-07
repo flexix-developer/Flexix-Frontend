@@ -11,15 +11,24 @@ import { IoSearchOutline } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
 const DesignPage = () => {
-  const codeHTML = ``;
-  const [code] = useState(codeHTML);
+  const [code, setCode] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const [selectedComponent, setSelectedComponent] = useState("Toolbox");
-  const [selectedLayer, setSelectedLayer] = useState("LayerExplorer");
+  const [selectedLayer, setSelectedLayer] = useState("PageExplorer");
 
   const handleComponentClick = (component) => setSelectedComponent(component);
   const handleLayerClick = (layer) => setSelectedLayer(layer);
+
+  const handleCreateButtonClick = () => {
+    
+    const newHTMLCode = "Your generated HTML code"; 
+
+    setCode(newHTMLCode);
+    console.log("New HTML code:", newHTMLCode);
+
+    setShowModal(false);
+  };
 
   return (
     <div className="flex flex-col overflow-hidden h-screen">
@@ -175,41 +184,42 @@ const DesignPage = () => {
       {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+            <div className="relative w-auto my-6 mx-auto max-w-2xl">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gray-900 text-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                   <h3 className="text-3xl font-semibold">Create new page</h3>
                   <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    className="p-1 ml-auto bg-transparent border-0 opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}
                   >
-                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                    <span className="bg-transparent opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
                       ×
                     </span>
                   </button>
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
+                  <label>Page name:</label>
                   <input
                     type="text"
                     placeholder="Page name"
-                    className="bg-gray-100 p-2 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
+                    className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
                   />
                   <label>Width:</label>
                   <input
                     type="text"
                     placeholder="ex. 1920 px"
-                    className="bg-gray-100 p-2 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
+                    className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
                   />
                   <label>Height:</label>
                   <input
                     type="text"
                     placeholder="ex. 1080 px"
-                    className="bg-gray-100 p-2 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
+                    className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
                   />
-                  <div>
+                  <div className="my-2">
                   <label
                       className="inline-block pr-2 hover:cursor-pointer"
                       htmlFor="flexSwitchCheckDefault"
@@ -234,9 +244,9 @@ const DesignPage = () => {
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                   <button
-                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-blue-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={handleCreateButtonClick}
                   >
                     Create
                   </button>
