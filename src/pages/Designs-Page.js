@@ -207,13 +207,13 @@ const DesignPage = () => {
                     placeholder="Page name"
                     className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
                   />
-                  <label>Width:</label>
+                  <label>Width (px):</label>
                   <input
                     type="text"
                     placeholder="ex. 1920 px"
                     className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
                   />
-                  <label>Height:</label>
+                  <label>Height (px):</label>
                   <input
                     type="text"
                     placeholder="ex. 1080 px"
