@@ -7,8 +7,8 @@ import axios from "axios";
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 
 const RegisterPage = () => {
-  useTokenCheck("/register");
-  // useTokenCheckRegister();
+  // useTokenCheck("/register");
+  useTokenCheck("/workspace");
   const navigate = useNavigate();
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBarDesign from "../components/navbar/NavbarDesign";
 import Properties from "../components/properties/Properties";
 import Toolbox from "../components/toolbox/Toolbox";
@@ -9,13 +9,49 @@ import { CgCloseO } from "react-icons/cg";
 import { IoMdAdd } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
+import axios from "axios";
 
 const DesignPage = () => {
+  useTokenCheck("/design");
+  const [userInfo, setUserInfo] = useState({ fname: "", lname: "" });
   const [code, setCode] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const [selectedComponent, setSelectedComponent] = useState("Toolbox");
   const [selectedLayer, setSelectedLayer] = useState("PageExplorer");
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    console.log(userInfo);
+  }, [userInfo]);
+
+  const fetchUser = async () => {
+    try {
+      const ID = localStorage.getItem("ID");
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:8081/users/readall/${ID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.message === "Token is expired") {
+        localStorage.clear();
+      }
+      setUserInfo({
+        fname: response.data.fname,
+        lname: response.data.lname,
+      });
+    } catch (error) {
+      console.error("Error during login", error);
+    }
+  };
 
   const handleComponentClick = (component) => setSelectedComponent(component);
   const handleLayerClick = (layer) => setSelectedLayer(layer);
@@ -31,7 +67,11 @@ const DesignPage = () => {
 
   return (
     <div className="flex flex-col overflow-hidden h-screen">
-      <NavBarDesign />
+      <NavBarDesign
+        fname={userInfo.fname}
+        lname={userInfo.lname}
+        isWorkspace={true}
+      />
       {code === "" && (
         <div className="flex flex-row flex-1">
           <div className="flex flex-col w-2/12">

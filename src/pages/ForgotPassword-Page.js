@@ -52,7 +52,8 @@ import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 
 function ForgotPasswordPage() {
   // useTokenCheckForgot();
-  useTokenCheck("/forgot");
+  // useTokenCheck("/forgot");
+  useTokenCheck("/workspace");
   const [currentStep, setCurrentStep] = useState(1);
 
   const handleNextStep = () => {

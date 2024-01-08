@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 // import useTokenCheckLogin from "../components/useTokenCheck/useTokenCheckLogin";
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 const HomePage = () => {
-  useTokenCheck("/");
+  useTokenCheck("/workspace");
   return (
     <div className="h-screen bg-gray-900 flex flex-col">
       <NavBarHome />

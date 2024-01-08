@@ -10,7 +10,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useTokenCheck("/login");
+  useTokenCheck("/workspace");
 
   const handleEmailChange = (event) => {
     const newEmail = event.target.value;

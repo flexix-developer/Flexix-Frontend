@@ -1,13 +1,14 @@
-// import React, { useState, useEffect } from "react";
 import React, { useState, useEffect, useCallback } from "react";
-import NavBarWorkspace from "../components/navbar/NavBarWorkspace";
+// import NavBarWorkspace from "../components/navbar/NavBarWorkspace";
+import NavBarDesign from "../components/navbar/NavbarDesign";
 import { FiDownload, FiTrash2, FiEdit, FiCheck } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 import axios from "axios";
 
 const HomePage = () => {
-  useTokenCheck("/login");
+  useTokenCheck("/workspace");
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editedProjectName, setEditedProjectName] = useState("");
@@ -70,10 +71,12 @@ const HomePage = () => {
         );
       });
     } catch (error) {
+      localStorage.clear();
       alert("Error during login", error);
       console.error("Error during login", error);
+      navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     fetchProject();
@@ -104,13 +107,6 @@ const HomePage = () => {
       return [...prevProjects, newProject];
     });
   };
-
-  // const handleDeleteProject = (projectId) => {
-  //   const updatedProjects = projects.filter(
-  //     (project) => project.id !== projectId
-  //   );
-  //   setProjects(updatedProjects);
-  // };
 
   const handleDeleteProject = async (projectId) => {
     try {
@@ -209,12 +205,16 @@ const HomePage = () => {
     }
   };
   const handleClickProject = (id) => {
-    console.log(id);
+    localStorage.setItem("ProjectID", id);
+    const projectid = localStorage.getItem("ProjectID");
+    console.log(projectid);
+    navigate("/design");
   };
 
   return (
     <div className="h-screen bg-white flex flex-col">
-      <NavBarWorkspace fname={userInfo.fname} lname={userInfo.lname} />
+      {/* <NavBarWorkspace fname={userInfo.fname} lname={userInfo.lname} /> */}
+      <NavBarDesign fname={userInfo.fname} lname={userInfo.lname} />
       <div className="flex flex-row items-center justify-between px-6 md:px-6 lg:px-8 py-8">
         <div className="flex items-center">
           <p className="text-3xl md:text-4xl lg:text-4xl text-Black font-bold">
