@@ -3,7 +3,7 @@ import { parse } from "node-html-parser";
 
 const initialState = {
   value:
-    '<html><head><title>Document</title></head><body><div class="main"></div></body></html>',
+    '<html><head><title>Document</title><script src="https://cdn.tailwindcss.com"></script></head><body><div id="main"></div></body></html>',
   currentRowNumber: 0,
   currentColNumber: 0,
   currentTextNumber: 0,
@@ -16,106 +16,69 @@ const initialState = {
   currentTextareaNumber: 0,
   currentInputNumber: 0,
   currentSelectNumber: 0,
+  currentFocus: "",
 };
 
 var root = parse(initialState.value);
 
+const appendElement = (state, elementType, htmlTemplate) => {
+  state[`current${elementType}Number`] += 1;
+  const element = parse(htmlTemplate);
+  const targetNode = state.currentFocus === "" ? root.querySelector("#main") : root.querySelector(state.currentFocus);
+  targetNode.appendChild(element);
+  state.value = root.toString();
+  console.log(state.value);
+};
+
 export const counterSlice = createSlice({
   name: "counter",
-  initialState: initialState,
+  initialState,
   reducers: {
+    focus: (state, action) => {
+      state.currentFocus = action.payload;
+      console.log(state.currentFocus);
+    },
     addRow: (state) => {
-      state.currentRowNumber += 1;
-      const row = parse(`<div class="row-${state.currentRowNumber}"></div>`);
-      root.querySelector(".main").appendChild(row);
-      state.value = root.toString();
+      appendElement(state, "Row", `<div id="row-${state.currentRowNumber}" class="flex flex-row flex-wrap m-auto p-1 w-full min-h-32 max-h-full bg-slate-300"></div>`);
     },
     addCol: (state) => {
-      state.currentColNumber += 1;
-      const col = parse(`<div class="col-${state.currentColNumber}"></div>`);
-      root.querySelector(".main").appendChild(col);
-      state.value = root.toString();
+      appendElement(state, "Col", `<div id="col-${state.currentColNumber}" class="flex flex-col flex-wrap m-auto p-1 w-full min-h-32 max-h-full bg-slate-400"></div>`);
     },
     addText: (state) => {
-      state.currentTextNumber += 1;
-      const text = parse(`<p class="text-${state.currentTextNumber}">Text</p>`);
-      root.querySelector(".main").appendChild(text);
-      state.value = root.toString();
+      appendElement(state, "Text", `<p id="text-${state.currentTextNumber}" class="text-black">Text</p>`);
     },
     addLink: (state) => {
-      state.currentLinkNumber += 1;
-      const link = parse(`<a class="link-${state.currentLinkNumber}">Link</a>`);
-      root.querySelector(".main").appendChild(link);
-      state.value = root.toString();
+      appendElement(state, "Link", `<a id="link-${state.currentLinkNumber}" class="text-sky-600">Link</a>`);
     },
     addImage: (state) => {
-      state.currentImageNumber += 1;
-      const image = parse(
-        `<img class="image-${state.currentImageNumber}" src="https://via.placeholder.com/150">`
-      );
-      root.querySelector(".main").appendChild(image);
-      state.value = root.toString();
+      appendElement(state, "Image", `<img id="image-${state.currentImageNumber}" src="https://via.placeholder.com/150">`);
     },
     addEmbed: (state) => {
-      state.currentEmbedNumber += 1;
-      const embed = parse(
-        `<iframe class="embed-${state.currentEmbedNumber}" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>`
-      );
-      root.querySelector(".main").appendChild(embed);
-      state.value = root.toString();
+      appendElement(state, "Embed", `<iframe id="embed-${state.currentEmbedNumber}" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>`);
     },
     addForm: (state) => {
-      state.currentFormNumber += 1;
-      const form = parse(
-        `<form class="form-${state.currentFormNumber}"></form>`
-      );
-      root.querySelector(".main").appendChild(form);
-      state.value = root.toString();
+      appendElement(state, "Form", `<form id="form-${state.currentFormNumber}"></form>`);
     },
     addLabel: (state) => {
-      state.currentLabelNumber += 1;
-      const label = parse(
-        `<label class="label-${state.currentLabelNumber}">Label</label>`
-      );
-      root.querySelector(".main").appendChild(label);
-      state.value = root.toString();
+      appendElement(state, "Label", `<label id="label-${state.currentLabelNumber}">Label</label>`);
     },
     addButton: (state) => {
-      state.currentButtonNumber += 1;
-      const button = parse(
-        `<button class="button-${state.currentButtonNumber}">Button</button>`
-      );
-      root.querySelector(".main").appendChild(button);
-      state.value = root.toString();
+      appendElement(state, "Button", `<button id="button-${state.currentButtonNumber}">Button</button>`);
     },
     addTextarea: (state) => {
-      state.currentTextareaNumber += 1;
-      const textarea = parse(
-        `<textarea class="textarea-${state.currentTextareaNumber}"></textarea>`
-      );
-      root.querySelector(".main").appendChild(textarea);
-      state.value = root.toString();
+      appendElement(state, "Textarea", `<textarea id="textarea-${state.currentTextareaNumber}"></textarea>`);
     },
     addInput: (state) => {
-      state.currentInputNumber += 1;
-      const input = parse(
-        `<input type="text" class="input-${state.currentInputNumber}">`
-      );
-      root.querySelector(".main").appendChild(input);
-      state.value = root.toString();
+      appendElement(state, "Input", `<input type="text" id="input-${state.currentInputNumber}">`);
     },
     addSelect: (state) => {
-      state.currentSelectNumber += 1;
-      const select = parse(
-        `<select class="select-${state.currentSelectNumber}"></select>`
-      );
-      root.querySelector(".main").appendChild(select);
-      state.value = root.toString();
+      appendElement(state, "Select", `<select id="select-${state.currentSelectNumber}"></select>`);
     },
   },
 });
 
 export const {
+  focus,
   addRow,
   addCol,
   addText,
@@ -129,4 +92,5 @@ export const {
   addInput,
   addSelect,
 } = counterSlice.actions;
+
 export default counterSlice.reducer;

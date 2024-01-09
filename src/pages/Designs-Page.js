@@ -4,7 +4,7 @@ import Properties from "../components/properties/Properties";
 import Toolbox from "../components/toolbox/Toolbox";
 import PageExplorer from "../components/pageExplorer/PageExplorer";
 import LayerExplorer from "../components/layerExplorer/LayerExplorer";
-import DesignWorkspace from "../components/genarateHTML/DesignWorkspace";
+import DesignWorkspace from "../components/designWorkspace/DesignWorkspace";
 import { CgCloseO } from "react-icons/cg";
 import { IoMdAdd } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
@@ -254,7 +254,7 @@ const DesignPage = () => {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="overflow-auto max-h-screen">
               <DesignWorkspace />
             </div>
           </div>
