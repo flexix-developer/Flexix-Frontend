@@ -17,6 +17,10 @@ const DesignPage = () => {
   const [userInfo, setUserInfo] = useState({ fname: "", lname: "" });
   const [code, setCode] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [pagename, SetNewPageName] = useState("");
+  const [width, SetWidth] = useState("");
+  const [height, SetHeight] = useState("");
+  const [selectedUnit, setSelectedUnit] = useState("px");
 
   const [selectedComponent, setSelectedComponent] = useState("Toolbox");
   const [selectedLayer, setSelectedLayer] = useState("PageExplorer");
@@ -56,13 +60,69 @@ const DesignPage = () => {
   const handleComponentClick = (component) => setSelectedComponent(component);
   const handleLayerClick = (layer) => setSelectedLayer(layer);
 
-  const handleCreateButtonClick = () => {
-    const newHTMLCode = "Your generated HTML code";
+  const handlePnameChange = (event, SetNewPageName) => {
+    let newName = event.target.value;
 
-    setCode(newHTMLCode);
-    console.log("New HTML code:", newHTMLCode);
+    // Replace any characters that are not A-Za-z0-9_-
+    newName = newName.replace(/[^A-Za-z0-9_-]/g, "");
 
-    setShowModal(false);
+    // console.log(newName);
+    SetNewPageName(newName);
+  };
+
+  const handleWidthChange = (event, SetWidth) => {
+    let newName = event.target.value;
+    newName = newName.replace(/[^0-9]/g, "");
+    SetWidth(newName);
+    // console.log("w", width);
+  };
+  const handleHeightChange = (event, SetHeight) => {
+    let newName = event.target.value;
+    newName = newName.replace(/[^0-9]/g, "");
+    SetHeight(newName);
+    // console.log("h", height);
+  };
+
+  const handleUnitChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedUnit(selectedValue);
+  };
+  const handleCreateButtonClick = async (e) => {
+    e.preventDefault();
+    const ID = localStorage.getItem("ID");
+    const ProjectID = localStorage.getItem("ProjectID");
+    const token = localStorage.getItem("token");
+    if (pagename === "") {
+      return;
+    } else {
+      try {
+        await axios.post(
+          "http://127.0.0.1:8081/users/page",
+          {
+            userID: ID,
+            projectId: ProjectID,
+            pageName: pagename,
+            width: width + selectedUnit,
+            height: height + selectedUnit,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        alert("Create New Page Success!");
+
+        const newHTMLCode = "Your generated HTML code";
+
+        setCode(newHTMLCode);
+        console.log("New HTML code:", newHTMLCode);
+
+        setShowModal(false);
+      } catch (error) {
+        alert("Create New Page Failed!");
+      }
+    }
   };
 
   return (
@@ -223,7 +283,7 @@ const DesignPage = () => {
       {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+            <div className="relative w-2/6 my-6 mx-auto max-w-3xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gray-900 text-white outline-none focus:outline-none">
                 {/*header*/}
@@ -237,19 +297,66 @@ const DesignPage = () => {
                     type="text"
                     placeholder="Page name"
                     className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
+                    value={pagename}
+                    onChange={(event) =>
+                      handlePnameChange(event, SetNewPageName)
+                    }
+                    required
                   />
-                  <label>Width (px):</label>
-                  <input
-                    type="text"
-                    placeholder="ex. 1920 px"
-                    className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
-                  />
-                  <label>Height (px):</label>
-                  <input
-                    type="text"
-                    placeholder="ex. 1080 px"
-                    className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
-                  />
+                  <label>Width:</label>
+                  <div className="flex w-full h-full">
+                    <input
+                      type="text"
+                      placeholder="ex. 1920"
+                      className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
+                      value={width}
+                      onChange={(event) => handleWidthChange(event, SetWidth)}
+                      required
+                    />
+                    <select
+                      name="unit"
+                      id="unit"
+                      className="bg-gray-100 p-2 mb-4 ml-2 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-1/6 text-black "
+                      value={selectedUnit}
+                      onChange={handleUnitChange}
+                    >
+                      <option value="px">px</option>
+                      <option value="rem">rem</option>
+                      <option value="em">em</option>
+                      <option value="%">%</option>
+                      <option value="vh">vh</option>
+                      <option value="vw">vw</option>
+                      <option value="cm">cm</option>
+                      <option value="ch">ch</option>
+                    </select>
+                  </div>
+                  <label>Height:</label>
+                  <div className="flex w-full h-full">
+                    <input
+                      type="text"
+                      placeholder="ex. 1080"
+                      className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
+                      value={height}
+                      onChange={(event) => handleHeightChange(event, SetHeight)}
+                      required
+                    />
+                    <select
+                      name="unit"
+                      id="unit"
+                      className="bg-gray-100 p-2 mb-4 ml-2 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-1/6 text-black "
+                      value={selectedUnit}
+                      onChange={handleUnitChange}
+                    >
+                      <option value="px">px</option>
+                      <option value="rem">rem</option>
+                      <option value="em">em</option>
+                      <option value="%">%</option>
+                      <option value="vh">vh</option>
+                      <option value="vw">vw</option>
+                      <option value="cm">cm</option>
+                      <option value="ch">ch</option>
+                    </select>
+                  </div>
                   <div className="my-2">
                     <label
                       className="inline-block pr-2 hover:cursor-pointer"
