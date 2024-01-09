@@ -39,10 +39,10 @@ export const counterSlice = createSlice({
       console.log(state.currentFocus);
     },
     addRow: (state) => {
-      appendElement(state, "Row", `<div id="row-${state.currentRowNumber}" class="flex flex-row flex-wrap m-auto p-1 w-full min-h-32 max-h-full bg-slate-300"></div>`);
+      appendElement(state, "Row", `<div id="row-${state.currentRowNumber}" class="flex flex-row flex-wrap m-auto p-1 w-full min-h-32 max-h-full bg-slate-400"></div>`);
     },
     addCol: (state) => {
-      appendElement(state, "Col", `<div id="col-${state.currentColNumber}" class="flex flex-col flex-wrap m-auto p-1 w-full min-h-32 max-h-full bg-slate-400"></div>`);
+      appendElement(state, "Col", `<div id="col-${state.currentColNumber}" class="flex flex-col flex-wrap m-auto p-1 w-full min-h-32 max-h-full bg-slate-200"></div>`);
     },
     addText: (state) => {
       appendElement(state, "Text", `<p id="text-${state.currentTextNumber}" class="text-black">Text</p>`);
