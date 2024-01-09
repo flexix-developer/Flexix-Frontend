@@ -23,7 +23,6 @@ const DesignPage = () => {
   const [width, SetWidth] = useState("");
   const [height, SetHeight] = useState("");
   const [selectedUnit, setSelectedUnit] = useState("px");
-
   const [selectedComponent, setSelectedComponent] = useState("Toolbox");
   const [selectedLayer, setSelectedLayer] = useState("PageExplorer");
 
@@ -330,13 +329,9 @@ const DesignPage = () => {
                       onChange={handleUnitChange}
                     >
                       <option value="px">px</option>
-                      <option value="rem">rem</option>
-                      <option value="em">em</option>
                       <option value="%">%</option>
                       <option value="vh">vh</option>
                       <option value="vw">vw</option>
-                      <option value="cm">cm</option>
-                      <option value="ch">ch</option>
                     </select>
                   </div>
                   <label>Height:</label>
@@ -357,13 +352,9 @@ const DesignPage = () => {
                       onChange={handleUnitChange}
                     >
                       <option value="px">px</option>
-                      <option value="rem">rem</option>
-                      <option value="em">em</option>
                       <option value="%">%</option>
                       <option value="vh">vh</option>
                       <option value="vw">vw</option>
-                      <option value="cm">cm</option>
-                      <option value="ch">ch</option>
                     </select>
                   </div>
                   <div className="my-2">
