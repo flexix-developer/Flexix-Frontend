@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import NavBarDesign from "../components/navbar/NavbarDesign";
 import Properties from "../components/properties/Properties";
 import Toolbox from "../components/toolbox/Toolbox";
@@ -11,9 +11,11 @@ import { IoSearchOutline } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const DesignPage = () => {
   useTokenCheck("/design");
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({ fname: "", lname: "" });
   const [code, setCode] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -24,15 +26,8 @@ const DesignPage = () => {
 
   const [selectedComponent, setSelectedComponent] = useState("Toolbox");
   const [selectedLayer, setSelectedLayer] = useState("PageExplorer");
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
-
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const ID = localStorage.getItem("ID");
       const token = localStorage.getItem("token");
@@ -48,14 +43,27 @@ const DesignPage = () => {
       if (response.data.message === "Token is expired") {
         localStorage.clear();
       }
+
       setUserInfo({
         fname: response.data.fname,
         lname: response.data.lname,
       });
     } catch (error) {
       console.error("Error during login", error);
+
+      // Check if the error is due to a specific condition (e.g., status code 500)
+      if (error.response && error.response.status === 500) {
+        // Redirect to the login page
+        navigate("/login");
+      }
     }
-  };
+  }, [navigate]);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  useEffect(() => {}, [userInfo]);
 
   const handleComponentClick = (component) => setSelectedComponent(component);
   const handleLayerClick = (layer) => setSelectedLayer(layer);
@@ -87,6 +95,7 @@ const DesignPage = () => {
     const selectedValue = event.target.value;
     setSelectedUnit(selectedValue);
   };
+
   const handleCreateButtonClick = async (e) => {
     e.preventDefault();
     const ID = localStorage.getItem("ID");
