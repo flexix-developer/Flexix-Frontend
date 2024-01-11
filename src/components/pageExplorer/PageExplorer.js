@@ -1,37 +1,9 @@
 import { IoMdFolderOpen } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { GrDocumentText } from "react-icons/gr";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
 
-const PageExplorer = () => {
-  const [pages, setPages] = useState([]);
-  const [projectName, setProjectName] = useState("");
-
-  const fetchPages = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const ID = localStorage.getItem("ID");
-      const ProjectID = localStorage.getItem("ProjectID");
-      const response = await axios.get(
-        `http://localhost:8081/users/getpages/${ID}/${ProjectID}`,
-
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setPages(response.data.Pages); // Assuming the response contains a 'pages' property
-      setProjectName(response.data.ProjectName);
-    } catch (error) {
-      console.error("Error fetching pages:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchPages();
-  }, []);
+const PageExplorer = ({ pages, projectName }) => {
+  console.log(pages);
 
   return (
     <div className="flex flex-col text-white ">
@@ -48,12 +20,16 @@ const PageExplorer = () => {
           <IoMdFolderOpen size={29} />
           <p className="pl-2 text-center text-xl">{projectName}</p>
         </div>
-        {pages.map((page, index) => (
-          <div key={index} className="flex flex-row ml-20 mt-2">
-            <GrDocumentText size={22} />
-            <p className="pl-2 text-center text-xl">{page}</p>
-          </div>
-        ))}
+        {pages && pages.length > 0 ? (
+          pages.map((page, index) => (
+            <div key={index} className="flex flex-row ml-20 mt-2">
+              <GrDocumentText size={22} />
+              <p className="pl-2 text-center text-xl">{page}</p>
+            </div>
+          ))
+        ) : (
+          <p>No pages available</p>
+        )}
       </div>
     </div>
   );

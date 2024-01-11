@@ -27,7 +27,6 @@ const DesignPage = () => {
   const [pages, setPages] = useState([]);
   const [projectName, setProjectName] = useState("");
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
-  console.log(projectName);
 
   const fetchPages = async () => {
     try {
@@ -161,6 +160,7 @@ const DesignPage = () => {
         SetNewPageName("");
         SetWidth("");
         SetHeight("");
+        fetchPages();
       } catch (error) {
         alert("Create New Page Failed!");
       }
@@ -270,7 +270,9 @@ const DesignPage = () => {
             </div>
             <div className="flex flex-col w-full h-full bg-neutral-700">
               {selectedLayer === "LayerExplorer" && <LayerExplorer />}
-              {selectedLayer === "PageExplorer" && <PageExplorer />}
+              {selectedLayer === "PageExplorer" && (
+                <PageExplorer pages={pages} projectName={projectName} />
+              )}
             </div>
             <div className="bg-neutral-700 flex-1">{/* Component */}</div>
           </div>
