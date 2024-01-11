@@ -1,6 +1,7 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { focus } from "../../features/counter/counterSlice";
+import { focus, removeSelectedElement } from "../../features/counter/counterSlice";
+
 
 const DesignWorkspace = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const DesignWorkspace = () => {
   );
 
   // Attach the click event listener to the document
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener("click", handleClick);
     return () => {
       // Remove the event listener when the component unmounts
@@ -50,13 +51,26 @@ const DesignWorkspace = () => {
     };
   }, [handleClick]);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Delete") {
+        dispatch(removeSelectedElement());
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [dispatch]);
+
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col">
       {/* Use dangerouslySetInnerHTML to render sanitized HTML */}
       <div
         dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
-        style={{ padding: "4px", minHeight: "720px" }}
-        id="main"
+        style={{ padding: "2px", minHeight: "720px" }}
       ></div>
     </div>
   );
