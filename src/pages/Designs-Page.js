@@ -17,7 +17,6 @@ const DesignPage = () => {
   useTokenCheck("/design");
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({ fname: "", lname: "" });
-  const [code, setCode] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [pagename, SetNewPageName] = useState("");
   const [width, SetWidth] = useState("");
@@ -25,6 +24,43 @@ const DesignPage = () => {
   const [selectedUnit, setSelectedUnit] = useState("px");
   const [selectedComponent, setSelectedComponent] = useState("Toolbox");
   const [selectedLayer, setSelectedLayer] = useState("PageExplorer");
+  const [pages, setPages] = useState([]);
+  const [projectName, setProjectName] = useState("");
+  const [createButtonClicked, setCreateButtonClicked] = useState(false);
+  console.log(projectName);
+
+  const fetchPages = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const ID = localStorage.getItem("ID");
+      const ProjectID = localStorage.getItem("ProjectID");
+
+      const response = await axios.get(
+        `http://localhost:8081/users/getpages/${ID}/${ProjectID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Check if response.data is truthy and if response.data.Pages is present
+      if (response.data && response.data.Pages) {
+        setPages(response.data.Pages);
+      } else {
+        // Handle the case where the structure is not as expected
+        console.error("Invalid response structure:", response.data);
+      }
+
+      setProjectName(response.data.ProjectName);
+    } catch (error) {
+      console.error("Error fetching pages:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPages();
+  }, [createButtonClicked]); // Fetch pages on component mount
 
   const fetchUser = useCallback(async () => {
     try {
@@ -120,13 +156,11 @@ const DesignPage = () => {
           }
         );
         alert("Create New Page Success!");
-
-        const newHTMLCode = "Your generated HTML code";
-
-        setCode(newHTMLCode);
-        console.log("New HTML code:", newHTMLCode);
-
+        setCreateButtonClicked(true);
         setShowModal(false);
+        SetNewPageName("");
+        SetWidth("");
+        SetHeight("");
       } catch (error) {
         alert("Create New Page Failed!");
       }
@@ -140,7 +174,7 @@ const DesignPage = () => {
         lname={userInfo.lname}
         isWorkspace={true}
       />
-      {code === "" && (
+      {pages && pages.length === 0 && (
         <div className="flex flex-row flex-1">
           <div className="flex flex-col w-2/12">
             <div className="flex flex-row w-full">
@@ -209,7 +243,7 @@ const DesignPage = () => {
           </div>
         </div>
       )}
-      {code !== "" && (
+      {pages && pages.length !== 0 && (
         <div className="flex flex-row flex-1">
           <div className="flex flex-col w-2/12">
             <div className="flex flex-row w-full">
@@ -248,7 +282,10 @@ const DesignPage = () => {
               <div className="flex flex-row pl-10 pr-2 py-1 bg-neutral-700 items-center h-full">
                 <CgCloseO color="white" size={15} />
               </div>
-              <div className="flex flex-row p-1 items-center text-white">
+              <div
+                className="flex flex-row p-1 items-center text-white"
+                onClick={() => setShowModal(true)}
+              >
                 <div className="rounded-bl-md rounded-tr-md bg-neutral-700 px-2 py-1 cursor-pointer">
                   <IoMdAdd color="white" size={20} />
                 </div>

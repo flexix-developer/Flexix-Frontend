@@ -17,6 +17,7 @@ const initialState = {
   currentInputNumber: 0,
   currentSelectNumber: 0,
   currentFocus: "",
+  currentFpages: false,
 };
 
 var root = parse(initialState.value);
@@ -24,7 +25,10 @@ var root = parse(initialState.value);
 const appendElement = (state, elementType, htmlTemplate) => {
   state[`current${elementType}Number`] += 1;
   const element = parse(htmlTemplate);
-  const targetNode = state.currentFocus === "" ? root.querySelector("#main") : root.querySelector(state.currentFocus);
+  const targetNode =
+    state.currentFocus === ""
+      ? root.querySelector("#main")
+      : root.querySelector(state.currentFocus);
   targetNode.appendChild(element);
   state.value = root.toString();
   console.log(state.value);
@@ -39,40 +43,88 @@ export const counterSlice = createSlice({
       console.log(state.currentFocus);
     },
     addRow: (state) => {
-      appendElement(state, "Row", `<div id="row-${state.currentRowNumber}" class="flex flex-row flex-wrap m-auto p-1 w-full min-h-32 max-h-full bg-slate-400"></div>`);
+      appendElement(
+        state,
+        "Row",
+        `<div id="row-${state.currentRowNumber}" class="flex flex-row flex-wrap m-auto p-1 w-full min-h-32 max-h-full bg-slate-400"></div>`
+      );
     },
     addCol: (state) => {
-      appendElement(state, "Col", `<div id="col-${state.currentColNumber}" class="flex flex-col flex-wrap m-auto p-1 w-full min-h-32 max-h-full bg-slate-200"></div>`);
+      appendElement(
+        state,
+        "Col",
+        `<div id="col-${state.currentColNumber}" class="flex flex-col flex-wrap m-auto p-1 w-full min-h-32 max-h-full bg-slate-200"></div>`
+      );
     },
     addText: (state) => {
-      appendElement(state, "Text", `<p id="text-${state.currentTextNumber}" class="text-black">Text</p>`);
+      appendElement(
+        state,
+        "Text",
+        `<p id="text-${state.currentTextNumber}" class="text-black">Text</p>`
+      );
     },
     addLink: (state) => {
-      appendElement(state, "Link", `<a id="link-${state.currentLinkNumber}" class="text-sky-600">Link</a>`);
+      appendElement(
+        state,
+        "Link",
+        `<a id="link-${state.currentLinkNumber}" class="text-sky-600">Link</a>`
+      );
     },
     addImage: (state) => {
-      appendElement(state, "Image", `<img id="image-${state.currentImageNumber}" src="https://via.placeholder.com/150">`);
+      appendElement(
+        state,
+        "Image",
+        `<img id="image-${state.currentImageNumber}" src="https://via.placeholder.com/150">`
+      );
     },
     addEmbed: (state) => {
-      appendElement(state, "Embed", `<iframe id="embed-${state.currentEmbedNumber}" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>`);
+      appendElement(
+        state,
+        "Embed",
+        `<iframe id="embed-${state.currentEmbedNumber}" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>`
+      );
     },
     addForm: (state) => {
-      appendElement(state, "Form", `<form id="form-${state.currentFormNumber}"></form>`);
+      appendElement(
+        state,
+        "Form",
+        `<form id="form-${state.currentFormNumber}"></form>`
+      );
     },
     addLabel: (state) => {
-      appendElement(state, "Label", `<label id="label-${state.currentLabelNumber}">Label</label>`);
+      appendElement(
+        state,
+        "Label",
+        `<label id="label-${state.currentLabelNumber}">Label</label>`
+      );
     },
     addButton: (state) => {
-      appendElement(state, "Button", `<button id="button-${state.currentButtonNumber}">Button</button>`);
+      appendElement(
+        state,
+        "Button",
+        `<button id="button-${state.currentButtonNumber}">Button</button>`
+      );
     },
     addTextarea: (state) => {
-      appendElement(state, "Textarea", `<textarea id="textarea-${state.currentTextareaNumber}"></textarea>`);
+      appendElement(
+        state,
+        "Textarea",
+        `<textarea id="textarea-${state.currentTextareaNumber}"></textarea>`
+      );
     },
     addInput: (state) => {
-      appendElement(state, "Input", `<input type="text" id="input-${state.currentInputNumber}">`);
+      appendElement(
+        state,
+        "Input",
+        `<input type="text" id="input-${state.currentInputNumber}">`
+      );
     },
     addSelect: (state) => {
-      appendElement(state, "Select", `<select id="select-${state.currentSelectNumber}"></select>`);
+      appendElement(
+        state,
+        "Select",
+        `<select id="select-${state.currentSelectNumber}"></select>`
+      );
     },
   },
 });

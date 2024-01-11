@@ -7,36 +7,39 @@ const DesignWorkspace = () => {
   const { counter } = useSelector((state) => state);
   const { value: sanitizedHTML } = counter;
 
-  const handleClick = useCallback((event) => {
-    const clickedElementId = event.target.id;
-  
-    if (clickedElementId !== "") {
-      const highlightedElement = document.querySelector(".highlighted");
-  
-      // Check if the clicked element is not the "main" ID
-      if (clickedElementId !== "main") {
-        // Remove the previous highlighting
-        if (highlightedElement) {
-          highlightedElement.classList.remove("highlighted");
+  const handleClick = useCallback(
+    (event) => {
+      const clickedElementId = event.target.id;
+
+      if (clickedElementId !== "") {
+        const highlightedElement = document.querySelector(".highlighted");
+
+        // Check if the clicked element is not the "main" ID
+        if (clickedElementId !== "main") {
+          // Remove the previous highlighting
+          if (highlightedElement) {
+            highlightedElement.classList.remove("highlighted");
+          }
+
+          const clickedElement = document.getElementById(clickedElementId);
+
+          // Add highlighting to the clicked element
+          if (clickedElement) {
+            clickedElement.classList.add("highlighted");
+          }
+        } else {
+          // Clicked element is "main" ID, remove the highlighting
+          if (highlightedElement) {
+            highlightedElement.classList.remove("highlighted");
+          }
         }
-  
-        const clickedElement = document.getElementById(clickedElementId);
-  
-        // Add highlighting to the clicked element
-        if (clickedElement) {
-          clickedElement.classList.add("highlighted");
-        }
-      } else {
-        // Clicked element is "main" ID, remove the highlighting
-        if (highlightedElement) {
-          highlightedElement.classList.remove("highlighted");
-        }
+
+        dispatch(focus("#" + clickedElementId));
+        // Perform additional actions based on the clicked ID if needed
       }
-  
-      dispatch(focus("#" + clickedElementId));
-      // Perform additional actions based on the clicked ID if needed
-    }
-  }, [dispatch]);
+    },
+    [dispatch]
+  );
 
   // Attach the click event listener to the document
   React.useEffect(() => {
@@ -53,7 +56,7 @@ const DesignWorkspace = () => {
       <div
         dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
         style={{ padding: "4px", minHeight: "720px" }}
-        id = "main"
+        id="main"
       ></div>
     </div>
   );
