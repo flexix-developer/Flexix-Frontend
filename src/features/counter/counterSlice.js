@@ -138,33 +138,57 @@ export const counterSlice = createSlice({
     },
     AlignHorizontalLeft: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("justify-end");
+      targetNode.classList.remove("justify-center");
       targetNode.classList.toggle("justify-start", true);
-      state.value = root.toString();
-    },
-    AlignHorizontalRight: (state) => {
-      const targetNode = root.querySelector(state.currentFocus);
-      targetNode.classList.toggle("justify-end", true);
       state.value = root.toString();
     },
     AlignHorizontalCenter: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("justify-start");
+      targetNode.classList.remove("justify-end");
       targetNode.classList.toggle("justify-center", true);
+      state.value = root.toString();
+    },
+    AlignHorizontalRight: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("justify-start");
+      targetNode.classList.remove("justify-center");
+      targetNode.classList.toggle("justify-end", true);
       state.value = root.toString();
     },
     AlignVerticalTop: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("items-end");
+      targetNode.classList.remove("items-center");
       targetNode.classList.toggle("items-start", true);
       state.value = root.toString();
     },
     AlignVerticalBottom: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("items-start");
+      targetNode.classList.remove("items-center");
       targetNode.classList.toggle("items-end", true);
       state.value = root.toString();
     },
     AlignVerticalCenter: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("items-start");
+      targetNode.classList.remove("items-end");
       targetNode.classList.toggle("items-center", true);
       state.value = root.toString();
+    },
+    WidthInputChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const width = action.payload;
+      console.log(targetNode);
+      console.log(width);
+    },
+    HeightInputChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const height = action.payload;
+      console.log(targetNode);
+      console.log(height);
     },
   },
 });
@@ -195,6 +219,8 @@ export const {
   AlignVerticalTopRemove,
   AlignVerticalBottomRemove,
   AlignVerticalCenterRemove,
+  WidthInputChange,
+  HeightInputChange,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

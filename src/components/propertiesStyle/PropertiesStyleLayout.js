@@ -1,6 +1,16 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { AlignHorizontalLeft, AlignHorizontalCenter, AlignHorizontalRight, AlignVerticalBottom, AlignVerticalCenter, AlignVerticalTop } from "../../features/counter/counterSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  AlignHorizontalLeft,
+  AlignHorizontalCenter,
+  AlignHorizontalRight,
+  AlignVerticalBottom,
+  AlignVerticalCenter,
+  AlignVerticalTop,
+  WidthInputChange,
+  HeightInputChange,
+} from "../../features/counter/counterSlice";
+import { parse } from "node-html-parser";
 
 import {
   MdAlignHorizontalLeft,
@@ -13,47 +23,72 @@ import {
 
 const PropertiesStyleLayout = () => {
   const dispatch = useDispatch();
+  const counterState = useSelector((state) => state.counter);
+
+  const root = parse(counterState.value);
+
+  const isJustifyStart = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("justify-start");
+  };
+
+  const isJustifyEnd = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("justify-end");
+  };
+
+  const isJustifyCenter = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("justify-center");
+  };
+
+  const isItemsStart = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("items-start");
+  };
+
+  const isItemsEnd = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("items-end");
+  };
+
+  const isItemsCenter = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("items-center");
+  };
 
   const handleAlignHorizontalLeft = () => {
-    console.log("Align Horizontal Left clicked");
     dispatch(AlignHorizontalLeft());
   };
 
   const handleAlignHorizontalCenter = () => {
-    console.log("Align Horizontal Center clicked");
     dispatch(AlignHorizontalCenter());
   };
 
   const handleAlignHorizontalRight = () => {
-    console.log("Align Horizontal Right clicked");
     dispatch(AlignHorizontalRight());
   };
 
   const handleAlignVerticalBottom = () => {
-    console.log("Align Vertical Bottom clicked");
     dispatch(AlignVerticalBottom());
   };
 
   const handleAlignVerticalCenter = () => {
-    console.log("Align Vertical Center clicked");
     dispatch(AlignVerticalCenter());
   };
 
   const handleAlignVerticalTop = () => {
-    console.log("Align Vertical Top clicked");
     dispatch(AlignVerticalTop());
   };
 
   const handleWidthInputChange = (event) => {
     const widthValue = event.target.value;
-    console.log("Width changed to:", widthValue);
-    // เพิ่มโค้ดที่ต้องการทำเมื่อมีการเปลี่ยนค่า Width
+    dispatch(WidthInputChange(widthValue));
   };
 
   const handleHeightInputChange = (event) => {
     const heightValue = event.target.value;
-    console.log("Height changed to:", heightValue);
-    // เพิ่มโค้ดที่ต้องการทำเมื่อมีการเปลี่ยนค่า Height
+    dispatch(HeightInputChange(heightValue));
   };
 
   return (
@@ -63,25 +98,47 @@ const PropertiesStyleLayout = () => {
           <p>Align</p>
         </div>
         <div className="w-9/12 flex flex-row">
-        <div className="w-1/12 text-center mx-2 cursor-pointer" onClick={handleAlignHorizontalLeft}>
-          <MdAlignHorizontalLeft />
-       </div>
-        <div className="w-1/12 text-center mx-2 cursor-pointer" onClick={handleAlignHorizontalRight}>
-          <MdAlignHorizontalRight />
+          <div
+            className="w-1/12 text-center mx-2 cursor-pointer"
+            onClick={handleAlignHorizontalLeft}
+          >
+            {isJustifyStart() ? (
+              <MdAlignHorizontalLeft color="skyblue" />
+            ) : (
+              <MdAlignHorizontalLeft />
+            )}
+          </div>
+          <div
+            className="w-1/12 text-center mx-1 cursor-pointer"
+            onClick={handleAlignHorizontalCenter}
+          >
+            {isJustifyCenter() ? <MdAlignHorizontalCenter color="skyblue" /> : <MdAlignHorizontalCenter />}
+          </div>
+          <div
+            className="w-1/12 text-center mx-2 cursor-pointer"
+            onClick={handleAlignHorizontalRight}
+          >
+            {isJustifyEnd() ? <MdAlignHorizontalRight color="skyblue" /> : <MdAlignHorizontalRight />}
+          </div>
+          <div
+            className="w-1/12 text-center mx-2 cursor-pointer"
+            onClick={handleAlignVerticalBottom}
+          >
+            {isItemsEnd() ? <MdAlignVerticalBottom color="skyblue" /> : <MdAlignVerticalBottom />}
+          </div>
+          <div
+            className="w-1/12 text-center mx-2 cursor-pointer"
+            onClick={handleAlignVerticalCenter}
+          >
+            {isItemsCenter() ? <MdAlignVerticalCenter color="skyblue" /> : <MdAlignVerticalCenter />}
+          </div>
+          <div
+            className="w-1/12 text-center mx-2 cursor-pointer"
+            onClick={handleAlignVerticalTop}
+          >
+            {isItemsStart() ? <MdAlignVerticalTop color="skyblue" /> : <MdAlignVerticalTop />}
+          </div>
         </div>
-        <div className="w-1/12 text-center mx-2 cursor-pointer" onClick={handleAlignVerticalBottom}>
-          <MdAlignVerticalBottom />
-        </div>
-        <div className="w-1/12 text-center mx-2 cursor-pointer" onClick={handleAlignVerticalCenter}>
-          <MdAlignVerticalCenter />
-        </div>
-        <div className="w-1/12 text-center mx-2 cursor-pointer" onClick={handleAlignVerticalTop}>
-          <MdAlignVerticalTop />
-        </div>
-        <div className="w-1/12 text-center mx-1 cursor-pointer" onClick={handleAlignHorizontalCenter}>
-          <MdAlignHorizontalCenter />
-        </div>
-      </div>
       </div>
 
       <div className="flex flex-row w-full justify-start p-2 items-center">
