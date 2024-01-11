@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { AlignHorizontalLeft, AlignHorizontalCenter, AlignHorizontalRight, AlignVerticalBottom, AlignVerticalCenter, AlignVerticalTop } from "../../features/counter/counterSlice";
+
 import {
   MdAlignHorizontalLeft,
   MdAlignHorizontalCenter,
@@ -9,34 +12,36 @@ import {
 } from "react-icons/md";
 
 const PropertiesStyleLayout = () => {
+  const dispatch = useDispatch();
+
   const handleAlignHorizontalLeft = () => {
-    alert("Align Horizontal Left clicked");
-    // เพิ่มโค้ดที่ต้องการทำเมื่อคลิกที่ Align Horizontal Left
+    console.log("Align Horizontal Left clicked");
+    dispatch(AlignHorizontalLeft());
   };
 
   const handleAlignHorizontalCenter = () => {
-    alert("Align Horizontal Center clicked");
-    // เพิ่มโค้ดที่ต้องการทำเมื่อคลิกที่ Align Horizontal Center
+    console.log("Align Horizontal Center clicked");
+    dispatch(AlignHorizontalCenter());
   };
 
   const handleAlignHorizontalRight = () => {
-    alert("Align Horizontal Right clicked");
-    // เพิ่มโค้ดที่ต้องการทำเมื่อคลิกที่ Align Horizontal Right
+    console.log("Align Horizontal Right clicked");
+    dispatch(AlignHorizontalRight());
   };
 
   const handleAlignVerticalBottom = () => {
-    alert("Align Vertical Bottom clicked");
-    // เพิ่มโค้ดที่ต้องการทำเมื่อคลิกที่ Align Vertical Bottom
+    console.log("Align Vertical Bottom clicked");
+    dispatch(AlignVerticalBottom());
   };
 
   const handleAlignVerticalCenter = () => {
-    alert("Align Vertical Center clicked");
-    // เพิ่มโค้ดที่ต้องการทำเมื่อคลิกที่ Align Vertical Center
+    console.log("Align Vertical Center clicked");
+    dispatch(AlignVerticalCenter());
   };
 
   const handleAlignVerticalTop = () => {
-    alert("Align Vertical Top clicked");
-    // เพิ่มโค้ดที่ต้องการทำเมื่อคลิกที่ Align Vertical Top
+    console.log("Align Vertical Top clicked");
+    dispatch(AlignVerticalTop());
   };
 
   const handleWidthInputChange = (event) => {
@@ -58,9 +63,9 @@ const PropertiesStyleLayout = () => {
           <p>Align</p>
         </div>
         <div className="w-9/12 flex flex-row">
-        <div className="w-1/12 text-center cursor-pointer" onClick={handleAlignHorizontalLeft}>
+        <div className="w-1/12 text-center mx-2 cursor-pointer" onClick={handleAlignHorizontalLeft}>
           <MdAlignHorizontalLeft />
-        </div>
+       </div>
         <div className="w-1/12 text-center mx-2 cursor-pointer" onClick={handleAlignHorizontalRight}>
           <MdAlignHorizontalRight />
         </div>

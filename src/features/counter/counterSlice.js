@@ -17,7 +17,6 @@ const initialState = {
   currentInputNumber: 0,
   currentSelectNumber: 0,
   currentFocus: "",
-  currentFpages: false,
 };
 
 var root = parse(initialState.value);
@@ -126,6 +125,36 @@ export const counterSlice = createSlice({
         `<select id="select-${state.currentSelectNumber}"></select>`
       );
     },
+    AlignHorizontalLeft: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("justify-start", true);
+      state.value = root.toString();
+    },
+    AlignHorizontalRight: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("justify-end", true);
+      state.value = root.toString();
+    },
+    AlignHorizontalCenter: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("justify-center", true);
+      state.value = root.toString();
+    },
+    AlignVerticalTop: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("items-start", true);
+      state.value = root.toString();
+    },
+    AlignVerticalBottom: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("items-end", true);
+      state.value = root.toString();
+    },
+    AlignVerticalCenter: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("items-center", true);
+      state.value = root.toString();
+    },   
   },
 });
 
@@ -143,6 +172,18 @@ export const {
   addTextarea,
   addInput,
   addSelect,
+  AlignHorizontalLeft,
+  AlignHorizontalRight,
+  AlignHorizontalCenter,
+  AlignVerticalTop,
+  AlignVerticalBottom,
+  AlignVerticalCenter,
+  AlignHorizontalLeftRemove,
+  AlignHorizontalRightRemove,
+  AlignHorizontalCenterRemove,
+  AlignVerticalTopRemove,
+  AlignVerticalBottomRemove,
+  AlignVerticalCenterRemove,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
