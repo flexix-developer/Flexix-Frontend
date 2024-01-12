@@ -15,37 +15,6 @@ const HomePage = () => {
   const [userInfo, setUserInfo] = useState({ fname: "", lname: "" });
   const [showNewProjectPopup, setShowNewProjectPopup] = useState(false);
 
-  // useEffect(() => {
-  //   fetchUser();
-  // }, []);
-
-  // const fetchUser = async () => {
-  //   try {
-  //     const ID = localStorage.getItem("ID");
-  //     const token = localStorage.getItem("token");
-  //     const response = await axios.get(
-  //       `http://localhost:8081/users/readall/${ID}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-
-  //     // console.log(response.data);
-  //     if (response.data.message === "Token is expired") {
-  //       localStorage.clear();
-  //     }
-  //     setUserInfo({
-  //       fname: response.data.fname,
-  //       lname: response.data.lname,
-  //     });
-  //   } catch (error) {
-  //     // alert("Error during login", error);
-  //     console.error("Error during login", error);
-  //   }
-  // };
-
   useEffect(() => {
     const fetchUser = async () => {
       try {

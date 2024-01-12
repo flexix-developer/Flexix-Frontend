@@ -49,6 +49,7 @@ const DesignPage = () => {
       } else {
         // Handle the case where the structure is not as expected
         console.error("Invalid response structure:", response.data);
+        setPages([]);
       }
 
       setProjectName(response.data.ProjectName);
@@ -167,6 +168,11 @@ const DesignPage = () => {
     }
   };
 
+  const handleDeletePage = () => {
+    // This function will be called when a page is deleted
+    fetchPages();
+  };
+
   return (
     <div className="flex flex-col overflow-hidden h-screen">
       <NavBarDesign
@@ -271,7 +277,11 @@ const DesignPage = () => {
             <div className="flex flex-col w-full h-full bg-neutral-700">
               {selectedLayer === "LayerExplorer" && <LayerExplorer />}
               {selectedLayer === "PageExplorer" && (
-                <PageExplorer pages={pages} projectName={projectName} />
+                <PageExplorer
+                  pages={pages}
+                  projectName={projectName}
+                  onDeletePage={handleDeletePage}
+                />
               )}
             </div>
             <div className="bg-neutral-700 flex-1">{/* Component */}</div>
