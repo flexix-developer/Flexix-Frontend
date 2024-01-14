@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { parse } from "node-html-parser";
-
 const initialState = {
   value: `
   <html>
@@ -42,6 +41,10 @@ const appendElement = (state, elementType, htmlTemplate) => {
   targetNode.appendChild(element);
   state.value = root.toString();
   console.log(state.value);
+};
+
+export const updateValue = (content) => (dispatch) => {
+  dispatch(counterSlice.actions.updateValue(content));
 };
 
 export const removeSelectedElement = () => (dispatch, getState) => {
@@ -229,18 +232,18 @@ export const counterSlice = createSlice({
         { value: "w-max", label: "max" },
         { value: "w-fit", label: "fit" },
       ];
-    
-      WidthOptions.forEach(option => {
+
+      WidthOptions.forEach((option) => {
         targetNode.classList.remove(option.value);
       });
-      
+
       if (state.currentFocus !== "#main") {
         targetNode.classList.add(`${widthValue}`);
       }
-      
+
       state.value = root.toString();
     },
-    
+
     HeightInputChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
       const heightValue = action.payload;
@@ -284,7 +287,7 @@ export const counterSlice = createSlice({
       targetNode.classList.remove("min-h-32");
       targetNode.classList.remove("max-h-full");
 
-      HeightOptions.forEach(option => {
+      HeightOptions.forEach((option) => {
         targetNode.classList.remove(option.value);
       });
 
@@ -294,7 +297,10 @@ export const counterSlice = createSlice({
 
       state.value = root.toString();
     },
+    updateValue: (state, action) => {
+      state.value = action.payload;
     },
+  },
 });
 
 export const {
