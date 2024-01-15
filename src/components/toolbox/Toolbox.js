@@ -128,8 +128,8 @@ const Toolbox = () => {
             ElementIcon1={<MdOutlineInput size={iconSize} />}
             ElementName2="Select"
             ElementIcon2={<RxDropdownMenu size={iconSize} />}
-            onClick1={() => handleElementClick("Button")}
-            onClick2={() => handleElementClick("Textarea")}
+            onClick1={() => handleElementClick("Input")}
+            onClick2={() => handleElementClick("Select")}
           />
         </>
       )}
