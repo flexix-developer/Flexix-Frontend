@@ -12,6 +12,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const DesignPage = () => {
   useTokenCheck("/design");
@@ -173,6 +174,13 @@ const DesignPage = () => {
     fetchPages();
   };
 
+  const { counter } = useSelector((state) => state);
+  const { value: sanitizedHTML } = counter;
+  var div = document.createElement("div");
+  div.innerHTML = sanitizedHTML;
+  const titleName = div.querySelector("title").innerHTML;
+  // console.log(div.querySelector("title").innerHTML);
+
   return (
     <div className="flex flex-col overflow-hidden h-screen">
       <NavBarDesign
@@ -289,7 +297,7 @@ const DesignPage = () => {
           <div className="flex flex-col w-8/12">
             <div className="flex flex-row bg-neutral-600 w-12/12">
               <div className="flex flex-row px-5 py-1 text-lg bg-neutral-700 items-center h-full text-white">
-                <p>Home</p>
+                <p>{titleName}</p>
               </div>
               <div className="flex flex-row pl-10 pr-2 py-1 bg-neutral-700 items-center h-full">
                 <CgCloseO color="white" size={15} />

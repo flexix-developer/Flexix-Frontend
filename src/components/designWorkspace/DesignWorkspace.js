@@ -1,7 +1,9 @@
 import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { focus, removeSelectedElement } from "../../features/counter/counterSlice";
-
+import {
+  focus,
+  removeSelectedElement,
+} from "../../features/counter/counterSlice";
 
 const DesignWorkspace = () => {
   const dispatch = useDispatch();
@@ -71,7 +73,7 @@ const DesignWorkspace = () => {
       <div
         dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
         style={{ padding: "2px", minHeight: "720px" }}
-        id = "main"
+        id="main"
       ></div>
     </div>
   );

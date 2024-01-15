@@ -37,14 +37,6 @@ const PageExplorer = ({ pages, projectName, onDeletePage }) => {
     setEditedPageName(pagename);
   };
 
-  const handleInputChange = (event) => {
-    const input = event.target.value;
-
-    const isValid = /^[A-Za-z0-9._%+-]+$/.test(input);
-    if (isValid) {
-      setEditedNewPageName(input);
-    }
-  };
   const handleDeleteButtonClick = async (page) => {
     const ID = localStorage.getItem("ID");
     const ProjectID = localStorage.getItem("ProjectID");
@@ -68,6 +60,17 @@ const PageExplorer = ({ pages, projectName, onDeletePage }) => {
       onDeletePage();
     } catch (error) {
       // Handle error if needed
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const input = event.target.value;
+
+    const isValid = /^[A-Za-z0-9._%+-]+$/.test(input);
+    if (isValid) {
+      setEditedNewPageName(input);
+    } else {
+      setEditedNewPageName("");
     }
   };
 
@@ -202,7 +205,10 @@ const PageExplorer = ({ pages, projectName, onDeletePage }) => {
                       <>
                         <FiEdit
                           className={`ml-2 cursor-pointer text-yellow-500 w-6 h-6  `}
-                          onClick={() => handleEditButtonClick(index, page)}
+                          onClick={() => {
+                            setEditedNewPageName(page.slice(0, -5));
+                            handleEditButtonClick(index, page); // Call handleInputChange if needed
+                          }}
                         />
                         <FiTrash2
                           className={`cursor-pointer text-red-500 w-6 h-6`}
