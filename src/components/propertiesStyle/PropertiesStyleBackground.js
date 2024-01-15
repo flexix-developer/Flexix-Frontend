@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
+import { useDispatch } from "react-redux";
+import { BackgroundColorChange } from "../../features/counter/counterSlice";
 
 const PropertiesStyleBackground = () => {
+  const dispatch = useDispatch();
   const [currentColor, setCurrentColor] = useState("#000000");
   const [isEyeVisible, setEyeVisible] = useState(true);
 
   const handleColorChange = (event) => {
     const newColor = event.target.value;
     setCurrentColor(newColor);
-    console.log("Selected color:", newColor);
+    dispatch(BackgroundColorChange(newColor.toUpperCase()));
   };
 
   const handleToggleEye = () => {
