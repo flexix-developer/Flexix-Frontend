@@ -71,6 +71,7 @@ const DesignWorkspace = () => {
       <div
         dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
         style={{ padding: "2px", minHeight: "720px" }}
+        id = "main"
       ></div>
     </div>
   );
