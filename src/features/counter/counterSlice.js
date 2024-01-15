@@ -44,10 +44,6 @@ const appendElement = (state, elementType, htmlTemplate) => {
   console.log(state.value);
 };
 
-export const updateValue = (content) => (dispatch) => {
-  dispatch(counterSlice.actions.updateValue(content));
-};
-
 export const removeSelectedElement = () => (dispatch, getState) => {
   const { currentFocus } = getState().counter;
 
@@ -643,6 +639,7 @@ export const counterSlice = createSlice({
     },
     updateValue: (state, action) => {
       state.value = action.payload;
+      root = parse(state.value);
     },
     BackgroundColorChange: (state, action) => {
     const targetNode = root.querySelector(state.currentFocus);
@@ -654,7 +651,7 @@ export const counterSlice = createSlice({
     
     state.value = root.toString();
 
-}
+},
 
    },
 });
@@ -673,6 +670,7 @@ export const {
   addTextarea,
   addInput,
   addSelect,
+  updateValue,
   removeElement,
   AlignHorizontalLeft,
   AlignHorizontalRight,
