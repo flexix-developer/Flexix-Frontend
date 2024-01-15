@@ -49,7 +49,7 @@ const LayerExplorer = () => {
           </span>
         </div>
         <div
-          className={`ml-6 transition-all duration-300 overflow-hidden ${
+          className={`ml-2 transition-all duration-300 overflow-hidden ${
             isExpanded ? "block" : "h-0"
           }`}
         >
@@ -73,7 +73,7 @@ const LayerExplorer = () => {
 
   return (
     <div>
-      <div className="bg-black  p-1 pl-3 flex items-center">
+      <div className="bg-black p-1 pl-3 flex items-center">
         <IoSearchOutline className="text-gray-500" size={25} color="white" />
         <input
           type="text"
@@ -81,7 +81,7 @@ const LayerExplorer = () => {
           className="bg-black p-2 ml-2 rounded-md focus:outline-none focus:border-blue-500 w-full text-white h-0.5"
         />
       </div>
-      <div className="flex flex-col text-white items-start mt-4 ml-4">
+      <div className="flex flex-col text-white items-start mt-4 ml-2">
         {mainDivTags && mainDivTags.map((tag, index) => (
           <RenderContentItem key={index} tag={tag} depth={0} />
         ))}
