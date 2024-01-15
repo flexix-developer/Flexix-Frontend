@@ -299,13 +299,78 @@ export const counterSlice = createSlice({
       root = parse(state.value);
     },
     BackgroundColorChange: (state, action) => {
-    // const targetNode = root.querySelector(state.currentFocus);
-    const colorValue = action.payload;
+      const targetNode = root.querySelector(state.currentFocus);
+      const colorValue = action.payload;
+  
+      const updateBackgroundColor = (style, color) => {
+          const styleArray = style.split(';').map(prop => prop.trim());
+          const updatedStyleArray = styleArray
+              .filter(prop => !(prop === '' || prop.startsWith('background-color:')))
+              .concat(`background-color: ${color};`);
+          return updatedStyleArray.join('; ');
+      };
+  
+      if (targetNode.attributes.style) {
+          const currentStyle = targetNode.attributes.style;
+          const updatedStyle = updateBackgroundColor(currentStyle, colorValue);
+          targetNode.setAttribute('style', updatedStyle);
+      } else {
+          targetNode.setAttribute('style', `background-color: ${colorValue};`);
+      }
+  
+      state.value = root.toString();
+  },
+  BackgroundColorOpacityChange: (state, action) => {
+    const targetNode = root.querySelector(state.currentFocus);
+    let opacityValue = action.payload;
 
-    console.log(colorValue);
+    if (opacityValue <= 9) {
+        opacityValue = "0"+opacityValue;
+    }
+  
+    const opacity = opacityValue / 100 * 255;
+    const hexOpacity = opacity.toString(16).toUpperCase();
+    const hexOpacity2 = hexOpacity.split(".")[0];
+  
+    // Function to update the background color opacity property in the style attribute
+    const updateBackgroundOpacity = (style, opacity) => {
+      const styleArray = style.split(';').map(prop => prop.trim());
+      let updatedStyleArray = [];
+  
+      for (let i = 0; i < styleArray.length; i++) {
+        const prop = styleArray[i];
+        if (prop.startsWith('background-color:')) {
+          // If the style property is background-color, retain the first 6 characters and append new opacity
+          const existingColor = prop.replace('background-color:', '').trim();
+          const existingColorWithoutAlpha = existingColor.slice(0, 7);
+          updatedStyleArray.push(`background-color: ${existingColorWithoutAlpha}${hexOpacity2}`);
+        } else {
+          updatedStyleArray.push(prop);
+        }
+      }
+  
+      return updatedStyleArray.join('; ');
+    };
+  
+    // Check if the target node already has a style attribute
+    if (targetNode.attributes.style) {
+      // If style attribute exists, update the background opacity property
+      const currentStyle = targetNode.attributes.style;
+      const updatedStyle = updateBackgroundOpacity(currentStyle, hexOpacity2);
+      targetNode.setAttribute('style', updatedStyle);
+    } else {
+      // If style attribute doesn't exist, add the background opacity property
+      targetNode.setAttribute('style', `background-color: #${hexOpacity2};`);
+    }
+  
+    state.value = root.toString();
+  },
+  
+  
+  
+  
 
-},
-
+  
    },
 });
 
@@ -340,6 +405,7 @@ export const {
   WidthInputChange,
   HeightInputChange,
   BackgroundColorChange,
+  BackgroundColorOpacityChange
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

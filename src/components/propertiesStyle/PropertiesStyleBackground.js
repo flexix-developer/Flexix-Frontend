@@ -1,22 +1,52 @@
-import React, { useState } from "react";
-import { GoEye, GoEyeClosed } from "react-icons/go";
-import { useDispatch } from "react-redux";
-import { BackgroundColorChange } from "../../features/counter/counterSlice";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BackgroundColorChange, BackgroundColorOpacityChange } from "../../features/counter/counterSlice";
+import { parse } from "node-html-parser";
 
 const PropertiesStyleBackground = () => {
   const dispatch = useDispatch();
-  const [currentColor, setCurrentColor] = useState("#000000");
-  const [isEyeVisible, setEyeVisible] = useState(true);
+  const counterState = useSelector((state) => state.counter);
+  const root = parse(counterState.value);
+
+  // const decimalNumber = 250;
+  // const a = (decimalNumber/255)*100;
+  // const b = a/100*255
+  // const hexString = b.toString(16).toUpperCase();
+  // const hexString2 = hexString.split(".")[0];
 
   const handleColorChange = (event) => {
     const newColor = event.target.value;
-    setCurrentColor(newColor);
     dispatch(BackgroundColorChange(newColor.toUpperCase()));
   };
 
-  const handleToggleEye = () => {
-    setEyeVisible((prevVisibility) => !prevVisibility);
-  };
+
+
+  const getSelectedColorValue = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+
+    if (!targetNode) {
+      return "#FFFFFF"; // Default value if no targetNode is found
+    }
+
+    const targetNodeStyle = targetNode.getAttribute("style");
+
+    if (!targetNodeStyle) {
+      return "#FFFFFF"; // Default value if no style is found
+    }
+
+    const styleArray = targetNodeStyle.split(";");
+
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
+
+      if (style[0].trim() === "background-color") {
+        return style[1].trim();
+      }
+    }
+
+    return "#FFFFFF"; // Default value if no background-color is found
+
+  }
 
   return (
     <div className="flex flex-col w-full">
@@ -24,29 +54,40 @@ const PropertiesStyleBackground = () => {
         <div className="w-2/12 pl-2">
           <p>Fill</p>
         </div>
-        <div className="w-10/12 flex flex-row items-center">
+        <div className="w-9/12 flex flex-row items-center">
           <div className="text-center mr-1 w-24 h-9">
             <input
               type="color"
-              value={currentColor}
+              value={getSelectedColorValue().slice(0, 7)}
               onChange={handleColorChange}
               className="bg-neutral-700 text-white text-center w-full h-full"
               placeholder="auto"
             />
           </div>
-          <div className="w-2/12 text-center ml-4 mr-4">
-            {currentColor.replace("#", "").toUpperCase()}
+          <div className="w-5/12 text-center ml-4 mr-4">
+          <p
+              contentEditable  // Add contentEditable attribute
+              onBlur={(e) => {
+                const newColor = e.target.innerText.trim();
+                dispatch(BackgroundColorChange(newColor.toUpperCase()));
+              }}
+              style={{ color: "white" }}
+            >
+              {getSelectedColorValue().slice(0, 7).toUpperCase()}
+            </p>
           </div>
-          <div className="w-2/12 text-center ml-4 mr-4">
-            <p>100%</p>
-          </div>
-          <div className="w-2/12 text-center ml-4 mr-4 cursor-pointer">
-            {isEyeVisible ? (
-              <GoEye onClick={handleToggleEye} size={20} />
-            ) : (
-              <GoEyeClosed onClick={handleToggleEye} size={20} />
-            )}
-          </div>
+          <div className="w-7/12 text-center mr-4">
+          <p
+              contentEditable  // Add contentEditable attribute
+              onBlur={(e) => {
+                const newOpacity = e.target.innerText.trim();
+                dispatch(BackgroundColorOpacityChange(newOpacity));
+              }}
+              style={{ color: "white" }}
+            >
+              100
+            </p>
+            </div>
         </div>
       </div>
     </div>
