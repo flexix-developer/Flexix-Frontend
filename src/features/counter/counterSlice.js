@@ -240,7 +240,6 @@ export const counterSlice = createSlice({
 
       state.value = root.toString();
     },
-
     HeightInputChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
       const heightValue = action.payload;
@@ -319,59 +318,163 @@ export const counterSlice = createSlice({
       }
   
       state.value = root.toString();
-  },
-  BackgroundColorOpacityChange: (state, action) => {
-    const targetNode = root.querySelector(state.currentFocus);
-    let opacityValue = action.payload;
+    },
+    BackgroundColorOpacityChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      let opacityValue = action.payload;
 
-    if (opacityValue <= 9) {
-        opacityValue = "0"+opacityValue;
-    }
-  
-    const opacity = opacityValue / 100 * 255;
-    const hexOpacity = opacity.toString(16).toUpperCase();
-    const hexOpacity2 = hexOpacity.split(".")[0];
-  
-    // Function to update the background color opacity property in the style attribute
-    const updateBackgroundOpacity = (style, opacity) => {
-      const styleArray = style.split(';').map(prop => prop.trim());
-      let updatedStyleArray = [];
-  
-      for (let i = 0; i < styleArray.length; i++) {
-        const prop = styleArray[i];
-        if (prop.startsWith('background-color:')) {
-          // If the style property is background-color, retain the first 6 characters and append new opacity
-          const existingColor = prop.replace('background-color:', '').trim();
-          const existingColorWithoutAlpha = existingColor.slice(0, 7);
-          updatedStyleArray.push(`background-color: ${existingColorWithoutAlpha}${hexOpacity2}`);
-        } else {
-          updatedStyleArray.push(prop);
-        }
+      if (opacityValue <= 9) {
+          opacityValue = "0"+opacityValue;
       }
-  
-      return updatedStyleArray.join('; ');
-    };
-  
-    // Check if the target node already has a style attribute
-    if (targetNode.attributes.style) {
-      // If style attribute exists, update the background opacity property
-      const currentStyle = targetNode.attributes.style;
-      const updatedStyle = updateBackgroundOpacity(currentStyle, hexOpacity2);
-      targetNode.setAttribute('style', updatedStyle);
-    } else {
-      // If style attribute doesn't exist, add the background opacity property
-      targetNode.setAttribute('style', `background-color: #${hexOpacity2};`);
-    }
-  
-    state.value = root.toString();
-  },
-  
-  
-  
-  
 
-  
+      const opacity = opacityValue / 100 * 255;
+      const hexOpacity = opacity.toString(16).toUpperCase();
+      const hexOpacity2 = hexOpacity.split(".")[0];
+
+      // Function to update the background color opacity property in the style attribute
+      const updateBackgroundOpacity = (style, opacity) => {
+        const styleArray = style.split(';').map(prop => prop.trim());
+        let updatedStyleArray = [];
+
+        for (let i = 0; i < styleArray.length; i++) {
+          const prop = styleArray[i];
+          if (prop.startsWith('background-color:')) {
+            // If the style property is background-color, retain the first 6 characters and append new opacity
+            const existingColor = prop.replace('background-color:', '').trim();
+            const existingColorWithoutAlpha = existingColor.slice(0, 7);
+            updatedStyleArray.push(`background-color: ${existingColorWithoutAlpha}${hexOpacity2}`);
+          } else {
+            updatedStyleArray.push(prop);
+          }
+        }
+
+        return updatedStyleArray.join('; ');
+      };
+
+      // Check if the target node already has a style attribute
+      if (targetNode.attributes.style) {
+        // If style attribute exists, update the background opacity property
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updateBackgroundOpacity(currentStyle, hexOpacity2);
+        targetNode.setAttribute('style', updatedStyle);
+      } else {
+        // If style attribute doesn't exist, add the background opacity property
+        targetNode.setAttribute('style', `background-color: #${hexOpacity2};`);
+      }
+
+      state.value = root.toString();
+    },
+    FontFamilyChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const fontValue = action.payload;
+      const fontOptions = [
+        { value: "font-sans", label: "font-sans" },
+        { value: "font-serif", label: "font-serif" },
+        { value: "font-mono", label: "font-mono" },
+      ];
+
+      fontOptions.forEach((option) => {
+        targetNode.classList.remove(option.value);
+      });
+
+      if (state.currentFocus !== "#main") {
+        targetNode.classList.add(`${fontValue}`);
+      }
+
+      state.value = root.toString();
    },
+    FontSizeChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const fontSizeValue = action.payload;
+      const fontSizeOptions = [
+        { value: "text-xs", label: "text-xs" },
+        { value: "text-sm", label: "text-sm" },
+        { value: "text-base", label: "text-base" },
+        { value: "text-lg", label: "text-lg" },
+        { value: "text-xl", label: "text-xl" },
+        { value: "text-2xl", label: "text-2xl" },
+        { value: "text-3xl", label: "text-3xl" },
+        { value: "text-4xl", label: "text-4xl" },
+        { value: "text-5xl", label: "text-5xl" },
+        { value: "text-6xl", label: "text-6xl" },
+        { value: "text-7xl", label: "text-7xl" },
+        { value: "text-8xl", label: "text-8xl" },
+        { value: "text-9xl", label: "text-9xl" },
+      ];
+
+      fontSizeOptions.forEach((option) => {
+        targetNode.classList.remove(option.value);
+      });
+
+      if (state.currentFocus !== "#main") {
+        targetNode.classList.add(`${fontSizeValue}`);
+      }
+
+      state.value = root.toString();
+    },
+    TextColorChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const colorValue = action.payload;
+
+      const updateTextColor = (style, color) => {
+        const styleArray = style.split(';').map(prop => prop.trim());
+        const updatedStyleArray = styleArray
+            .filter(prop => !(prop === '' || prop.startsWith('color:')))
+            .concat(`color: ${color};`);
+        return updatedStyleArray.join('; ');
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updateTextColor(currentStyle, colorValue);
+        targetNode.setAttribute('style', updatedStyle);
+      } else {
+        targetNode.setAttribute('style', `color: ${colorValue};`);
+      }
+
+      state.value = root.toString();
+    },
+    TextStyleBold: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("font-bold", true);
+      state.value = root.toString();
+    },
+    TextStyleItalic: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("italic", true);
+      state.value = root.toString();
+    },
+    TextStyleUnderline: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("underline", true);
+      state.value = root.toString();
+    },
+    TextStyleLineThrough: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("line-through", true);
+      state.value = root.toString();
+    },
+    TextAlignLeft: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("text-left", true);
+      state.value = root.toString();
+    },
+    TextAlignCenter: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("text-center", true);
+      state.value = root.toString();
+    },
+    TextAlignRight: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("text-right", true);
+      state.value = root.toString();
+    },
+    TextAlignJustify: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.toggle("text-justify", true);
+      state.value = root.toString();
+    },
+  },
 });
 
 export const {
@@ -405,7 +508,18 @@ export const {
   WidthInputChange,
   HeightInputChange,
   BackgroundColorChange,
-  BackgroundColorOpacityChange
+  BackgroundColorOpacityChange,
+  FontFamilyChange,
+  FontSizeChange,
+  TextColorChange,
+  TextStyleBold,
+  TextStyleItalic,
+  TextStyleUnderline,
+  TextStyleLineThrough,
+  TextAlignLeft,
+  TextAlignCenter,
+  TextAlignRight,
+  TextAlignJustify,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
