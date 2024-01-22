@@ -361,7 +361,7 @@ const DesignPage = () => {
                   <input
                     type="text"
                     placeholder="Page name"
-                    className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
+                    className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black"
                     value={pagename}
                     onChange={(event) =>
                       handlePnameChange(event, SetNewPageName)
@@ -373,7 +373,7 @@ const DesignPage = () => {
                     <input
                       type="text"
                       placeholder="ex. 1920"
-                      className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
+                      className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black"
                       value={width}
                       onChange={(event) => handleWidthChange(event, SetWidth)}
                       required
@@ -396,7 +396,7 @@ const DesignPage = () => {
                     <input
                       type="text"
                       placeholder="ex. 1080"
-                      className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black w-full"
+                      className="bg-gray-100 p-2 mb-4 mt-1 rounded-md focus:outline-none focus:border-blue-500 w-full text-black"
                       value={height}
                       onChange={(event) => handleHeightChange(event, SetHeight)}
                       required

@@ -220,8 +220,7 @@ const PropertiesStyleTypography = () => {
         </div>
         <div className="w-7/12 text-black">
           <select 
-            className="p-1 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-            class="FontInputChange"
+            className="FontInputChange"
             value={getSelectedFontValue()}
             onChange={handleFontChange}
           >
@@ -239,8 +238,7 @@ const PropertiesStyleTypography = () => {
         </div>
         <div className="w-4/12 text-black">
           <select
-            className="p-1 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-            class="SizeInputChange"
+            className="SizeInputChange"
             value={getSelectedFontSizeValue()}
             onChange={handleSizeChange}
             >

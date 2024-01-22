@@ -343,8 +343,7 @@ const PropertiesStyleLayout = () => {
         <div className="w-9/12 flex flex-row">
           <div className="w-12/12 text-black">
             <select
-              className="p-1 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-              class="WidthInputChange"
+              className="WidthInputChange"
               value={getSelectedWidthValue()}
               onChange={handleWidthInputChange}
             >
@@ -362,8 +361,7 @@ const PropertiesStyleLayout = () => {
         <div className="w-9/12 flex flex-row">
           <div className="w-12/12 text-center text-black">
             <select
-              className="p-1 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-              class="HeightInputChange"
+              className="HeightInputChange"
               value={getSelectedHeightValue()}
               onChange={handleHeightInputChange}
             >

@@ -160,8 +160,7 @@ const PropertiesStyleBoarder = () => {
         <div className="w-7/12 text-black">
           <select
             options={StyleBorderOptions}
-            className="p-1 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-300"
-            class="BorderStyleInputChange"
+            className="BorderStyleInputChange"
             value={getSelectedBorderStyleValue()}
             onChange={handleBorderStyleChange}
           >
