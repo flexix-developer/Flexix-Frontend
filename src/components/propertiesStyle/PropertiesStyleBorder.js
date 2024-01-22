@@ -100,55 +100,55 @@ const PropertiesStyleBoarder = () => {
   };
 
   const getSelectedBorderSizeValue = () => {
-    // const targetNode = root.querySelector(counterState.currentFocus);
+    const targetNode = root.querySelector(counterState.currentFocus);
 
-    // if (!targetNode) {
-    //   return "";
-    // }
+    if (!targetNode) {
+      return "";
+    }
 
-    // const targetNodeStyle = targetNode.getAttribute("style");
+    const targetNodeStyle = targetNode.getAttribute("style");
 
-    // if (!targetNodeStyle) {
-    //   return "";
-    // }
+    if (!targetNodeStyle) {
+      return "";
+    }
 
-    // const styleArray = targetNodeStyle.split(";");
+    const styleArray = targetNodeStyle.split(";");
 
-    // for (let i = 0; i < styleArray.length; i++) {
-    //   const style = styleArray[i].split(":");
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
 
-    //   if (style[0].trim() === "border-width") {
-    //     return style[1].trim().replace("px", "");
-    //   }
-    // }
+      if (style[0].trim() === "border-width") {
+        return style[1].trim().replace("px", "");
+      }
+    }
 
-    // return "";
+    return "";
   };
 
   const getSelectedBorderRadiusValue = () => {
-    // const targetNode = root.querySelector(counterState.currentFocus);
+    const targetNode = root.querySelector(counterState.currentFocus);
 
-    // if (!targetNode) {
-    //   return "";
-    // }
+    if (!targetNode) {
+      return "";
+    }
 
-    // const targetNodeStyle = targetNode.getAttribute("style");
+    const targetNodeStyle = targetNode.getAttribute("style");
 
-    // if (!targetNodeStyle) {
-    //   return "";
-    // }
+    if (!targetNodeStyle) {
+      return "";
+    }
 
-    // const styleArray = targetNodeStyle.split(";");
+    const styleArray = targetNodeStyle.split(";");
 
-    // for (let i = 0; i < styleArray.length; i++) {
-    //   const style = styleArray[i].split(":");
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
 
-    //   if (style[0].trim() === "border-radius") {
-    //     return style[1].trim().replace("px", "");
-    //   }
-    // }
+      if (style[0].trim() === "border-radius") {
+        return style[1].trim().replace("px", "");
+      }
+    }
 
-    // return "";
+    return "";
   };
 
   return (
