@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { parse } from "node-html-parser";
 import { SlArrowDown, SlArrowRight } from "react-icons/sl";
 import { IoSearchOutline } from "react-icons/io5";
-import { FaLink, FaImage } from "react-icons/fa6";
+import { FaLink, FaRegImage } from "react-icons/fa6";
 import { ImEmbed2 } from "react-icons/im";
 import { LiaWpforms } from "react-icons/lia";
 import { MdOutlineLabel, MdInput } from "react-icons/md";
@@ -37,7 +37,7 @@ const LayerExplorer = () => {
         ),
       },
       A: { check: () => true, icon: <FaLink className="text-white-500" /> },
-      IMG: { check: () => true, icon: <FaImage size={20} className="text-white-500" /> },
+      IMG: { check: () => true, icon: <FaRegImage size={18} className="text-white-500" /> },
       P: { check: () => true, icon: <RxText size={20} className="text-white-500" /> },
       IFRAME: { check: () => true, icon: <ImEmbed2 size={20} className="text-white-500" /> },
       FORM: { check: () => true, icon: <LiaWpforms size={20} className="text-white-500" /> },
