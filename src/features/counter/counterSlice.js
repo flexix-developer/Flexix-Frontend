@@ -656,6 +656,105 @@ export const counterSlice = createSlice({
 
       state.value = root.toString();
     },
+    BorderColorChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const colorValue = action.payload;
+
+      const updateBorderColor = (style, color) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("border-color:")))
+          .concat(`border-color: ${color};`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updateBorderColor(currentStyle, colorValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `border-color: ${colorValue};`);
+      }
+
+      state.value = root.toString();
+    },
+    BorderStyleChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const borderStyleValue = action.payload;
+
+      const updatePaddingRight = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("border-style:")))
+          .concat(`border-style: ${value};`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updatePaddingRight(currentStyle, borderStyleValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `border-style: ${borderStyleValue};`);
+      }
+
+      state.value = root.toString();
+    },
+    BorderSizeChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const borderSizeValue = action.payload;
+
+      const updatePaddingRight = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("border-width:")))
+          .concat(`border-width: ${value}px;`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updatePaddingRight(currentStyle, borderSizeValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `border-width: ${borderSizeValue}px;`);
+      }
+
+      state.value = root.toString();
+
+      if (targetNode.getAttribute("style") === "border-width: px;") {
+        console.log("remove border width");
+        state.value = root.toString();
+      }
+    },
+    BorderRadiusChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const borderRadiusValue = action.payload;
+
+      const updatePaddingRight = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("border-radius:")))
+          .concat(`border-radius: ${value}px;`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updatePaddingRight(
+          currentStyle,
+          borderRadiusValue
+        );
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute(
+          "style",
+          `border-radius: ${borderRadiusValue}px;`
+        );
+      }
+
+      state.value = root.toString();
+    },
   },
 });
 
@@ -710,6 +809,10 @@ export const {
   PaddingRightChange,
   PaddingBottomChange,
   PaddingLeftChange,
+  BorderColorChange,
+  BorderStyleChange,
+  BorderSizeChange,
+  BorderRadiusChange,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
