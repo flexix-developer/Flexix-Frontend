@@ -19,8 +19,6 @@ const PropertiesStyleBackground = () => {
     dispatch(BackgroundColorChange(newColor.toUpperCase()));
   };
 
-
-
   const getSelectedColorValue = () => {
     const targetNode = root.querySelector(counterState.currentFocus);
 
@@ -76,7 +74,7 @@ const PropertiesStyleBackground = () => {
               {getSelectedColorValue().slice(0, 7).toUpperCase()}
             </p>
           </div>
-          <div className="w-7/12 text-center mr-4">
+          <div className="flex flex-row w-7/12 text-center mr-4">
           <p
               contentEditable  // Add contentEditable attribute
               onBlur={(e) => {
@@ -84,9 +82,11 @@ const PropertiesStyleBackground = () => {
                 dispatch(BackgroundColorOpacityChange(newOpacity));
               }}
               style={{ color: "white" }}
+              className="w-6/12"
             >
               100
             </p>
+            <p className="w-1/12">%</p>
             </div>
         </div>
       </div>
