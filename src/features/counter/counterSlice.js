@@ -300,23 +300,25 @@ export const counterSlice = createSlice({
     BackgroundColorChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
       const colorValue = action.payload;
-  
+
       const updateBackgroundColor = (style, color) => {
-          const styleArray = style.split(';').map(prop => prop.trim());
-          const updatedStyleArray = styleArray
-              .filter(prop => !(prop === '' || prop.startsWith('background-color:')))
-              .concat(`background-color: ${color};`);
-          return updatedStyleArray.join('; ');
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter(
+            (prop) => !(prop === "" || prop.startsWith("background-color:"))
+          )
+          .concat(`background-color: ${color};`);
+        return updatedStyleArray.join("; ");
       };
-  
+
       if (targetNode.attributes.style) {
-          const currentStyle = targetNode.attributes.style;
-          const updatedStyle = updateBackgroundColor(currentStyle, colorValue);
-          targetNode.setAttribute('style', updatedStyle);
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updateBackgroundColor(currentStyle, colorValue);
+        targetNode.setAttribute("style", updatedStyle);
       } else {
-          targetNode.setAttribute('style', `background-color: ${colorValue};`);
+        targetNode.setAttribute("style", `background-color: ${colorValue};`);
       }
-  
+
       state.value = root.toString();
     },
     BackgroundColorOpacityChange: (state, action) => {
@@ -324,31 +326,33 @@ export const counterSlice = createSlice({
       let opacityValue = action.payload;
 
       if (opacityValue <= 9) {
-          opacityValue = "0"+opacityValue;
+        opacityValue = "0" + opacityValue;
       }
 
-      const opacity = opacityValue / 100 * 255;
+      const opacity = (opacityValue / 100) * 255;
       const hexOpacity = opacity.toString(16).toUpperCase();
       const hexOpacity2 = hexOpacity.split(".")[0];
 
       // Function to update the background color opacity property in the style attribute
       const updateBackgroundOpacity = (style, opacity) => {
-        const styleArray = style.split(';').map(prop => prop.trim());
+        const styleArray = style.split(";").map((prop) => prop.trim());
         let updatedStyleArray = [];
 
         for (let i = 0; i < styleArray.length; i++) {
           const prop = styleArray[i];
-          if (prop.startsWith('background-color:')) {
+          if (prop.startsWith("background-color:")) {
             // If the style property is background-color, retain the first 6 characters and append new opacity
-            const existingColor = prop.replace('background-color:', '').trim();
+            const existingColor = prop.replace("background-color:", "").trim();
             const existingColorWithoutAlpha = existingColor.slice(0, 7);
-            updatedStyleArray.push(`background-color: ${existingColorWithoutAlpha}${hexOpacity2}`);
+            updatedStyleArray.push(
+              `background-color: ${existingColorWithoutAlpha}${hexOpacity2}`
+            );
           } else {
             updatedStyleArray.push(prop);
           }
         }
 
-        return updatedStyleArray.join('; ');
+        return updatedStyleArray.join("; ");
       };
 
       // Check if the target node already has a style attribute
@@ -356,10 +360,10 @@ export const counterSlice = createSlice({
         // If style attribute exists, update the background opacity property
         const currentStyle = targetNode.attributes.style;
         const updatedStyle = updateBackgroundOpacity(currentStyle, hexOpacity2);
-        targetNode.setAttribute('style', updatedStyle);
+        targetNode.setAttribute("style", updatedStyle);
       } else {
         // If style attribute doesn't exist, add the background opacity property
-        targetNode.setAttribute('style', `background-color: #${hexOpacity2};`);
+        targetNode.setAttribute("style", `background-color: #${hexOpacity2};`);
       }
 
       state.value = root.toString();
@@ -382,7 +386,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
-   },
+    },
     FontSizeChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
       const fontSizeValue = action.payload;
@@ -417,19 +421,19 @@ export const counterSlice = createSlice({
       const colorValue = action.payload;
 
       const updateTextColor = (style, color) => {
-        const styleArray = style.split(';').map(prop => prop.trim());
+        const styleArray = style.split(";").map((prop) => prop.trim());
         const updatedStyleArray = styleArray
-            .filter(prop => !(prop === '' || prop.startsWith('color:')))
-            .concat(`color: ${color};`);
-        return updatedStyleArray.join('; ');
+          .filter((prop) => !(prop === "" || prop.startsWith("color:")))
+          .concat(`color: ${color};`);
+        return updatedStyleArray.join("; ");
       };
 
       if (targetNode.attributes.style) {
         const currentStyle = targetNode.attributes.style;
         const updatedStyle = updateTextColor(currentStyle, colorValue);
-        targetNode.setAttribute('style', updatedStyle);
+        targetNode.setAttribute("style", updatedStyle);
       } else {
-        targetNode.setAttribute('style', `color: ${colorValue};`);
+        targetNode.setAttribute("style", `color: ${colorValue};`);
       }
 
       state.value = root.toString();
@@ -472,6 +476,184 @@ export const counterSlice = createSlice({
     TextAlignJustify: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.toggle("text-justify", true);
+      state.value = root.toString();
+    },
+    MaginTopChange: (state, action) => {
+      const newValue = action.payload;
+      const targetNode = root.querySelector(state.currentFocus);
+
+      const updateMarginTop = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("margin-top:")))
+          .concat(`margin-top: ${value}px;`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updateMarginTop(currentStyle, newValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `margin-top: ${newValue}px;`);
+      }
+
+      state.value = root.toString();
+    },
+    MaginRightChange: (state, action) => {
+      const newValue = action.payload;
+      const targetNode = root.querySelector(state.currentFocus);
+
+      const updateMarginRight = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("margin-right:")))
+          .concat(`margin-right: ${value}px;`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updateMarginRight(currentStyle, newValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `margin-right: ${newValue}px;`);
+      }
+
+      state.value = root.toString();
+    },
+    MaginBottomChange: (state, action) => {
+      const newValue = action.payload;
+      const targetNode = root.querySelector(state.currentFocus);
+
+      const updateMarginBottom = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("margin-bottom:")))
+          .concat(`margin-bottom: ${value}px;`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updateMarginBottom(currentStyle, newValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `margin-bottom: ${newValue}px;`);
+      }
+
+      state.value = root.toString();
+    },
+    MaginLeftChange: (state, action) => {
+      const newValue = action.payload;
+      const targetNode = root.querySelector(state.currentFocus);
+
+      const updateMarginLeft = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("margin-left:")))
+          .concat(`margin-left: ${value}px;`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updateMarginLeft(currentStyle, newValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `margin-left: ${newValue}px;`);
+      }
+
+      state.value = root.toString();
+    },
+    PaddingTopChange: (state, action) => {
+      const newValue = action.payload;
+      const targetNode = root.querySelector(state.currentFocus);
+
+      const updatePaddingTop = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("padding-top:")))
+          .concat(`padding-top: ${value}px;`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updatePaddingTop(currentStyle, newValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `padding-top: ${newValue}px;`);
+      }
+
+      state.value = root.toString();
+    },
+    PaddingRightChange: (state, action) => {
+      const newValue = action.payload;
+      const targetNode = root.querySelector(state.currentFocus);
+
+      const updatePaddingRight = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("padding-right:")))
+          .concat(`padding-right: ${value}px;`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updatePaddingRight(currentStyle, newValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `padding-right: ${newValue}px;`);
+      }
+
+      state.value = root.toString();
+    },
+    PaddingBottomChange: (state, action) => {
+      const newValue = action.payload;
+      const targetNode = root.querySelector(state.currentFocus);
+
+      const updatePaddingBottom = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter(
+            (prop) => !(prop === "" || prop.startsWith("padding-bottom:"))
+          )
+          .concat(`padding-bottom: ${value}px;`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updatePaddingBottom(currentStyle, newValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `padding-bottom: ${newValue}px;`);
+      }
+
+      state.value = root.toString();
+    },
+    PaddingLeftChange: (state, action) => {
+      const newValue = action.payload;
+      const targetNode = root.querySelector(state.currentFocus);
+
+      const updatePaddingLeft = (style, value) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter((prop) => !(prop === "" || prop.startsWith("padding-left:")))
+          .concat(`padding-left: ${value}px;`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updatePaddingLeft(currentStyle, newValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `padding-left: ${newValue}px;`);
+      }
+
       state.value = root.toString();
     },
   },
@@ -520,6 +702,14 @@ export const {
   TextAlignCenter,
   TextAlignRight,
   TextAlignJustify,
+  MaginTopChange,
+  MaginRightChange,
+  MaginBottomChange,
+  MaginLeftChange,
+  PaddingTopChange,
+  PaddingRightChange,
+  PaddingBottomChange,
+  PaddingLeftChange,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
