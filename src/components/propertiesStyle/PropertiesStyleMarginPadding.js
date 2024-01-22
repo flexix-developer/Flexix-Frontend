@@ -5,12 +5,269 @@ import {
   TbBoxAlignBottomFilled,
   TbBoxAlignLeftFilled,
 } from "react-icons/tb";
+import { useDispatch, useSelector } from "react-redux";
+import { parse } from "node-html-parser";
+import {
+  MaginBottomChange,
+  MaginLeftChange,
+  MaginRightChange,
+  MaginTopChange,
+  PaddingBottomChange,
+  PaddingLeftChange,
+  PaddingRightChange,
+  PaddingTopChange,
+} from "../../features/counter/counterSlice";
 
 const PropertiesStyleMarginPadding = () => {
+  const dispatch = useDispatch();
+  const counterState = useSelector((state) => state.counter);
+
+  const root = parse(counterState.value);
+
   const handleInputChange = (type, index, event) => {
-    const newValue = event.target.value;
-    console.log(`${type} ${index + 1} changed to:`, newValue);
-    // เพิ่มโค้ดที่ต้องการทำเมื่อมีการเปลี่ยนแปลงค่า Margin หรือ Padding
+    let newValue = event.target.value;
+    switch (type) {
+      case "Margin":
+        switch (index) {
+          case 0:
+            dispatch(MaginTopChange(newValue));
+            break;
+          case 1:
+            dispatch(MaginRightChange(newValue));
+            break;
+          case 2:
+            dispatch(MaginBottomChange(newValue));
+            break;
+          case 3:
+            dispatch(MaginLeftChange(newValue));
+            break;
+          default:
+            break;
+        }
+        break;
+      case "Padding":
+        switch (index) {
+          case 0:
+            dispatch(PaddingTopChange(newValue));
+            break;
+          case 1:
+            dispatch(PaddingRightChange(newValue));
+            break;
+          case 2:
+            dispatch(PaddingBottomChange(newValue));
+            break;
+          case 3:
+            dispatch(PaddingLeftChange(newValue));
+            break;
+          default:
+            break;
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const getMarginTopValue = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+
+    if (!targetNode) {
+      return "";
+    }
+
+    const targetNodeStyle = targetNode.getAttribute("style");
+
+    if (!targetNodeStyle) {
+      return "";
+    }
+
+    const styleArray = targetNodeStyle.split(";");
+
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
+
+      if (style[0].trim() === "margin-top") {
+        return style[1].trim().replace("px", "");
+      }
+    }
+
+    return "";
+  };
+
+  const getMarginRightValue = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+
+    if (!targetNode) {
+      return "";
+    }
+
+    const targetNodeStyle = targetNode.getAttribute("style");
+
+    if (!targetNodeStyle) {
+      return "";
+    }
+
+    const styleArray = targetNodeStyle.split(";");
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
+
+      if (style[0].trim() === "margin-right") {
+        return style[1].trim().replace("px", "");
+      }
+    }
+
+    return "";
+  };
+
+  const getMarginBottomValue = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+
+    if (!targetNode) {
+      return "";
+    }
+
+    const targetNodeStyle = targetNode.getAttribute("style");
+
+    if (!targetNodeStyle) {
+      return "";
+    }
+
+    const styleArray = targetNodeStyle.split(";");
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
+
+      if (style[0].trim() === "margin-bottom") {
+        return style[1].trim().replace("px", "");
+      }
+    }
+
+    return "";
+  };
+
+  const getMarginLeftValue = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+
+    if (!targetNode) {
+      return "";
+    }
+
+    const targetNodeStyle = targetNode.getAttribute("style");
+
+    if (!targetNodeStyle) {
+      return "";
+    }
+
+    const styleArray = targetNodeStyle.split(";");
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
+
+      if (style[0].trim() === "margin-left") {
+        return style[1].trim().replace("px", "");
+      }
+    }
+
+    return "";
+  };
+
+  const getPaddingTopValue = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+
+    if (!targetNode) {
+      return "";
+    }
+
+    const targetNodeStyle = targetNode.getAttribute("style");
+
+    if (!targetNodeStyle) {
+      return "";
+    }
+
+    const styleArray = targetNodeStyle.split(";");
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
+
+      if (style[0].trim() === "padding-top") {
+        return style[1].trim().replace("px", "");
+      }
+    }
+
+    return "";
+  };
+
+  const getPaddingRightValue = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+
+    if (!targetNode) {
+      return "";
+    }
+
+    const targetNodeStyle = targetNode.getAttribute("style");
+
+    if (!targetNodeStyle) {
+      return "";
+    }
+
+    const styleArray = targetNodeStyle.split(";");
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
+
+      if (style[0].trim() === "padding-right") {
+        return style[1].trim().replace("px", "");
+      }
+    }
+
+    return "";
+  };
+
+  const getPaddingBottomValue = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+
+    if (!targetNode) {
+      return "";
+    }
+
+    const targetNodeStyle = targetNode.getAttribute("style");
+
+    if (!targetNodeStyle) {
+      return "";
+    }
+
+    const styleArray = targetNodeStyle.split(";");
+
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
+
+      if (style[0].trim() === "padding-bottom") {
+        return style[1].trim().replace("px", "");
+      }
+    }
+
+    return "";
+  };
+
+  const getPaddingLeftValue = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+
+    if (!targetNode) {
+      return "";
+    }
+
+    const targetNodeStyle = targetNode.getAttribute("style");
+
+    if (!targetNodeStyle) {
+      return "";
+    }
+
+    const styleArray = targetNodeStyle.split(";");
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
+
+      if (style[0].trim() === "padding-left") {
+        return style[1].trim().replace("px", "");
+      }
+    }
+
+    return "";
   };
 
   return (
@@ -41,7 +298,18 @@ const PropertiesStyleMarginPadding = () => {
                   type="text"
                   className="w-full rounded border-2 border-neutral-600 bg-neutral-700 text-white text-center"
                   placeholder="0"
-                  onChange={(event) => handleInputChange("Margin", index, event)}
+                  onChange={(event) =>
+                    handleInputChange("Margin", index, event)
+                  }
+                  value={
+                    index === 0
+                      ? getMarginTopValue()
+                      : index === 1
+                      ? getMarginRightValue()
+                      : index === 2
+                      ? getMarginBottomValue()
+                      : getMarginLeftValue()
+                  }
                 />
               </div>
             ))}
@@ -63,7 +331,18 @@ const PropertiesStyleMarginPadding = () => {
                   type="text"
                   className="w-full rounded border-2 border-neutral-600 bg-neutral-700 text-white text-center"
                   placeholder="0"
-                  onChange={(event) => handleInputChange("Padding", index, event)}
+                  onChange={(event) =>
+                    handleInputChange("Padding", index, event)
+                  }
+                  value={
+                    index === 0
+                      ? getPaddingTopValue()
+                      : index === 1
+                      ? getPaddingRightValue()
+                      : index === 2
+                      ? getPaddingBottomValue()
+                      : getPaddingLeftValue()
+                  }
                 />
               </div>
             ))}
