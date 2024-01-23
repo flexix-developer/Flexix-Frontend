@@ -9,7 +9,7 @@ import { ImCross } from "react-icons/im";
 import { useDispatch } from "react-redux";
 import { updateValue } from "../../features/counter/counterSlice";
 
-const PageExplorer = ({ pages, projectName, onDeletePage }) => {
+const PageExplorer = ({ pages, projectName, onDeletePage, onClickPage }) => {
   const dispatch = useDispatch();
   const [selectedPage, setSelectedPage] = useState(null);
   const [checkFocus, setCheckFocus] = useState(false);
@@ -134,6 +134,7 @@ const PageExplorer = ({ pages, projectName, onDeletePage }) => {
       );
       console.log(response.data.content);
       handleApiResponse(response);
+      onClickPage();
     } catch (error) {
       console.log("Error:", error);
     }

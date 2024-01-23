@@ -28,6 +28,7 @@ const DesignPage = () => {
   const [pages, setPages] = useState([]);
   const [projectName, setProjectName] = useState("");
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
+  const [firstpage, setFirstpage] = useState(false);
 
   const fetchPages = async () => {
     try {
@@ -180,6 +181,9 @@ const DesignPage = () => {
   div.innerHTML = sanitizedHTML;
   const titleName = div.querySelector("title").innerHTML;
   // console.log(div.querySelector("title").innerHTML);
+  const handleClickPage = () => {
+    setFirstpage(true);
+  };
 
   return (
     <div className="flex flex-col overflow-hidden h-screen">
@@ -289,32 +293,38 @@ const DesignPage = () => {
                   pages={pages}
                   projectName={projectName}
                   onDeletePage={handleDeletePage}
+                  onClickPage={handleClickPage}
                 />
               )}
             </div>
             <div className="bg-neutral-700 flex-1">{/* Component */}</div>
           </div>
-          <div className="flex flex-col w-8/12">
-            <div className="flex flex-row bg-neutral-600 w-12/12">
-              <div className="flex flex-row px-5 py-1 text-lg bg-neutral-700 items-center h-full text-white">
-                <p>{titleName}</p>
-              </div>
-              <div className="flex flex-row pl-10 pr-2 py-1 bg-neutral-700 items-center h-full">
-                <CgCloseO color="white" size={15} />
-              </div>
-              <div
-                className="flex flex-row p-1 items-center text-white"
-                onClick={() => setShowModal(true)}
-              >
-                <div className="rounded-bl-md rounded-tr-md bg-neutral-700 px-2 py-1 cursor-pointer">
-                  <IoMdAdd color="white" size={20} />
+          {firstpage === true ? (
+            <div className="flex flex-col w-8/12">
+              <div className="flex flex-row bg-neutral-600 w-12/12">
+                <div className="flex flex-row px-5 py-1 text-lg bg-neutral-700 items-center h-full text-white">
+                  <p>{titleName}</p>
+                </div>
+                <div className="flex flex-row pl-10 pr-2 py-1 bg-neutral-700 items-center h-full">
+                  <CgCloseO color="white" size={15} />
+                </div>
+                <div
+                  className="flex flex-row p-1 items-center text-white"
+                  onClick={() => setShowModal(true)}
+                >
+                  <div className="rounded-bl-md rounded-tr-md bg-neutral-700 px-2 py-1 cursor-pointer">
+                    <IoMdAdd color="white" size={20} />
+                  </div>
                 </div>
               </div>
+              <div className="overflow-auto max-h-screen">
+                <DesignWorkspace />
+              </div>
             </div>
-            <div className="overflow-auto max-h-screen">
-              <DesignWorkspace />
-            </div>
-          </div>
+          ) : (
+            <div className="flex flex-col w-8/12 bg-neutral-600"></div>
+          )}
+
           <div className="flex flex-col w-2/12">
             <div className="flex flex-row w-full">
               <div
