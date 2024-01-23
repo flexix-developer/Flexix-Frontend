@@ -145,6 +145,11 @@ const LayerExplorer = () => {
           mainDivTags.map((tag, index) => (
             <RenderContentItem key={index} tag={tag} depth={0} />
           ))}
+        <div className="flex flex-row bg-neutral-700 w-12/12">
+          <div className="flex flex-row px-5 py-1 text-lg items-center h-52">
+            <p className="invisible">Hello, Hacker!</p>
+          </div>
+        </div>
       </div>
     </div>
   );
