@@ -167,8 +167,10 @@ const PageExplorer = ({ pages, projectName, onDeletePage, onClickPage }) => {
               className={`flex flex-row ml-20 mt-2 ${
                 selectedPage === index && checkFocus ? "bg-blue-500" : ""
               }`}
-              onClick={() => handleClick(index)}
-              onDoubleClick={() => handleGetpage(page)}
+              onClick={() => {
+                handleClick(index);
+                handleGetpage(page);
+              }}
             >
               <div className="flex items-center w-11/12 ">
                 {editingPageIndex === index ? (

@@ -4,15 +4,14 @@ import Properties from "../components/properties/Properties";
 import Toolbox from "../components/toolbox/Toolbox";
 import PageExplorer from "../components/pageExplorer/PageExplorer";
 import LayerExplorer from "../components/layerExplorer/LayerExplorer";
-import DesignWorkspace from "../components/designWorkspace/DesignWorkspace";
-import { CgCloseO } from "react-icons/cg";
-import { IoMdAdd } from "react-icons/io";
+
 import { IoSearchOutline } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import MidResult from "../components/midResult/MidResult";
 
 const DesignPage = () => {
   useTokenCheck("/design");
@@ -175,12 +174,6 @@ const DesignPage = () => {
     fetchPages();
   };
 
-  const { counter } = useSelector((state) => state);
-  const { value: sanitizedHTML } = counter;
-  var div = document.createElement("div");
-  div.innerHTML = sanitizedHTML;
-  const titleName = div.querySelector("title").innerHTML;
-  // console.log(div.querySelector("title").innerHTML);
   const handleClickPage = () => {
     setFirstpage(true);
   };
@@ -300,27 +293,7 @@ const DesignPage = () => {
             <div className="bg-neutral-700 flex-1">{/* Component */}</div>
           </div>
           {firstpage === true ? (
-            <div className="flex flex-col w-8/12">
-              <div className="flex flex-row bg-neutral-600 w-12/12">
-                <div className="flex flex-row px-5 py-1 text-lg bg-neutral-700 items-center h-full text-white">
-                  <p>{titleName}</p>
-                </div>
-                <div className="flex flex-row pl-10 pr-2 py-1 bg-neutral-700 items-center h-full">
-                  <CgCloseO color="white" size={15} />
-                </div>
-                <div
-                  className="flex flex-row p-1 items-center text-white"
-                  onClick={() => setShowModal(true)}
-                >
-                  <div className="rounded-bl-md rounded-tr-md bg-neutral-700 px-2 py-1 cursor-pointer">
-                    <IoMdAdd color="white" size={20} />
-                  </div>
-                </div>
-              </div>
-              <div className="overflow-auto max-h-screen">
-                <DesignWorkspace />
-              </div>
-            </div>
+            <MidResult onClick={handleDeletePage} />
           ) : (
             <div className="flex flex-col w-8/12 bg-neutral-600"></div>
           )}
