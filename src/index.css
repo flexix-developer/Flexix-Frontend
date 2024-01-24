@@ -20,6 +20,11 @@
   outline: 2px solid royalblue;
   z-index: 999999;
 }
+
+.highlighted-text {
+  color: royalblue;
+  z-index: 999999;
+}
  
 
 @tailwind components;

@@ -11,10 +11,42 @@ import { BsTextareaResize } from "react-icons/bs";
 import { RxDropdownMenu, RxText, RxButton } from "react-icons/rx";
 import { GoColumns } from "react-icons/go";
 import { PiRowsLight } from "react-icons/pi";
+import { useDispatch } from "react-redux";
+import { focus } from "../../features/counter/counterSlice";
 
 const LayerExplorer = () => {
   const { counter } = useSelector((state) => state);
   const root = parse(`${counter.value}`);
+  const dispatch = useDispatch();
+
+  const handleClick = (event) => {
+      // get the clicked element title
+      const clickedElement = event.target;
+      const clickedElementId = clickedElement.title;
+
+      if (clickedElementId !== "") {
+        const highlightedElement = document.querySelector(".highlighted-text");
+  
+        // Check if the clicked element is not the "main" ID
+        if (clickedElementId !== "main") {
+          // Remove the previous highlighting
+          if (highlightedElement) {
+            highlightedElement.classList.remove("highlighted-text");
+          }
+  
+          // Add highlighting to the clicked element
+          clickedElement.classList.add("highlighted-text");
+        } else {
+          // Clicked element is "main" ID, remove the highlighting
+          if (highlightedElement) {
+            highlightedElement.classList.remove("highlighted-text");
+          }
+        }
+        // Perform additional actions based on the clicked ID if needed
+        dispatch(focus("#" + clickedElementId));
+      }
+    };
+  
 
   const findAllMainDivTags = () =>
     root
@@ -100,15 +132,15 @@ const LayerExplorer = () => {
             </span>
           )}
 
-          {tagIcon && <span className="ml-2 ">{tagIcon}</span>}
+          {tagIcon && <span className="ml-2">{tagIcon}</span>}
 
-          <span className="ml-2 font-semibold">
+          <span className="ml-2 font-semibold" title={tag.id} onClick={handleClick}>
             {tag.tagName}
             {tag.id && `#${tag.id}`}
           </span>
         </div>
         <div
-          className={`ml-2 transition-all duration-300  w-full overflow-x-auto ${
+          className={`ml-2 transition-all duration-300 w-full overflow-x-auto ${
             isExpanded ? "block" : "h-0"
           }`}
         >
