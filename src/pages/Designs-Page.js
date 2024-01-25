@@ -28,6 +28,11 @@ const DesignPage = () => {
   const [projectName, setProjectName] = useState("");
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
   const [firstpage, setFirstpage] = useState(false);
+  const [page, setPage] = useState("");
+
+  const spage = (page) => {
+    setPage(page);
+  };
 
   const fetchPages = async () => {
     try {
@@ -287,45 +292,53 @@ const DesignPage = () => {
                   projectName={projectName}
                   onDeletePage={handleDeletePage}
                   onClickPage={handleClickPage}
+                  spage={spage}
                 />
               )}
             </div>
             <div className="bg-neutral-700 flex-1">{/* Component */}</div>
           </div>
           {firstpage === true ? (
-            <MidResult onClick={handleDeletePage} />
+            <>
+              <MidResult onClick={handleDeletePage} pname={page} />
+              <div className="flex flex-col w-2/12">
+                <div className="flex flex-row w-full">
+                  <div
+                    onClick={() => handleComponentClick("Toolbox")}
+                    className={`flex flex-col cursor-pointer w-6/12 items-center p-1 bg-neutral-700 text-white text-xl ${
+                      selectedComponent === "Toolbox"
+                        ? "bg-neutral-700"
+                        : "bg-neutral-800"
+                    }`}
+                  >
+                    <p>Toolbox</p>
+                  </div>
+                  <div
+                    onClick={() => handleComponentClick("Properties")}
+                    className={`flex flex-col cursor-pointer w-6/12 items-center p-1 bg-neutral-700 text-white text-xl ${
+                      selectedComponent === "Properties"
+                        ? "bg-neutral-700"
+                        : "bg-neutral-800"
+                    }`}
+                  >
+                    <p>Properties</p>
+                  </div>
+                </div>
+                <div className="flex flex-col w-full h-full bg-neutral-700">
+                  {selectedComponent === "Toolbox" && <Toolbox />}
+                  {selectedComponent === "Properties" && <Properties />}
+                </div>
+              </div>
+            </>
           ) : (
-            <div className="flex flex-col w-8/12 bg-neutral-600"></div>
+            <>
+              <div className="flex flex-col w-8/12 bg-neutral-600"></div>
+              <div className="flex flex-col w-2/12">
+                <div className="flex flex-row w-full"></div>
+                <div className="flex flex-col w-full h-full bg-neutral-700"></div>
+              </div>
+            </>
           )}
-
-          <div className="flex flex-col w-2/12">
-            <div className="flex flex-row w-full">
-              <div
-                onClick={() => handleComponentClick("Toolbox")}
-                className={`flex flex-col cursor-pointer w-6/12 items-center p-1 bg-neutral-700 text-white text-xl ${
-                  selectedComponent === "Toolbox"
-                    ? "bg-neutral-700"
-                    : "bg-neutral-800"
-                }`}
-              >
-                <p>Toolbox</p>
-              </div>
-              <div
-                onClick={() => handleComponentClick("Properties")}
-                className={`flex flex-col cursor-pointer w-6/12 items-center p-1 bg-neutral-700 text-white text-xl ${
-                  selectedComponent === "Properties"
-                    ? "bg-neutral-700"
-                    : "bg-neutral-800"
-                }`}
-              >
-                <p>Properties</p>
-              </div>
-            </div>
-            <div className="flex flex-col w-full h-full bg-neutral-700">
-              {selectedComponent === "Toolbox" && <Toolbox />}
-              {selectedComponent === "Properties" && <Properties />}
-            </div>
-          </div>
         </div>
       )}
       {showModal && (

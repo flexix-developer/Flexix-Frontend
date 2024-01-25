@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-const MidResult = ({ onClick }) => {
+const MidResult = ({ onClick, pname }) => {
   const [pagename, SetNewPageName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const { counter } = useSelector((state) => state);
@@ -14,10 +14,12 @@ const MidResult = ({ onClick }) => {
   const [height, SetHeight] = useState("");
   const { value: sanitizedHTML } = counter;
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
+  console.log(pname);
 
-  var div = document.createElement("div");
-  div.innerHTML = sanitizedHTML;
-  const titleName = div.querySelector("title").innerHTML;
+  const titleName = pname;
+  // var div = document.createElement("div");
+  // div.innerHTML = sanitizedHTML;
+  // const titleName = div.querySelector("title").innerHTML;
   // console.log(div.querySelector("title").innerHTML);
 
   const handlePnameChange = (event, SetNewPageName) => {
