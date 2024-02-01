@@ -1,11 +1,10 @@
-import { CgCloseO } from "react-icons/cg";
-import { IoMdAdd } from "react-icons/io";
 import DesignWorkspace from "../designWorkspace/DesignWorkspace";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import MidTabBar from "./midtabbar/MidTabBar";
 
-const MidResult = ({ onClick, pname }) => {
+const MidResult = ({ onClick, ArrPageList, deletedPage, setFirstpage }) => {
   const [pagename, SetNewPageName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const { counter } = useSelector((state) => state);
@@ -14,14 +13,8 @@ const MidResult = ({ onClick, pname }) => {
   const [height, SetHeight] = useState("");
   const { value: sanitizedHTML } = counter;
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
-  console.log(pname);
 
-  const titleName = pname;
-  // var div = document.createElement("div");
-  // div.innerHTML = sanitizedHTML;
-  // const titleName = div.querySelector("title").innerHTML;
-  // console.log(div.querySelector("title").innerHTML);
-
+  // console.log("ArrayList", ArrPageList);
   const handlePnameChange = (event, SetNewPageName) => {
     let newName = event.target.value;
 
@@ -89,22 +82,12 @@ const MidResult = ({ onClick, pname }) => {
   return (
     <>
       <div className="flex flex-col w-8/12">
-        <div className="flex flex-row bg-neutral-600 w-12/12">
-          <div className="flex flex-row px-5 py-1 text-lg bg-neutral-700 items-center h-full text-white">
-            <p>{titleName}</p>
-          </div>
-          <div className="flex flex-row pl-10 pr-2 py-1 bg-neutral-700 items-center h-full">
-            <CgCloseO color="white" size={15} />
-          </div>
-          <div
-            className="flex flex-row p-1 items-center text-white"
-            onClick={() => setShowModal(true)}
-          >
-            <div className="rounded-bl-md rounded-tr-md bg-neutral-700 px-2 py-1 cursor-pointer">
-              <IoMdAdd color="white" size={20} />
-            </div>
-          </div>
-        </div>
+        <MidTabBar
+          setShowModal={setShowModal}
+          ArrPageList={ArrPageList}
+          deletedPage={deletedPage}
+          setFirstpage={setFirstpage}
+        />
         <div className="overflow-auto max-h-screen">
           <DesignWorkspace />
         </div>

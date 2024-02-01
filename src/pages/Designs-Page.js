@@ -10,7 +10,6 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import MidResult from "../components/midResult/MidResult";
 
 const DesignPage = () => {
@@ -28,10 +27,49 @@ const DesignPage = () => {
   const [projectName, setProjectName] = useState("");
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
   const [firstpage, setFirstpage] = useState(false);
-  const [page, setPage] = useState("");
+  const [titleNameListPage, setTitleNameListPage] = useState([]);
 
   const spage = (page) => {
-    setPage(page);
+    setTitleNameListPage((prevTitleNameListPage) => {
+      // If array has 5 elements and the new page is not included, update the array
+      if (
+        prevTitleNameListPage.length === 5 &&
+        !prevTitleNameListPage.includes(page)
+      ) {
+        // Remove the first element and add the new page
+        return [...prevTitleNameListPage.slice(1), page];
+      }
+      // If array has less than 5 elements and the new page is not included, add the new page
+      else if (!prevTitleNameListPage.includes(page)) {
+        return [...prevTitleNameListPage, page];
+      }
+      // Return the original array if no change is required
+      return prevTitleNameListPage;
+    });
+  };
+
+  const updatepage = (page, editedPageName) => {
+    const index = titleNameListPage.indexOf(editedPageName);
+    if (index !== -1) {
+      const newArray = [...titleNameListPage];
+      newArray[index] = page;
+      setTitleNameListPage(newArray);
+    }
+  };
+
+  useEffect(() => {
+    // console.log(titleNameListPage);
+  }, [titleNameListPage]);
+
+  const deletedPage = (deletedPageName) => {
+    setTitleNameListPage((prevTitleNameListPage) => {
+      const index = prevTitleNameListPage.indexOf(deletedPageName);
+      if (index !== -1) {
+        // Create a new array without the element at the index
+        return prevTitleNameListPage.filter((_, idx) => idx !== index);
+      }
+      return prevTitleNameListPage; // Return original array if element not found
+    });
   };
 
   const fetchPages = async () => {
@@ -183,6 +221,10 @@ const DesignPage = () => {
     setFirstpage(true);
   };
 
+  const handlesetFirstpage = () => {
+    setFirstpage(false);
+  };
+
   return (
     <div className="flex flex-col overflow-hidden h-screen">
       <NavBarDesign
@@ -293,6 +335,7 @@ const DesignPage = () => {
                   onDeletePage={handleDeletePage}
                   onClickPage={handleClickPage}
                   spage={spage}
+                  updatepage={updatepage}
                 />
               )}
             </div>
@@ -300,7 +343,12 @@ const DesignPage = () => {
           </div>
           {firstpage === true ? (
             <>
-              <MidResult onClick={handleDeletePage} pname={page} />
+              <MidResult
+                onClick={handleDeletePage}
+                ArrPageList={titleNameListPage}
+                deletedPage={deletedPage}
+                setFirstpage={handlesetFirstpage}
+              />
               <div className="flex flex-col w-2/12">
                 <div className="flex flex-row w-full">
                   <div

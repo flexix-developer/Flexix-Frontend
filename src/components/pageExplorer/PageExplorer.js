@@ -15,6 +15,8 @@ const PageExplorer = ({
   onDeletePage,
   onClickPage,
   spage,
+  arrpage,
+  updatepage,
 }) => {
   const dispatch = useDispatch();
   const [selectedPage, setSelectedPage] = useState(null);
@@ -104,7 +106,8 @@ const PageExplorer = ({
             },
           }
         );
-        spage(editedNewPageName);
+        // spage(editedNewPageName, editedPageName);
+        updatepage(editedNewPageName, editedPageName.slice(0, -5));
         onDeletePage();
         setEditingPageIndex(null);
         setEditedNewPageName("");
@@ -119,6 +122,7 @@ const PageExplorer = ({
   };
 
   const handleGetpage = async (page) => {
+    console.log(page);
     try {
       // Your axios.post code here to update the page name
       const ID = localStorage.getItem("ID");
@@ -139,7 +143,7 @@ const PageExplorer = ({
         }
       );
       spage(page.slice(0, -5));
-      console.log(response.data.content);
+      // console.log(response.data.content);
       handleApiResponse(response);
       onClickPage();
     } catch (error) {
@@ -174,10 +178,10 @@ const PageExplorer = ({
               className={`flex flex-row ml-20 mt-2 ${
                 selectedPage === index && checkFocus ? "bg-blue-500" : ""
               }`}
-              onClick={() => {
-                handleClick(index);
-                handleGetpage(page);
-              }}
+              // onClick={() => {
+              //   handleClick(index);
+              //   handleGetpage(page);
+              // }}
             >
               <div className="flex items-center w-11/12 ">
                 {editingPageIndex === index ? (
@@ -206,7 +210,13 @@ const PageExplorer = ({
                     </div>
                   </div>
                 ) : (
-                  <>
+                  <div
+                    className="flex w-full"
+                    onClick={() => {
+                      handleClick(index);
+                      handleGetpage(page);
+                    }}
+                  >
                     <GrDocumentText size={22} />
                     <p className="pl-2 text-left text-xl truncate w-8/12">
                       {page}
@@ -226,7 +236,7 @@ const PageExplorer = ({
                         />
                       </>
                     )}
-                  </>
+                  </div>
                 )}
               </div>
             </div>
