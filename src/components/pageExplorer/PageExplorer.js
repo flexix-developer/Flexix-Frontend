@@ -2,7 +2,7 @@ import { IoMdFolderOpen } from "react-icons/io";
 import { FiTrash2, FiEdit } from "react-icons/fi";
 import { IoSearchOutline } from "react-icons/io5";
 import { GrDocumentText } from "react-icons/gr";
-import { useState } from "react"; // Import useState
+import { useState, useEffect } from "react"; // Import useState
 import axios from "axios";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
@@ -15,8 +15,9 @@ const PageExplorer = ({
   onDeletePage,
   onClickPage,
   spage,
-  arrpage,
   updatepage,
+  handlePageActivate,
+  TbIndex,
 }) => {
   const dispatch = useDispatch();
   const [selectedPage, setSelectedPage] = useState(null);
@@ -26,7 +27,8 @@ const PageExplorer = ({
   const [editedNewPageName, setEditedNewPageName] = useState("");
   const [editingPageIndex, setEditingPageIndex] = useState(null);
 
-  const handleClick = (index) => {
+  const handleClick = (page, index) => {
+    console.log("index", index, page);
     if (editingPageIndex !== null) {
       return;
     }
@@ -34,6 +36,16 @@ const PageExplorer = ({
     setSelectedPage(index);
     setCheckFocus(true);
   };
+
+  // useEffect เพื่อดำเนินการเมื่อ TbIndex เปลี่ยนแปลง
+  useEffect(() => {
+    setSelectedPage(TbIndex);
+    setCheckFocus(true);
+    // อาจจะมีการเรียกใช้ function เพิ่มเติมที่นี่ เช่น handlePageActivate(pages[TbIndex])
+    if (TbIndex !== null && pages[TbIndex]) {
+      handleGetpage(pages[TbIndex]);
+    }
+  }, [TbIndex, pages]); // ใส่ TbIndex และ pages เป็น dependencies
 
   const handleClickOpenPopup = (page) => {
     setShowDeletePagePopup(true);
@@ -122,7 +134,7 @@ const PageExplorer = ({
   };
 
   const handleGetpage = async (page) => {
-    console.log(page);
+    // console.log(page);
     try {
       // Your axios.post code here to update the page name
       const ID = localStorage.getItem("ID");
@@ -146,6 +158,7 @@ const PageExplorer = ({
       // console.log(response.data.content);
       handleApiResponse(response);
       onClickPage();
+      handlePageActivate(page);
     } catch (error) {
       console.log("Error:", error);
     }
@@ -178,10 +191,6 @@ const PageExplorer = ({
               className={`flex flex-row ml-20 mt-2 ${
                 selectedPage === index && checkFocus ? "bg-blue-500" : ""
               }`}
-              // onClick={() => {
-              //   handleClick(index);
-              //   handleGetpage(page);
-              // }}
             >
               <div className="flex items-center w-11/12 ">
                 {editingPageIndex === index ? (
@@ -213,7 +222,7 @@ const PageExplorer = ({
                   <div
                     className="flex w-full"
                     onClick={() => {
-                      handleClick(index);
+                      handleClick(page, index);
                       handleGetpage(page);
                     }}
                   >

@@ -3,12 +3,19 @@ import { IoMdAdd } from "react-icons/io";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateValue } from "../../../features/counter/counterSlice";
+import React, { useState } from "react";
+
 const MidTabBar = ({
   setShowModal,
   ArrPageList,
   deletedPage,
   setFirstpage,
+  handlePageActivate,
+  activepage,
+  handleClickTabBar,
 }) => {
+  // console.log("activatepage", activepage);
+  // const [activePage, setActivePage] = useState("");
   const dispatch = useDispatch();
   if (ArrPageList.length === 0) {
     setFirstpage();
@@ -36,6 +43,9 @@ const MidTabBar = ({
 
       // console.log(response.data.content);
       handleApiResponse(response);
+      // setActivePage(page);
+      handlePageActivate(page + ".html");
+      handleClickTabBar(page + ".html");
     } catch (error) {
       console.log("Error:", error);
     }
@@ -48,11 +58,16 @@ const MidTabBar = ({
   return (
     <div className="flex flex-row bg-[#3A3A3A] w-12/12 ">
       {ArrPageList.map((pageName, index) => (
-        <div className="flex flex-row px-5 py-1 text-lg bg-[#3A3A3A] items-center h-full w-56 text-white ">
+        <div
+          className={`flex flex-row px-5 py-1 text-lg items-center h-full w-56 text-white ${
+            activepage === pageName ? "bg-[#3A3A3A]" : "bg-[#505050]"
+          }`}
+          key={index}
+        >
           <div className="w-5/6" onClick={() => handleGetpage(pageName)}>
             <p>{pageName}</p>
           </div>
-          <div className="w-1/6 flex justify-end ">
+          <div className="w-1/6 flex justify-end">
             <IoClose
               color="white"
               size={25}

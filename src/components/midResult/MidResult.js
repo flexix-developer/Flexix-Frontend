@@ -4,7 +4,15 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import MidTabBar from "./midtabbar/MidTabBar";
 
-const MidResult = ({ onClick, ArrPageList, deletedPage, setFirstpage }) => {
+const MidResult = ({
+  onClick,
+  ArrPageList,
+  deletedPage,
+  setFirstpage,
+  handlePageActivate,
+  activepage,
+  handleClickTabBar,
+}) => {
   const [pagename, SetNewPageName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const { counter } = useSelector((state) => state);
@@ -13,7 +21,6 @@ const MidResult = ({ onClick, ArrPageList, deletedPage, setFirstpage }) => {
   const [height, SetHeight] = useState("");
   const { value: sanitizedHTML } = counter;
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
-
   // console.log("ArrayList", ArrPageList);
   const handlePnameChange = (event, SetNewPageName) => {
     let newName = event.target.value;
@@ -87,6 +94,9 @@ const MidResult = ({ onClick, ArrPageList, deletedPage, setFirstpage }) => {
           ArrPageList={ArrPageList}
           deletedPage={deletedPage}
           setFirstpage={setFirstpage}
+          handlePageActivate={handlePageActivate}
+          activepage={activepage}
+          handleClickTabBar={handleClickTabBar}
         />
         <div className="overflow-auto max-h-screen">
           <DesignWorkspace />

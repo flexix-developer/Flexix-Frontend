@@ -28,6 +28,24 @@ const DesignPage = () => {
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
   const [firstpage, setFirstpage] = useState(false);
   const [titleNameListPage, setTitleNameListPage] = useState([]);
+  const [activepage, setActivePage] = useState("");
+  const [TbIndex, setTbIndex] = useState(null);
+
+  const handlePageActivate = (page) => {
+    setActivePage(page);
+  };
+  const handleClickTabBar = (page) => {
+    console.log("page", page);
+    console.log("pages", pages);
+    setTbIndex(pages.indexOf(page));
+  };
+
+  useEffect(() => {
+    console.log("activepage", activepage);
+  }, [activepage]);
+  useEffect(() => {
+    console.log("TbIndex", TbIndex);
+  }, [TbIndex]);
 
   const spage = (page) => {
     setTitleNameListPage((prevTitleNameListPage) => {
@@ -66,7 +84,27 @@ const DesignPage = () => {
       const index = prevTitleNameListPage.indexOf(deletedPageName);
       if (index !== -1) {
         // Create a new array without the element at the index
-        return prevTitleNameListPage.filter((_, idx) => idx !== index);
+        const newArray = prevTitleNameListPage.filter(
+          (_, idx) => idx !== index
+        );
+        console.log("newArray", newArray);
+
+        // Handle selecting a page after deletion
+        if (newArray.length > 0) {
+          // // If the deleted page was the first and there are still pages left, keep the first page selected
+          // // Otherwise, select the previous page (or stay on the same index if the last page was deleted)
+          const newSelectedIndex = index === 0 ? 0 : index - 1;
+          console.log("newSelectedIndex", newSelectedIndex);
+
+          handlePageActivate(newArray[newSelectedIndex]);
+          setTbIndex(newSelectedIndex);
+        } else {
+          // If no pages left, reset the active page and TbIndex
+          handlePageActivate("");
+          setTbIndex(null);
+        }
+
+        return newArray;
       }
       return prevTitleNameListPage; // Return original array if element not found
     });
@@ -336,6 +374,8 @@ const DesignPage = () => {
                   onClickPage={handleClickPage}
                   spage={spage}
                   updatepage={updatepage}
+                  handlePageActivate={handlePageActivate}
+                  TbIndex={TbIndex}
                 />
               )}
             </div>
@@ -348,6 +388,9 @@ const DesignPage = () => {
                 ArrPageList={titleNameListPage}
                 deletedPage={deletedPage}
                 setFirstpage={handlesetFirstpage}
+                handlePageActivate={handlePageActivate}
+                activepage={activepage.slice(0, -5)}
+                handleClickTabBar={handleClickTabBar}
               />
               <div className="flex flex-col w-2/12">
                 <div className="flex flex-row w-full">
