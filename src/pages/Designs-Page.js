@@ -11,6 +11,7 @@ import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import MidResult from "../components/midResult/MidResult";
+import { useSelector, useDispatch } from "react-redux";
 
 const DesignPage = () => {
   useTokenCheck("/design");
@@ -30,13 +31,15 @@ const DesignPage = () => {
   const [titleNameListPage, setTitleNameListPage] = useState([]);
   const [activepage, setActivePage] = useState("");
   const [TbIndex, setTbIndex] = useState(null);
+  // const { counter } = useSelector((state) => state);
+  // const { value: sanitizedHTML } = counter;
+
+  // console.log(sanitizedHTML);
 
   const handlePageActivate = (page) => {
     setActivePage(page);
   };
   const handleClickTabBar = (page) => {
-    console.log("page", page);
-    console.log("pages", pages);
     setTbIndex(pages.indexOf(page));
   };
 
@@ -75,39 +78,33 @@ const DesignPage = () => {
     }
   };
 
-  useEffect(() => {
-    // console.log(titleNameListPage);
-  }, [titleNameListPage]);
-
   const deletedPage = (deletedPageName) => {
-    setTitleNameListPage((prevTitleNameListPage) => {
-      const index = prevTitleNameListPage.indexOf(deletedPageName);
-      if (index !== -1) {
-        // Create a new array without the element at the index
-        const newArray = prevTitleNameListPage.filter(
-          (_, idx) => idx !== index
-        );
-        console.log("newArray", newArray);
+    const index = titleNameListPage.indexOf(deletedPageName);
+    if (index !== -1) {
+      const newArray = titleNameListPage.filter(
+        (page) => page !== deletedPageName
+      );
 
-        // Handle selecting a page after deletion
-        if (newArray.length > 0) {
-          // // If the deleted page was the first and there are still pages left, keep the first page selected
-          // // Otherwise, select the previous page (or stay on the same index if the last page was deleted)
-          const newSelectedIndex = index === 0 ? 0 : index - 1;
-          console.log("newSelectedIndex", newSelectedIndex);
+      setTitleNameListPage(newArray);
 
-          handlePageActivate(newArray[newSelectedIndex]);
-          setTbIndex(newSelectedIndex);
+      // หลังจากลบ, ต้องการเลือกหน้าใดหน้าหนึ่ง
+      if (newArray.length > 0) {
+        let newSelectedIndex = index;
+        if (index === 0) {
+          // ถ้าหน้าที่ลบคือหน้าแรก, ให้หน้าใหม่ที่ index 0 เป็นหน้าที่ active
+          newSelectedIndex = 0;
         } else {
-          // If no pages left, reset the active page and TbIndex
-          handlePageActivate("");
-          setTbIndex(null);
+          // ถ้าลบหน้าที่ไม่ใช่หน้าแรก, ลองเลือกหน้าก่อนหน้านั้น
+          newSelectedIndex = Math.max(index - 1, 0);
         }
-
-        return newArray;
+        handlePageActivate(newArray[newSelectedIndex]);
+        setTbIndex(newSelectedIndex);
+      } else {
+        // ถ้าไม่เหลือหน้าอื่นหลังจากลบ
+        handlePageActivate("");
+        setTbIndex(null);
       }
-      return prevTitleNameListPage; // Return original array if element not found
-    });
+    }
   };
 
   const fetchPages = async () => {

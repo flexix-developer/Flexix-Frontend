@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"; // Import useState
 import axios from "axios";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateValue } from "../../features/counter/counterSlice";
 
 const PageExplorer = ({
@@ -26,6 +26,8 @@ const PageExplorer = ({
   const [editedPageName, setEditedPageName] = useState("");
   const [editedNewPageName, setEditedNewPageName] = useState("");
   const [editingPageIndex, setEditingPageIndex] = useState(null);
+  const { counter } = useSelector((state) => state);
+  const { value: sanitizedHTML } = counter;
 
   const handleClick = (page, index) => {
     console.log("index", index, page);
@@ -80,6 +82,54 @@ const PageExplorer = ({
       onDeletePage();
     } catch (error) {
       // Handle error if needed
+    }
+  };
+
+  const SavePage = async () => {
+    const ID = localStorage.getItem("ID");
+    const ProjectID = localStorage.getItem("ProjectID");
+    const token = localStorage.getItem("token");
+    const page = pages[selectedPage];
+    console.log(sanitizedHTML);
+
+    try {
+      await axios.post(
+        "http://127.0.0.1:8081/users/savepage",
+        {
+          id: ID,
+          proid: ProjectID,
+          pagename: page,
+          content: sanitizedHTML,
+          //           content: `<!DOCTYPE html>
+          // <html lang="en">
+          // <head>
+          //   <meta charset="UTF-8" />
+          //   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          //   <title>Home</title>
+          //   <style>
+          //     body {
+          //       width: px; /* กำหนดความกว้างของ body เท่ากับหน้าจอ */
+          //       height: px; /* กำหนดความสูงของ body เท่ากับความสูงของหน้าจอ */
+          //       margin: 0; /* ลบ margin ที่มีอยู่ตามทั่วไป */
+          //       padding: 0; /* ลบ padding ที่มีอยู่ตามทั่วไป */
+          //     }
+          //   </style>
+          //   <script src="https://cdn.tailwindcss.com"></script>
+          // </head>
+          // <body>
+          //   <div id="main"></div>
+          // </body>
+          // </html>`,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("SavePage Success");
+    } catch (error) {
+      console.log("Error:", error);
     }
   };
 
@@ -277,6 +327,7 @@ const PageExplorer = ({
           </div>
         </div>
       )}
+      <button onClick={SavePage}>special</button>
     </div>
   );
 };

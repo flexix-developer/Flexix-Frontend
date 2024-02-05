@@ -2,18 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { parse } from "node-html-parser";
 
 const initialState = {
-  value: `
-  <html>
-      <head>
-        <title>Document</title>
-        <script src="https://cdn.tailwindcss.com">
-        </script>
-      </head>
-      <body>
-        <div id="main">
-        </div>
-      </body>
-  </html>`,
+  value: ``,
 
   currentRowNumber: 0,
   currentColNumber: 0,
