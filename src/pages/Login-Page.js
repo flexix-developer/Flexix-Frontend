@@ -104,6 +104,7 @@ const LoginPage = () => {
               <input
                 className="bg-blue-900 text-white w-full  h-16 border-2 rounded-xl text-2xl mt-4 mb-4"
                 type="submit"
+                name="sign_in"
                 value="Sign in"
               />
             </form>

@@ -358,6 +358,7 @@ const RegisterPage = () => {
                     isFormValid ? "" : "opacity-50 cursor-not-allowed"
                   }`}
                   type="submit"
+                  name="sign_up"
                   value="Next"
                   onClick={(event) => {
                     save(event);
