@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { parse } from "node-html-parser";
+import axios from "axios";
 
 const initialState = {
   value: ``,
-
   currentRowNumber: 0,
   currentColNumber: 0,
   currentTextNumber: 0,
@@ -17,9 +17,40 @@ const initialState = {
   currentInputNumber: 0,
   currentSelectNumber: 0,
   currentFocus: "",
+  ListPages: [],
+  IndexPages: null,
 };
 
 var root = parse(initialState.value);
+
+const SavePage = async (state, html) => {
+  state.value = html;
+  const ID = localStorage.getItem("ID");
+  const ProjectID = localStorage.getItem("ProjectID");
+  const token = localStorage.getItem("token");
+  const page = state.ListPages[state.IndexPages];
+  console.log("SavePage", page, "state.IndexPages", state.ListPages);
+
+  try {
+    await axios.post(
+      "http://127.0.0.1:8081/users/savepage",
+      {
+        id: ID,
+        proid: ProjectID,
+        pagename: page,
+        content: html,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("SavePage Success");
+  } catch (error) {
+    console.log("Error:", error);
+  }
+};
 
 const appendElement = (state, elementType, htmlTemplate) => {
   state[`current${elementType}Number`] += 1;
@@ -29,7 +60,8 @@ const appendElement = (state, elementType, htmlTemplate) => {
       ? root.querySelector("#main")
       : root.querySelector(state.currentFocus);
   targetNode.appendChild(element);
-  state.value = root.toString();
+  // state.value = root.toString();
+  SavePage(state, root.toString());
   console.log(state.value);
 };
 
@@ -138,6 +170,7 @@ export const counterSlice = createSlice({
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.remove();
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     AlignHorizontalLeft: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -145,6 +178,7 @@ export const counterSlice = createSlice({
       targetNode.classList.remove("justify-center");
       targetNode.classList.toggle("justify-start", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     AlignHorizontalCenter: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -152,6 +186,7 @@ export const counterSlice = createSlice({
       targetNode.classList.remove("justify-end");
       targetNode.classList.toggle("justify-center", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     AlignHorizontalRight: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -159,6 +194,7 @@ export const counterSlice = createSlice({
       targetNode.classList.remove("justify-center");
       targetNode.classList.toggle("justify-end", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     AlignVerticalTop: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -166,6 +202,7 @@ export const counterSlice = createSlice({
       targetNode.classList.remove("items-center");
       targetNode.classList.toggle("items-start", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     AlignVerticalBottom: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -173,6 +210,7 @@ export const counterSlice = createSlice({
       targetNode.classList.remove("items-center");
       targetNode.classList.toggle("items-end", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     AlignVerticalCenter: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -180,6 +218,7 @@ export const counterSlice = createSlice({
       targetNode.classList.remove("items-end");
       targetNode.classList.toggle("items-center", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     WidthInputChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -228,6 +267,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     HeightInputChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -281,10 +321,19 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     updateValue: (state, action) => {
       state.value = action.payload;
       root = parse(state.value);
+    },
+    updatePageList: (state, action) => {
+      state.ListPages = action.payload;
+      console.log("updatePageList", state.ListPages);
+    },
+    updateActiveIndex: (state, action) => {
+      state.IndexPages = action.payload;
+      console.log("updateActiveIndex", state.IndexPages);
     },
     BackgroundColorChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -309,6 +358,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     BackgroundColorOpacityChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -356,6 +406,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     FontFamilyChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -375,6 +426,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     FontSizeChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -404,6 +456,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     TextColorChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -426,46 +479,55 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     TextStyleBold: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.toggle("font-bold", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     TextStyleItalic: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.toggle("italic", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     TextStyleUnderline: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.toggle("underline", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     TextStyleLineThrough: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.toggle("line-through", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     TextAlignLeft: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.toggle("text-left", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     TextAlignCenter: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.toggle("text-center", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     TextAlignRight: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.toggle("text-right", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     TextAlignJustify: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.toggle("text-justify", true);
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     MaginTopChange: (state, action) => {
       const newValue = action.payload;
@@ -488,6 +550,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     MaginRightChange: (state, action) => {
       const newValue = action.payload;
@@ -510,6 +573,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     MaginBottomChange: (state, action) => {
       const newValue = action.payload;
@@ -532,6 +596,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     MaginLeftChange: (state, action) => {
       const newValue = action.payload;
@@ -554,6 +619,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     PaddingTopChange: (state, action) => {
       const newValue = action.payload;
@@ -576,6 +642,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     PaddingRightChange: (state, action) => {
       const newValue = action.payload;
@@ -598,6 +665,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     PaddingBottomChange: (state, action) => {
       const newValue = action.payload;
@@ -622,6 +690,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     PaddingLeftChange: (state, action) => {
       const newValue = action.payload;
@@ -644,6 +713,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     BorderColorChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -666,6 +736,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     BorderStyleChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -688,6 +759,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
     BorderSizeChange: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -710,10 +782,12 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
 
       if (targetNode.getAttribute("style") === "border-width: px;") {
         console.log("remove border width");
         state.value = root.toString();
+        SavePage(state, root.toString());
       }
     },
     BorderRadiusChange: (state, action) => {
@@ -743,6 +817,7 @@ export const counterSlice = createSlice({
       }
 
       state.value = root.toString();
+      SavePage(state, root.toString());
     },
   },
 });
@@ -802,6 +877,8 @@ export const {
   BorderStyleChange,
   BorderSizeChange,
   BorderRadiusChange,
+  updatePageList,
+  updateActiveIndex,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

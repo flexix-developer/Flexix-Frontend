@@ -7,7 +7,11 @@ import axios from "axios";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
-import { updateValue } from "../../features/counter/counterSlice";
+import {
+  updateValue,
+  updatePageList,
+  updateActiveIndex,
+} from "../../features/counter/counterSlice";
 
 const PageExplorer = ({
   pages,
@@ -85,53 +89,33 @@ const PageExplorer = ({
     }
   };
 
-  const SavePage = async () => {
-    const ID = localStorage.getItem("ID");
-    const ProjectID = localStorage.getItem("ProjectID");
-    const token = localStorage.getItem("token");
-    const page = pages[selectedPage];
-    console.log(sanitizedHTML);
+  // const SavePage = async () => {
+  //   const ID = localStorage.getItem("ID");
+  //   const ProjectID = localStorage.getItem("ProjectID");
+  //   const token = localStorage.getItem("token");
+  //   const page = pages[selectedPage];
+  //   console.log(sanitizedHTML);
 
-    try {
-      await axios.post(
-        "http://127.0.0.1:8081/users/savepage",
-        {
-          id: ID,
-          proid: ProjectID,
-          pagename: page,
-          content: sanitizedHTML,
-          //           content: `<!DOCTYPE html>
-          // <html lang="en">
-          // <head>
-          //   <meta charset="UTF-8" />
-          //   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          //   <title>Home</title>
-          //   <style>
-          //     body {
-          //       width: px; /* กำหนดความกว้างของ body เท่ากับหน้าจอ */
-          //       height: px; /* กำหนดความสูงของ body เท่ากับความสูงของหน้าจอ */
-          //       margin: 0; /* ลบ margin ที่มีอยู่ตามทั่วไป */
-          //       padding: 0; /* ลบ padding ที่มีอยู่ตามทั่วไป */
-          //     }
-          //   </style>
-          //   <script src="https://cdn.tailwindcss.com"></script>
-          // </head>
-          // <body>
-          //   <div id="main"></div>
-          // </body>
-          // </html>`,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("SavePage Success");
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  };
+  //   try {
+  //     await axios.post(
+  //       "http://127.0.0.1:8081/users/savepage",
+  //       {
+  //         id: ID,
+  //         proid: ProjectID,
+  //         pagename: page,
+  //         content: sanitizedHTML,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     console.log("SavePage Success");
+  //   } catch (error) {
+  //     console.log("Error:", error);
+  //   }
+  // };
 
   const handleInputChange = (event) => {
     const input = event.target.value;
@@ -218,6 +202,13 @@ const PageExplorer = ({
     const content = response.data.content;
     dispatch(updateValue(content));
   };
+
+  // useEffect เพื่อดำเนินการเมื่อ TbIndex เปลี่ยนแปลง
+  useEffect(() => {
+    dispatch(updatePageList(pages));
+    console.log("selectedPage", selectedPage);
+    dispatch(updateActiveIndex(selectedPage));
+  }, [selectedPage, pages]); // ใส่ TbIndex และ pages เป็น dependencies
 
   return (
     <div className="flex flex-col text-white ">
@@ -327,7 +318,7 @@ const PageExplorer = ({
           </div>
         </div>
       )}
-      <button onClick={SavePage}>special</button>
+      {/* <button onClick={SavePage}>special</button> */}
     </div>
   );
 };
