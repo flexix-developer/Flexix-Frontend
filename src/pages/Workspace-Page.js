@@ -257,17 +257,20 @@ const HomePage = () => {
                   <div className="flex items-center">
                     <input
                       type="text"
+                      name="new_name_project"
                       value={editedProjectName}
                       onChange={(e) => setEditedProjectName(e.target.value)}
                       className="border-b border-black px-2"
                     />
                     <FiCheck 
+                      name="save_new_name"
                       className="ml-2 cursor-pointer text-green-500"
                       onClick={() => handleSaveEdit(project.id)}
                     />
                   </div>
                 ) : (
                   <p className="font-semibold text-xl flex items-center">
+
                     {project.name}
                     <FiEdit
                       name="fiCheckIcon"
