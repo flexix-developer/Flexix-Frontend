@@ -225,6 +225,7 @@ const HomePage = () => {
           <button
             className="bg-green-700 hover:bg-green-600 text-white font-semibold py-2 px-5 ml-8 border border-sky-800 rounded shadow"
             onClick={handleNewProject}
+            name="new_project"
           >
             + New project
           </button>
@@ -260,7 +261,7 @@ const HomePage = () => {
                       onChange={(e) => setEditedProjectName(e.target.value)}
                       className="border-b border-black px-2"
                     />
-                    <FiCheck
+                    <FiCheck 
                       className="ml-2 cursor-pointer text-green-500"
                       onClick={() => handleSaveEdit(project.id)}
                     />
@@ -269,6 +270,7 @@ const HomePage = () => {
                   <p className="font-semibold text-xl flex items-center">
                     {project.name}
                     <FiEdit
+                      name="fiCheckIcon"
                       className="ml-2 cursor-pointer text-blue-500"
                       onClick={() =>
                         handleEditProject(project.id, project.name)
@@ -283,6 +285,7 @@ const HomePage = () => {
                 <FiTrash2
                   className="cursor-pointer text-red-500"
                   onClick={() => handleDeleteProject(project.id)}
+                  name="delete_project"
                 />
               </div>
             </div>
@@ -297,6 +300,7 @@ const HomePage = () => {
             <input
               type="text"
               placeholder="Project Name"
+              name="project_name"
               value={editedProjectName}
               onChange={(e) => setEditedProjectName(e.target.value)}
               className="border border-gray-300 p-2 mb-2"
@@ -304,6 +308,7 @@ const HomePage = () => {
             <button
               className="bg-green-700 text-white py-2 px-4"
               onClick={handleCreateProject}
+              name="create_project"
             >
               Create Project
             </button>
