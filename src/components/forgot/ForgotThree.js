@@ -284,6 +284,7 @@ function ForgotThree() {
               }`}
               type="submit"
               value="Next"
+              name="next_confirm"
               disabled={!isFormValid}
             />
           </form>

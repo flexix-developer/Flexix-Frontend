@@ -209,6 +209,7 @@ function ForgotOne({ onNextStep }) {
               }`}
               type="submit"
               value="Send"
+              name="BT_Send"
               disabled={!isFormValid}
             />
           </form>

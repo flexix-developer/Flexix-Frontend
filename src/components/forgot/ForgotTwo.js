@@ -114,6 +114,7 @@ function ForgotTwo({ onNextStep }) {
               className="bg-blue-900 text-white w-full h-16 border-2 rounded-xl text-2xl mt-4 cursor-pointer"
               type="submit"
               value="Continue"
+              name="OPT_continue"
             />
           </form>
         </div>
