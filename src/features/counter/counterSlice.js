@@ -17,6 +17,7 @@ const initialState = {
   currentInputNumber: 0,
   currentSelectNumber: 0,
   currentFocus: "",
+  currentFocusElement: "",
   ListPages: [],
   IndexPages: null,
 };
@@ -81,6 +82,10 @@ export const counterSlice = createSlice({
     focus: (state, action) => {
       state.currentFocus = action.payload;
       console.log(state.currentFocus);
+    },
+    focusElement: (state, action) => {
+      state.currentFocusElement = action.payload;
+      console.log(state.currentFocusElement);
     },
     addRow: (state) => {
       appendElement(
@@ -819,11 +824,19 @@ export const counterSlice = createSlice({
       state.value = root.toString();
       SavePage(state, root.toString());
     },
+    EditText: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const newValue = action.payload;
+      targetNode.set_content(newValue);      
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
   },
 });
 
 export const {
   focus,
+  focusElement,
   addRow,
   addCol,
   addText,
@@ -879,6 +892,7 @@ export const {
   BorderRadiusChange,
   updatePageList,
   updateActiveIndex,
+  EditText,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
