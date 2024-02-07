@@ -8,12 +8,6 @@ const PropertiesStyleBackground = () => {
   const counterState = useSelector((state) => state.counter);
   const root = parse(counterState.value);
 
-  // const decimalNumber = 250;
-  // const a = (decimalNumber/255)*100;
-  // const b = a/100*255
-  // const hexString = b.toString(16).toUpperCase();
-  // const hexString2 = hexString.split(".")[0];
-
   const handleColorChange = (event) => {
     const newColor = event.target.value;
     dispatch(BackgroundColorChange(newColor.toUpperCase()));
