@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   focus,
+  focusElement,
   removeSelectedElement,
 } from "../../features/counter/counterSlice";
 
@@ -13,6 +14,8 @@ const DesignWorkspace = () => {
   const handleClick = useCallback(
     (event) => {
       const clickedElementId = event.target.id;
+      const clickedElement = event.target;
+      const elementType = clickedElement.tagName.toLowerCase();
 
       if (clickedElementId !== "") {
         const highlightedElement = document.querySelector(".highlighted");
@@ -37,6 +40,7 @@ const DesignWorkspace = () => {
           }
         }
 
+        dispatch(focusElement(elementType));
         dispatch(focus("#" + clickedElementId));
         // Perform additional actions based on the clicked ID if needed
       }
