@@ -2,7 +2,7 @@
 Resource           resource.robot
 
 *** Test Cases ***
-Test Delete Project
+Valid Delete Project
     Open Login Page
     Input Email    admin@admin.com
     Input The Password    Admin1234
