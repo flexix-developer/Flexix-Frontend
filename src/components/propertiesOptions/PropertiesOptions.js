@@ -4,6 +4,9 @@ import PropertiesOptionsText from "./PropertiesOptionsText";
 import PropertiesOptionsLink from "./PropertiesOptionsLink";
 import PropertiesOptionsImage from "./PropertiesOptionsImage";
 import PropertiesOptionsEmbed from "./PropertiesOptionsEmbed";
+import PropertiesOptionsForm from "./PropertiesOptionsForm";
+import PropertiesOptionsButton from "./PropertiesOptionsButton";
+import PropertiesOptionsLabel from "./PropertiesOptionsLabel";
 import WidgetsTitle from "../toolboxWidgets/ToolboxWidgetsTitle";
 import { useEffect, useState } from "react";
 import{ useDispatch, useSelector } from "react-redux";
@@ -24,7 +27,16 @@ const PropertiesOptions = () => {
             setSelectedComponent("PropertiesOptionsImage");
         } else if (counterState.currentFocusElement === "iframe") {
             setSelectedComponent("PropertiesOptionsEmbed");
-        } else {
+        } else if (counterState.currentFocusElement === "form") {
+            setSelectedComponent("PropertiesOptionsForm");
+        }
+        else if (counterState.currentFocusElement === "label") {
+            setSelectedComponent("PropertiesOptionsLabel");
+        }
+        else if (counterState.currentFocusElement === "button") {
+            setSelectedComponent("PropertiesOptionsButton");
+        } 
+        else {
             setSelectedComponent("");
         };
     }, [counterState.currentFocusElement]);
@@ -55,7 +67,11 @@ const PropertiesOptions = () => {
             || (selectedComponent === "PropertiesOptionsText" && <PropertiesOptionsText />)
             || (selectedComponent === "PropertiesOptionsLink" && <PropertiesOptionsLink />)
             || (selectedComponent === "PropertiesOptionsImage" && <PropertiesOptionsImage />)
-            || (selectedComponent === "PropertiesOptionsEmbed" && <PropertiesOptionsEmbed />)) }
+            || (selectedComponent === "PropertiesOptionsEmbed" && <PropertiesOptionsEmbed />)
+            || (selectedComponent === "PropertiesOptionsForm" && <PropertiesOptionsForm />)
+            || (selectedComponent === "PropertiesOptionsLabel" && <PropertiesOptionsLabel />)
+            || (selectedComponent === "PropertiesOptionsButton" && <PropertiesOptionsButton />)
+            ) }
         </div>
     )
 
