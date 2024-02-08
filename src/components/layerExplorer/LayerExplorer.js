@@ -135,8 +135,7 @@ const LayerExplorer = () => {
           {tagIcon && <span className="ml-2">{tagIcon}</span>}
 
           <span className="ml-2 font-semibold" title={tag.id} onClick={handleClick}>
-            {tag.tagName}
-            {tag.id && `#${tag.id}`}
+            {tag.id}
           </span>
         </div>
         <div
