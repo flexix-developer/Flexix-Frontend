@@ -185,7 +185,7 @@ const RegisterPage = () => {
         pass: password,
       });
 
-      alert("Registration Successful");
+      // alert("Registration Successful");
       setFname("");
       setLname("");
       setEmail("");
