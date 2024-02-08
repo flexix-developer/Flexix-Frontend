@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import WidgetsTitle from "../toolboxWidgets/ToolboxWidgetsTitle";
 import Select from "react-select";
+import PopupEditAction from "../editAction/EditActionPopUp";
 
 const PropertiesData = () => {
+  const [isEventVisible, setEventVisible] = useState(true);
+  const [CheckPopupEditAction, setCheckPopupEditAction] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null); // State to track selected event option
   const eventOptions = [
     { value: "Click", label: "Click" },
-    { value: "Hover", label: "Hover" },
-    { value: "Focus", label: "Focus" },
+    // { value: "Hover", label: "Hover" },
+    // { value: "Focus", label: "Focus" },
     { value: "Load", label: "Load" },
   ];
+  const handleClosePopupEditAction = () => {
+    setCheckPopupEditAction(false);
+  };
 
   const handleEventChange = (selectedOption) => {
+    setSelectedEvent(selectedOption);
     console.log("Selected event:", selectedOption.value);
     // เพิ่มโค้ดที่ต้องการทำเมื่อมีการเปลี่ยนแปลง Event
   };
-
-  const [isEventVisible, setEventVisible] = useState(true);
-
   const handleWidgetsToggle = (widgetType, isOpen) => {
     switch (widgetType) {
       case "Element event":
@@ -25,6 +30,11 @@ const PropertiesData = () => {
       default:
         break;
     }
+  };
+
+  const handleClickEidtAction = () => {
+    setCheckPopupEditAction(true);
+    console.log("Edit Action", PopupEditAction);
   };
 
   return (
@@ -50,13 +60,24 @@ const PropertiesData = () => {
               <p>do</p>
             </div>
             <div className="w-4/12 ml-2">
-              <button className="bg-blue-600 text-white p-2 rounded">
+              <button
+                className="bg-blue-600 text-white p-2 rounded"
+                onClick={handleClickEidtAction}
+              >
                 Edit Action
               </button>
             </div>
           </div>
         </div>
       )}
+      {CheckPopupEditAction &&
+        selectedEvent?.value === "Load" && ( // Use the selectedEvent state for conditional rendering
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+            <PopupEditAction
+              handleClosePopupEditAction={handleClosePopupEditAction}
+            />
+          </div>
+        )}
     </div>
   );
 };

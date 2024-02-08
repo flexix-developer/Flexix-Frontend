@@ -218,7 +218,7 @@ const HomePage = () => {
       {/* <NavBarWorkspace fname={userInfo.fname} lname={userInfo.lname} /> */}
       <NavBarDesign fname={userInfo.fname} lname={userInfo.lname} />
       <div className="flex flex-row items-center justify-between px-6 md:px-6 lg:px-8 py-8">
-        <div className="flex items-center">
+        <div className="flex items-center w-11/12">
           <p className="text-3xl md:text-4xl lg:text-4xl text-Black font-bold">
             My Project
           </p>
@@ -262,7 +262,7 @@ const HomePage = () => {
                       onChange={(e) => setEditedProjectName(e.target.value)}
                       className="border-b border-black px-2"
                     />
-                    <FiCheck 
+                    <FiCheck
                       name="save_new_name"
                       className="ml-2 cursor-pointer text-green-500"
                       onClick={() => handleSaveEdit(project.id)}
@@ -270,7 +270,6 @@ const HomePage = () => {
                   </div>
                 ) : (
                   <p className="font-semibold text-xl flex items-center">
-
                     {project.name}
                     <FiEdit
                       name="fiCheckIcon"

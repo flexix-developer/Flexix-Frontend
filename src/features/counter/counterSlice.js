@@ -827,7 +827,7 @@ export const counterSlice = createSlice({
     EditText: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
       const newValue = action.payload;
-      targetNode.set_content(newValue);      
+      targetNode.set_content(newValue);
       state.value = root.toString();
       SavePage(state, root.toString());
     },
