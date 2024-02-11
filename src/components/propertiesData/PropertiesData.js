@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WidgetsTitle from "../toolboxWidgets/ToolboxWidgetsTitle";
 import Select from "react-select";
 import PopupEditAction from "../editAction/EditActionPopUp";
+import { useSelector, useDispatch } from "react-redux";
 
 const PropertiesData = () => {
   const [isEventVisible, setEventVisible] = useState(true);
   const [CheckPopupEditAction, setCheckPopupEditAction] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null); // State to track selected event option
+  const [lastSelect, setLastSelect] = useState(null);
+  const { counter } = useSelector((state) => state);
+  const { currentFocus: currentFocus } = counter;
   const eventOptions = [
     { value: "Click", label: "Click" },
     // { value: "Hover", label: "Hover" },
@@ -35,7 +39,12 @@ const PropertiesData = () => {
   const handleClickEidtAction = () => {
     setCheckPopupEditAction(true);
     console.log("Edit Action", PopupEditAction);
+    setLastSelect(currentFocus);
   };
+
+  useEffect(() => {
+    console.log(lastSelect);
+  }, [lastSelect]);
 
   return (
     <div>
@@ -72,9 +81,10 @@ const PropertiesData = () => {
       )}
       {CheckPopupEditAction &&
         selectedEvent?.value === "Load" && ( // Use the selectedEvent state for conditional rendering
-          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
             <PopupEditAction
               handleClosePopupEditAction={handleClosePopupEditAction}
+              lastSelect={lastSelect}
             />
           </div>
         )}

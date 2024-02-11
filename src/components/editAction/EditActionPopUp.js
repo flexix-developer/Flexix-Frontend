@@ -6,12 +6,11 @@ import axios from "axios";
 import { IoMdClose } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 
-const EditActionPopUp = ({ handleClosePopupEditAction }) => {
+const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
+  console.log("lastSelect", lastSelect);
   const [apiInputValue, setApiInputValue] = useState("");
   const [testConnect, setTestConnect] = useState(null); // State to track selected event option
-  const [headOptions, setHeadOptions] = useState([]);
   const [eventOptions, setEventOptions] = useState([]);
-  const [selectedHead, setSelectedHead] = useState(null); // State to track selected event option
   const [responseAPI, setResponseAPI] = useState(null); // State to track selected event option
 
   const { counter } = useSelector((state) => state);
@@ -20,34 +19,31 @@ const EditActionPopUp = ({ handleClosePopupEditAction }) => {
   const { currentFocusElement: currentFocusElement } = counter;
 
   const [elements, setElements] = useState([
-    { options: [], selectedOption: null },
+    { eventOptionSelected: null, elementOptionSelected: null },
   ]);
-
-  const createEventOptions = (data) => {
-    return Object.keys(data).map((key) => ({
-      value: key,
-      label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
-    }));
-  };
-
-  const handleHeadChange = (selectedOption) => {
-    setSelectedHead(selectedOption);
-    // console.log("Selected event:", selectedOption.value);
-    // เพิ่มโค้ดที่ต้องการทำเมื่อมีการเปลี่ยนแปลง Event
-  };
 
   const handleTestConnect = async () => {
     try {
-      //   const response = await axios.get(`${apiInputValue}`);
-      const response = await axios.get(`http://127.0.0.1:8082/getallcategory`);
+      // const response = await axios.get(`${apiInputValue}`);
+      setApiInputValue("http://127.0.0.1:5000/api");
+      const response = await axios.get(`http://127.0.0.1:5000/api`);
       setTestConnect(true);
-      //   console.log("Success");
-      const newHeadOptions = createEventOptions(response.data);
+      console.log("response.data", response.data);
       setResponseAPI(response.data);
-      setHeadOptions(newHeadOptions);
+
+      // สร้าง options สำหรับ Select จาก key ของข้อมูลแรก (หรือข้อมูลอื่นตามที่ต้องการ)
+      const sampleData = response.data[0] || {}; // ใช้ข้อมูลแรกเป็นตัวอย่าง
+      const keysOptions = Object.keys(sampleData).map((key) => ({
+        value: key,
+        label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+      }));
+
+      // อัพเดท state ของ eventOptions ด้วย keysOptions ที่สร้างขึ้น
+      setEventOptions(keysOptions);
     } catch (error) {
       console.error("Error fetching data:", error);
       setTestConnect(false);
+      setEventOptions([]);
     }
   };
 
@@ -55,61 +51,10 @@ const EditActionPopUp = ({ handleClosePopupEditAction }) => {
     setApiInputValue(event.target.value);
   };
 
-  useEffect(() => {
-    if (selectedHead && responseAPI && responseAPI[selectedHead.value]) {
-      handleSelectHead();
-    }
-  }, [selectedHead, responseAPI]); // ตอบสนองต่อการเปลี่ยนแปลงของ selectedHead และ responseAPI
-
-  const handleSelectHead = () => {
-    // ตรวจสอบว่า selectedHead มีค่าหรือไม่
-    if (selectedHead && responseAPI[selectedHead.value]) {
-      // เข้าถึงข้อมูลตาม key ที่เลือกจาก selectedHead
-      const dataToProcess = responseAPI[selectedHead.value];
-
-      if (typeof dataToProcess === "object") {
-        // สมมติว่า dataToProcess เป็น object หรือ array ของ objects
-        const newEventOptions = Array.isArray(dataToProcess)
-          ? dataToProcess.reduce((acc, current) => {
-              // หากเป็น array, สร้าง options จาก keys ของ object แต่ละตัวใน array
-              Object.keys(current).forEach((key) => {
-                // เพิ่ม key ใหม่หากยังไม่มีใน acc
-                if (!acc.find((option) => option.value === key)) {
-                  acc.push({
-                    value: key,
-                    label: key.charAt(0).toUpperCase() + key.slice(1),
-                  });
-                }
-              });
-              return acc;
-            }, [])
-          : Object.keys(dataToProcess).map((key) => ({
-              // หากเป็น object, สร้าง options จาก keys
-              value: key,
-              label: key.charAt(0).toUpperCase() + key.slice(1),
-            }));
-
-        setEventOptions(newEventOptions);
-      } else {
-        // หากไม่เป็น object หรือ array, ไม่ต้องดำเนินการ
-        console.log("Selected head does not contain object/array data");
-        setEventOptions([]);
-      }
-    } else {
-      console.log("Selected head is null or does not exist in response data");
-      setEventOptions([]);
-    }
-  };
   const addElement = () => {
     setElements([...elements, { options: [], selectedOption: null }]);
   };
 
-  // ฟังก์ชันสำหรับการเปลี่ยนแปลงเลือกของ Select
-  const handleSelectChange = (selectedOption, index) => {
-    const newElements = elements.slice(); // คัดลอก array
-    newElements[index].selectedOption = selectedOption; // อัปเดต selectedOption
-    setElements(newElements); // อัปเดต state
-  };
   const [selectedElement, setSelectedElement] = useState(null);
   const [elementOptions, setElementOptions] = useState([]);
 
@@ -139,13 +84,72 @@ const EditActionPopUp = ({ handleClosePopupEditAction }) => {
     }
   }, [sanitizedHTML]); // เพิ่ม sanitizedHTML เป็น dependency เพื่อให้ useEffect ทำงานอีกครั้งเมื่อ sanitizedHTML มีการเปลี่ยนแปลง
 
-  const handleChange = (selectedOption) => {
-    setSelectedElement(selectedOption);
-    console.log("Selected:", selectedOption);
+  const handleSelectChange = (selectedOption, index) => {
+    const newElements = [...elements];
+    newElements[index].eventOptionSelected = selectedOption;
+    setElements(newElements);
+  };
+
+  // สำหรับการเปลี่ยนแปลงที่เกี่ยวข้องกับ element options
+  const handleSelectElementChange = (selectedOption, index) => {
+    const newElements = [...elements];
+    newElements[index].elementOptionSelected = selectedOption;
+    setElements(newElements);
+  };
+
+  const handleDoneClick = () => {
+    console.log("--------------------");
+    elements.forEach((element, index) => {
+      console.log(
+        "Event Option Selected:",
+        element.eventOptionSelected ? element.eventOptionSelected.label : "None"
+      );
+      console.log(
+        "Element Option Selected:",
+        element.elementOptionSelected
+          ? element.elementOptionSelected.label
+          : "None"
+      );
+    });
+    console.log("--------------------");
+    onLoadScript();
+  };
+
+  const onLoadScript = () => {
+    let script = `window.onload = function () {
+    fetch("http://127.0.0.1:5000/api")
+      .then((response) => response.json())
+      .then((data) => {
+        const sourceElement = document.getElementById("${lastSelect.slice(1)}");
+        const container = sourceElement.parentNode;
+        container.innerHTML = ""; // Clear the container to prepare for new elements
+        data.forEach((item, i) => {
+          const clonedElement = sourceElement.cloneNode(true);
+          clonedElement.id = \`\${sourceElement.id}\`; // No need to escape backticks here
+          // Customize the clonedElement as necessary
+          clonedElement.querySelectorAll("*").forEach((child, index) => {
+            const newId = \`\${child.id}\`; // No need to escape backticks here
+            child.id = newId; // Set the new id
+            // Check and change src for images
+            if (child.id.includes("image-2")) {
+              child.src = item.Product_Image; // Set the new src
+            }
+            // Modify text for P_Name
+            if (child.id.includes("P_Name")) {
+              child.textContent = item.Product_Name; // Set the new text
+            }
+            // Additional examples: Check and change text or other properties as needed
+          });
+          container.appendChild(clonedElement); // Add the clonedElement to the container
+        });
+      })
+      .catch((error) => console.error("Error:", error));
+  };`;
+    console.log(script);
   };
 
   return (
-    <div className="bg-[#272727] p-4 w-5/12  pb-10  rounded-lg">
+    <div className="bg-[#272727] p-4 w-5/12  pb-10  rounded-lg z-0">
       <div className="flex w-full justify-end">
         <IoMdClose
           className="text-3xl text-red-500"
@@ -184,7 +188,7 @@ const EditActionPopUp = ({ handleClosePopupEditAction }) => {
             <span className="text-[#FFFFFF]">Wait...</span>
           )}
         </div>
-        <div className="w-4/5 mt-2 flex flex-col ">
+        {/* <div className="w-4/5 mt-2 flex flex-col ">
           <div className="w-full flex justify-between  ">
             <div className="flex flex-col items-start ">
               <span className="text-xl ">Head Key</span>
@@ -220,7 +224,7 @@ const EditActionPopUp = ({ handleClosePopupEditAction }) => {
               />
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="w-4/5 mt-2 flex flex-col">
           {elements.map((element, index) => (
             <div key={`element-${index}`} className="flex justify-between">
@@ -230,11 +234,13 @@ const EditActionPopUp = ({ handleClosePopupEditAction }) => {
               >
                 {/*Element*/}
                 <div className="flex flex-col">
-                  <span className="text-xl">Element</span>
+                  <span className="text-xl">Element Web</span>
                   <Select
                     options={elementOptions}
-                    value={selectedElement}
-                    onChange={handleChange}
+                    value={element.elementOptionSelected}
+                    onChange={(selectedOption) =>
+                      handleSelectElementChange(selectedOption, index)
+                    }
                     styles={{
                       control: (provided) => ({
                         ...provided,
@@ -266,10 +272,10 @@ const EditActionPopUp = ({ handleClosePopupEditAction }) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xl">Json API</span>
+                  <span className="text-xl">Json Key</span>
                   <Select
                     options={eventOptions}
-                    value={element.selectedOption}
+                    value={element.eventOptionSelected}
                     onChange={(selectedOption) =>
                       handleSelectChange(selectedOption, index)
                     }
@@ -320,7 +326,10 @@ const EditActionPopUp = ({ handleClosePopupEditAction }) => {
         </div>
 
         <div className="w-4/5 mt-2">
-          <button className="mt-4 w-full bg-[#3E64BD] rounded-sm h-10">
+          <button
+            className="mt-4 w-full bg-[#3E64BD] rounded-sm h-10"
+            onClick={handleDoneClick}
+          >
             Done
           </button>
         </div>

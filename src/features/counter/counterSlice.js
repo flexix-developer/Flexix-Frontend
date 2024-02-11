@@ -85,7 +85,7 @@ export const counterSlice = createSlice({
     },
     focusElement: (state, action) => {
       state.currentFocusElement = action.payload;
-      console.log(state.currentFocusElement);
+      // console.log(state.currentFocusElement);
     },
     addRow: (state) => {
       appendElement(
