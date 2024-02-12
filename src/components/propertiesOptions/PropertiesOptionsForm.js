@@ -12,7 +12,7 @@ const PropertiesOptionsForm = () => {
 
   const subPageOption = [
     { value: "null", label: "null" },
-    { value: "null", label: "null" },
+    { value: "black page", label: "black page" },
   ];
 
 

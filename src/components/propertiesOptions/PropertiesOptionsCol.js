@@ -1,4 +1,18 @@
+import React from "react";
+import { useDispatch } from "react-redux";
+import {
+  HeightInputChange,
+} from "../../features/counter/counterSlice";
+
 const PropertiesOptionsCol = () => {
+  const dispatch = useDispatch();
+
+  const handleHeightInputChange = (value) => {
+    const heightValue = value;
+    console.log(heightValue);
+    dispatch(HeightInputChange(heightValue));
+  };
+
   return (
     <div className="flex flex-col w-full p-2">
       <div className="flex flex-row pl-2 pb-1 text-lg">

@@ -147,7 +147,7 @@ export const counterSlice = createSlice({
       appendElement(
         state,
         "Button",
-        `<button id="button-${state.currentButtonNumber}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">Button</button>`
+        `<button id="button-${state.currentButtonNumber}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded" type="button">Button</button>`
       );
     },
     addTextarea: (state) => {
@@ -831,6 +831,13 @@ export const counterSlice = createSlice({
       state.value = root.toString();
       SavePage(state, root.toString());
     },
+    EditSrc: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const newSrc = action.payload;
+        targetNode.setAttribute('src', newSrc);
+        state.value = root.toString();
+        SavePage(state, root.toString());
+    },
   },
 });
 
@@ -893,6 +900,7 @@ export const {
   updatePageList,
   updateActiveIndex,
   EditText,
+  EditSrc,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

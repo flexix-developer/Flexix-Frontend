@@ -1,12 +1,33 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react"
 import { parse } from "node-html-parser";
-import { WidthInputChange, HeightInputChange } from "../../features/counter/counterSlice";
+import {
+  WidthInputChange,
+  HeightInputChange,
+  EditSrc } from "../../features/counter/counterSlice";
 
 const PropertiesOptionsImage = () => {
   const dispatch = useDispatch();
   const counterState = useSelector((state) => state.counter);
-
   const root = parse(counterState.value);
+
+  const [imageValue, setImageValue] = useState("");
+
+  useEffect(() => {
+    const targetNode = parse(counterState.value).querySelector(
+      `img${counterState.currentFocus}`
+    );
+    if (targetNode) {
+      setImageValue(targetNode.getAttribute("src"));
+    } else {
+      setImageValue("");
+    }
+  }, [counterState.currentFocus, counterState.value]);
+
+  const handleEditSrc = (event) => {
+    dispatch(EditSrc(event.target.value));
+};
+
   const getSelectedWidthValue = () => {
     const targetNode = root.querySelector(counterState.currentFocus);
 
@@ -199,6 +220,8 @@ const PropertiesOptionsImage = () => {
         <input
           type="text"
           placeholder="e.g. https://pic.com/dog.png"
+          value={imageValue}
+          onChange={handleEditSrc}
           className="w-11/12 p-1 pl-2 bg-neutral-700 rounded border-2 border-neutral-600"
         />
       </div>
@@ -206,41 +229,41 @@ const PropertiesOptionsImage = () => {
         <p>Set this to make this whole block link somewhere</p>
       </div>
       <div className="flex flex-row w-full justify-start p-2 items-center mt-4">
-      <div className="w-3/12 pl-2 mr-2">
-        <p>Width</p>
-      </div>
-      <div className="w-9/12 flex flex-row">
-        <div className="w-12/12 text-black">
-          <select
-            className="WidthInputChange"
-            value={getSelectedWidthValue()}
-            onChange={handleWidthInputChange}
-          >
-            {WidthOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+        <div className="w-3/12 pl-2 mr-2">
+          <p>Width</p>
+        </div>
+        <div className="w-9/12 flex flex-row">
+          <div className="w-12/12 text-black">
+            <select
+              className="WidthInputChange"
+              value={getSelectedWidthValue()}
+              onChange={handleWidthInputChange}
+            >
+              {WidthOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="w-3/12 mr-2">
+          <p>Height</p>
+        </div>
+        <div className="w-9/12 flex flex-row">
+          <div className="w-12/12 text-center text-black">
+            <select
+              className="HeightInputChange"
+              value={getSelectedHeightValue()}
+              onChange={handleHeightInputChange}
+            >
+              {HeightOptions.map((option) => (
+                <option value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
-      <div className="w-3/12 mr-2">
-        <p>Height</p>
-      </div>
-      <div className="w-9/12 flex flex-row">
-        <div className="w-12/12 text-center text-black">
-          <select
-            className="HeightInputChange"
-            value={getSelectedHeightValue()}
-            onChange={handleHeightInputChange}
-          >
-            {HeightOptions.map((option) => (
-              <option value={option.value}>{option.label}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-    </div>
     </div>
   );
 };
