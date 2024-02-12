@@ -12,6 +12,10 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
   const [testConnect, setTestConnect] = useState(null); // State to track selected event option
   const [eventOptions, setEventOptions] = useState([]);
   const [responseAPI, setResponseAPI] = useState(null); // State to track selected event option
+  const [actionButton, setActionButton] = useState(false);
+  const [nameactionButton, setNameActionButton] = useState(null);
+  const [pageAction, setPageAction] = useState("");
+  const [IDEActionOptions, setIDEActionOptions] = useState([]);
 
   const { counter } = useSelector((state) => state);
   const { value: sanitizedHTML } = counter;
@@ -26,9 +30,9 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
 
   const handleTestConnect = async () => {
     try {
-      const response = await axios.get(`${apiInputValue}`);
-      // setApiInputValue("http://127.0.0.1:5000/api");
-      // const response = await axios.get(`http://127.0.0.1:5000/api`);
+      // const response = await axios.get(`${apiInputValue}`);
+      setApiInputValue("http://127.0.0.1:5000/api");
+      const response = await axios.get(`http://127.0.0.1:5000/api`);
       setTestConnect(true);
       console.log("response.data", response.data);
       setResponseAPI(response.data);
@@ -51,6 +55,10 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
 
   const handleInputChange = (event) => {
     setApiInputValue(event.target.value);
+  };
+
+  const handlePageActionChange = (event) => {
+    setPageAction(event.target.value);
   };
 
   const addElement = () => {
@@ -80,6 +88,7 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
         label: el.id,
       }));
       setElementOptions(options);
+      setIDEActionOptions(options);
     } else {
       // ถ้าไม่พบ row6, ตั้ง options เป็น array ว่าง
       setElementOptions([]);
@@ -98,23 +107,18 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
     newElements[index].elementOptionSelected = selectedOption;
     setElements(newElements);
   };
+  const handleSelectElementActionChange = (selectedOption) => {
+    console.log("selectedOption", selectedOption);
+    setNameActionButton(selectedOption.label);
+  };
 
   const handleDoneClick = () => {
-    // console.log("--------------------");
-    // elements.forEach((element, index) => {
-    //   console.log(
-    //     "Event Option Selected:",
-    //     element.eventOptionSelected ? element.eventOptionSelected.label : "None"
-    //   );
-    //   console.log(
-    //     "Element Option Selected:",
-    //     element.elementOptionSelected
-    //       ? element.elementOptionSelected.label
-    //       : "None"
-    //   );
-    // });
-    // console.log("--------------------");
     onLoadScript();
+  };
+
+  const handleAddButtonClick = () => {
+    console.log(IDEActionOptions);
+    setActionButton(true);
   };
 
   const onLoadScript = () => {
@@ -187,6 +191,18 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
 
         combinedChild += child; // เพิ่มสตริง child ในลูปนี้เข้าไปใน combinedChild
       }
+      if (nameactionButton !== null) {
+        let child = `          \n// // Check and change src for ${nameactionButton}
+                   if (child.id.includes("${nameactionButton}")) {
+                    child.addEventListener("click", function () {
+                      window.location.href = \`${pageAction}?id=\${item.ID}\`;
+                      console.log(item.ID);
+                    });
+                  }`;
+        console.log("Child string:", child); // ใส่ "Child string:" ไว้เพื่อแสดงว่ามันเป็นสตริง child ที่ถูกเชื่อมต่อแล้ว
+
+        combinedChild += child; // เพิ่มสตริง child ในลูปนี้เข้าไปใน combinedChild
+      }
     });
 
     console.log("Combined Child:", combinedChild); // แสดงสตริงที่รวมกันทั้งหมดหลังจากลูป
@@ -198,6 +214,7 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
     );
     console.log(script);
     handleSaveScript(script);
+    // add If Next Close Popup
   };
 
   const handleSaveScript = async (script) => {
@@ -267,43 +284,6 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
             <span className="text-[#FFFFFF]">Wait...</span>
           )}
         </div>
-        {/* <div className="w-4/5 mt-2 flex flex-col ">
-          <div className="w-full flex justify-between  ">
-            <div className="flex flex-col items-start ">
-              <span className="text-xl ">Head Key</span>
-
-              <Select
-                options={headOptions}
-                className="text-md text-black rounded-sm w-56 mt-1"
-                onChange={handleHeadChange}
-                styles={{
-                  control: (provided) => ({
-                    ...provided,
-                    backgroundColor: "#595959",
-                    color: "white",
-                    // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
-                  }),
-                  menu: (provided) => ({
-                    ...provided,
-                    backgroundColor: "#595959",
-                    // สำหรับเมนูดร็อปดาวน์
-                  }),
-                  option: (provided, state) => ({
-                    ...provided,
-                    backgroundColor: state.isFocused ? "#424242" : "#595959",
-                    color: "white",
-                    // สำหรับตัวเลือกภายในเมนู
-                  }),
-                  singleValue: (provided) => ({
-                    ...provided,
-                    color: "white",
-                  }),
-                  // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
-                }}
-              />
-            </div>
-          </div>
-        </div> */}
         <div className="w-4/5 mt-2 flex flex-col">
           {elements.map((element, index) => (
             <div key={`element-${index}`} className="flex justify-between">
@@ -388,6 +368,7 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
                     // styles ของคุณที่นี่
                   />
                 </div>
+
                 {/* แสดงปุ่มเฉพาะใน element สุดท้าย */}
               </div>
               {index === elements.length - 1 && (
@@ -403,13 +384,76 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
             </div>
           ))}
         </div>
+        {!actionButton && (
+          <div className="w-4/5 mt-2 ">
+            <button
+              className="mt-4 w-56 bg-[#3E64BD] rounded-sm h-10"
+              onClick={handleAddButtonClick}
+            >
+              Add Action Element
+            </button>
+          </div>
+        )}
+        {/* IDEActionOptions */}
 
+        {actionButton && (
+          <div className="flex justify-between w-4/5 mt-4 ">
+            <div className="flex w-10/12 justify-between items-center ">
+              <div className="flex flex-col ">
+                <span className="text-xl">Element Action</span>
+                <Select
+                  className="w-56"
+                  value={IDEActionOptions.find(
+                    (option) => option.value === pageAction
+                  )}
+                  onChange={(selectedOption) =>
+                    handleSelectElementActionChange(selectedOption)
+                  }
+                  options={IDEActionOptions}
+                  styles={{
+                    control: (provided) => ({
+                      ...provided,
+                      backgroundColor: "#595959",
+                      color: "white",
+                      // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
+                    }),
+                    menu: (provided) => ({
+                      ...provided,
+                      backgroundColor: "#595959",
+                      // สำหรับเมนูดร็อปดาวน์
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      backgroundColor: state.isFocused ? "#424242" : "#595959",
+                      color: "white",
+                      // สำหรับตัวเลือกภายในเมนู
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      color: "white",
+                    }),
+                    // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
+                  }}
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xl">Page Action</span>
+                <input
+                  id="PAGEACTION"
+                  value={pageAction}
+                  onChange={handlePageActionChange} // อัปเดต state ทุกครั้งที่มีการพิมพ
+                  className="w-56 h-9 bg-[#595959] rounded-sm ps-2"
+                />
+              </div>
+            </div>
+          </div>
+        )}
         <div className="w-4/5 mt-2">
           <button
             className="mt-4 w-full bg-[#3E64BD] rounded-sm h-10"
             onClick={handleDoneClick}
           >
-            Done
+            {actionButton == false ? "Done" : "Next"}
           </button>
         </div>
       </div>
