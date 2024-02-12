@@ -91,14 +91,14 @@ export const counterSlice = createSlice({
       appendElement(
         state,
         "Row",
-        `<div id="row-${state.currentRowNumber}" class="flex flex-row flex-wrap p-1 w-full min-h-32 max-h-full bg-slate-400"></div>`
+        `<div id="row-${state.currentRowNumber}" class="flex flex-row flex-wrap p-1 w-full  max-h-full bg-slate-400"></div>`
       );
     },
     addCol: (state) => {
       appendElement(
         state,
         "Col",
-        `<div id="col-${state.currentColNumber}" class="flex flex-col flex-wrap p-1 w-full min-h-32 max-h-full bg-slate-200"></div>`
+        `<div id="col-${state.currentColNumber}" class="flex flex-col flex-wrap p-1 w-full  max-h-full bg-slate-200"></div>`
       );
     },
     addText: (state) => {
@@ -133,7 +133,7 @@ export const counterSlice = createSlice({
       appendElement(
         state,
         "Form",
-        `<form id="form-${state.currentFormNumber}" class="flex flex-col flex-wrap p-1 w-full min-h-32 max-h-full bg-slate-300"></form>`
+        `<form id="form-${state.currentFormNumber}" class="flex flex-col flex-wrap p-1 w-full  max-h-full bg-slate-300"></form>`
       );
     },
     addLabel: (state) => {
@@ -313,8 +313,8 @@ export const counterSlice = createSlice({
         { value: "h-fit", label: "fit" },
       ];
 
-      // default remove min-h-32, max-h-full
-      targetNode.classList.remove("min-h-32");
+      // default remove , max-h-full
+      targetNode.classList.remove("");
       targetNode.classList.remove("max-h-full");
 
       HeightOptions.forEach((option) => {
