@@ -112,7 +112,7 @@ export const counterSlice = createSlice({
       appendElement(
         state,
         "Link",
-        `<a href="https://www.w3schools.com" id="link-${state.currentLinkNumber}" class="text-sky-600">Link</a>`
+        `<a href="https://www.w3schools.com" id="link-${state.currentLinkNumber}" class="text-sky-600" onClick="return false";>Link</a>`
       );
     },
     addImage: (state) => {
