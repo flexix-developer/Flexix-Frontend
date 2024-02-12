@@ -20,33 +20,32 @@ const LayerExplorer = () => {
   const dispatch = useDispatch();
 
   const handleClick = (event) => {
-      // get the clicked element title
-      const clickedElement = event.target;
-      const clickedElementId = clickedElement.title;
+    // get the clicked element title
+    const clickedElement = event.target;
+    const clickedElementId = clickedElement.title;
 
-      if (clickedElementId !== "") {
-        const highlightedElement = document.querySelector(".highlighted-text");
-  
-        // Check if the clicked element is not the "main" ID
-        if (clickedElementId !== "main") {
-          // Remove the previous highlighting
-          if (highlightedElement) {
-            highlightedElement.classList.remove("highlighted-text");
-          }
-  
-          // Add highlighting to the clicked element
-          clickedElement.classList.add("highlighted-text");
-        } else {
-          // Clicked element is "main" ID, remove the highlighting
-          if (highlightedElement) {
-            highlightedElement.classList.remove("highlighted-text");
-          }
+    if (clickedElementId !== "") {
+      const highlightedElement = document.querySelector(".highlighted-text");
+
+      // Check if the clicked element is not the "main" ID
+      if (clickedElementId !== "main") {
+        // Remove the previous highlighting
+        if (highlightedElement) {
+          highlightedElement.classList.remove("highlighted-text");
         }
-        // Perform additional actions based on the clicked ID if needed
-        dispatch(focus("#" + clickedElementId));
+
+        // Add highlighting to the clicked element
+        clickedElement.classList.add("highlighted-text");
+      } else {
+        // Clicked element is "main" ID, remove the highlighting
+        if (highlightedElement) {
+          highlightedElement.classList.remove("highlighted-text");
+        }
       }
-    };
-  
+      // Perform additional actions based on the clicked ID if needed
+      dispatch(focus("#" + clickedElementId));
+    }
+  };
 
   const findAllMainDivTags = () =>
     root
@@ -134,7 +133,11 @@ const LayerExplorer = () => {
 
           {tagIcon && <span className="ml-2">{tagIcon}</span>}
 
-          <span className="ml-2 font-semibold" title={tag.id} onClick={handleClick}>
+          <span
+            className="ml-2 font-semibold"
+            title={tag.id}
+            onClick={handleClick}
+          >
             {tag.id}
           </span>
         </div>

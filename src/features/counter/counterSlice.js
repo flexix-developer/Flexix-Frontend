@@ -66,6 +66,78 @@ const appendElement = (state, elementType, htmlTemplate) => {
   console.log(state.value);
 };
 
+const countElements = (state) => {
+  const rowElements = root.querySelectorAll('[id^="row-"]');
+      const colElements = root.querySelectorAll('[id^="col-"]');
+      const textElements = root.querySelectorAll('[id^="text-"]');
+      const linkElements = root.querySelectorAll('[id^="link-"]');
+      const imageElements = root.querySelectorAll('[id^="image-"]');
+      const embedElements = root.querySelectorAll('[id^="embed-"]');
+      const formElements = root.querySelectorAll('[id^="form-"]');
+      const labelElements = root.querySelectorAll('[id^="label-"]');
+      const buttonElements = root.querySelectorAll('[id^="button-"]');
+      const textareaElements = root.querySelectorAll('[id^="textarea-"]');
+      const inputElements = root.querySelectorAll('[id^="input-"]');
+      const selectElements = root.querySelectorAll('[id^="select-"]');
+
+      // สร้างตัวแปรเก็บค่า
+      let maxRowId = 0;
+      let maxColId = 0;
+      let maxTextId = 0;
+      let maxLinkId = 0;
+      let maxImageId = 0;
+      let maxEmbedId = 0;
+      let maxFormId = 0;
+      let maxLabelId = 0;
+      let maxButtonId = 0;
+      let maxTextareaId = 0;
+      let maxInputId = 0;
+      let maxSelectId = 0;
+
+      // ฟังก์ชันหาค่า id ที่มากที่สุด
+      function findMaxId(elements, prefix, maxId) {
+        elements.forEach((element) => {
+          const id = parseInt(
+            element.getAttribute("id").replace(`${prefix}`, ""),
+            10
+          );
+          if (!isNaN(id) && id > maxId) {
+            maxId = id;
+          } else {
+            maxId = id;
+          }
+        });
+        return maxId;
+      }
+
+      // ใช้ฟังก์ชันเพื่อหาค่า id ที่มากที่สุด
+      maxRowId = findMaxId(rowElements, "row-", maxRowId);
+      maxColId = findMaxId(colElements, "col-", maxColId);
+      maxTextId = findMaxId(textElements, "text-", maxTextId);
+      maxLinkId = findMaxId(linkElements, "link-", maxLinkId);
+      maxImageId = findMaxId(imageElements, "image-", maxImageId);
+      maxEmbedId = findMaxId(embedElements, "embed-", maxEmbedId);
+      maxFormId = findMaxId(formElements, "form-", maxFormId);
+      maxLabelId = findMaxId(labelElements, "label-", maxLabelId);
+      maxButtonId = findMaxId(buttonElements, "button-", maxButtonId);
+      maxTextareaId = findMaxId(textareaElements, "textarea-", maxTextareaId);
+      maxInputId = findMaxId(inputElements, "input-", maxInputId);
+      maxSelectId = findMaxId(selectElements, "select-", maxSelectId);
+
+      state.currentRowNumber = maxRowId + 1;
+      state.currentColNumber = maxColId + 1;
+      state.currentTextNumber = maxTextId + 1;
+      state.currentLinkNumber = maxLinkId + 1;
+      state.currentImageNumber = maxImageId + 1;
+      state.currentEmbedNumber = maxEmbedId + 1;
+      state.currentFormNumber = maxFormId + 1;
+      state.currentLabelNumber = maxLabelId + 1;
+      state.currentButtonNumber = maxButtonId + 1;
+      state.currentTextareaNumber = maxTextareaId + 1;
+      state.currentInputNumber = maxInputId + 1;
+      state.currentSelectNumber = maxSelectId + 1;
+}
+
 export const removeSelectedElement = () => (dispatch, getState) => {
   const { currentFocus } = getState().counter;
 
@@ -105,7 +177,7 @@ export const counterSlice = createSlice({
       appendElement(
         state,
         "Text",
-        `<p id="text-${state.currentTextNumber}" class="text-black">Text</p>`
+        `<p id="text-${state.currentTextNumber}" class="text-black" contenteditable="true">Text</p>`
       );
     },
     addLink: (state) => {
@@ -329,84 +401,18 @@ export const counterSlice = createSlice({
       SavePage(state, root.toString());
     },
     updateValue: (state, action) => {
-      const rowElements = root.querySelectorAll('[id^="row-"]');
-      const colElements = root.querySelectorAll('[id^="col-"]');
-      const textElements = root.querySelectorAll('[id^="text-"]');
-      const linkElements = root.querySelectorAll('[id^="link-"]');
-      const imageElements = root.querySelectorAll('[id^="image-"]');
-      const embedElements = root.querySelectorAll('[id^="embed-"]');
-      const formElements = root.querySelectorAll('[id^="form-"]');
-      const labelElements = root.querySelectorAll('[id^="label-"]');
-      const buttonElements = root.querySelectorAll('[id^="button-"]');
-      const textareaElements = root.querySelectorAll('[id^="textarea-"]');
-      const inputElements = root.querySelectorAll('[id^="input-"]');
-      const selectElements = root.querySelectorAll('[id^="select-"]');
-
-      // สร้างตัวแปรเก็บค่า
-      let maxRowId = 0;
-      let maxColId = 0;
-      let maxTextId = 0;
-      let maxLinkId = 0;
-      let maxImageId = 0;
-      let maxEmbedId = 0;
-      let maxFormId = 0;
-      let maxLabelId = 0;
-      let maxButtonId = 0;
-      let maxTextareaId = 0;
-      let maxInputId = 0;
-      let maxSelectId = 0;
-
-      // ฟังก์ชันหาค่า id ที่มากที่สุด
-      function findMaxId(elements, prefix, maxId) {
-        elements.forEach((element) => {
-          const id = parseInt(
-            element.getAttribute("id").replace(`${prefix}`, ""),
-            10
-          );
-          if (!isNaN(id) && id > maxId) {
-            maxId = id;
-          } else {
-            maxId = id;
-          }
-        });
-        return maxId;
-      }
-
-      // ใช้ฟังก์ชันเพื่อหาค่า id ที่มากที่สุด
-      maxRowId = findMaxId(rowElements, "row-", maxRowId);
-      maxColId = findMaxId(colElements, "col-", maxColId);
-      maxTextId = findMaxId(textElements, "text-", maxTextId);
-      maxLinkId = findMaxId(linkElements, "link-", maxLinkId);
-      maxImageId = findMaxId(imageElements, "image-", maxImageId);
-      maxEmbedId = findMaxId(embedElements, "embed-", maxEmbedId);
-      maxFormId = findMaxId(formElements, "form-", maxFormId);
-      maxLabelId = findMaxId(labelElements, "label-", maxLabelId);
-      maxButtonId = findMaxId(buttonElements, "button-", maxButtonId);
-      maxTextareaId = findMaxId(textareaElements, "textarea-", maxTextareaId);
-      maxInputId = findMaxId(inputElements, "input-", maxInputId);
-      maxSelectId = findMaxId(selectElements, "select-", maxSelectId);
-
-      state.currentRowNumber = maxRowId + 1;
-      state.currentColNumber = maxColId + 1;
-      state.currentTextNumber = maxTextId + 1;
-      state.currentLinkNumber = maxLinkId + 1;
-      state.currentImageNumber = maxImageId + 1;
-      state.currentEmbedNumber = maxEmbedId + 1;
-      state.currentFormNumber = maxFormId + 1;
-      state.currentLabelNumber = maxLabelId + 1;
-      state.currentButtonNumber = maxButtonId + 1;
-      state.currentTextareaNumber = maxTextareaId + 1;
-      state.currentInputNumber = maxInputId + 1;
-      state.currentSelectNumber = maxSelectId + 1;
+      countElements(state);
 
       state.value = action.payload;
       root = parse(state.value);
     },
     updatePageList: (state, action) => {
+      countElements(state);
       state.ListPages = action.payload;
       console.log("updatePageList", state.ListPages);
     },
     updateActiveIndex: (state, action) => {
+      countElements(state);
       state.IndexPages = action.payload;
       console.log("updateActiveIndex", state.IndexPages);
     },
@@ -915,6 +921,14 @@ export const counterSlice = createSlice({
       state.value = root.toString();
       SavePage(state, root.toString());
     },
+    EditId: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const newId = action.payload;
+    
+      targetNode.id = newId;
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
   },
 });
 
@@ -979,6 +993,7 @@ export const {
   EditText,
   EditSrc,
   EditHref,
+  EditId,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
