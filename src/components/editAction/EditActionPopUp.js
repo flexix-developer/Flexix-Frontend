@@ -17,6 +17,8 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
   const { value: sanitizedHTML } = counter;
   const { currentFocus: currentFocus } = counter;
   const { currentFocusElement: currentFocusElement } = counter;
+  const { ListPages: ListPages } = counter;
+  const { IndexPages: IndexPages } = counter;
 
   const [elements, setElements] = useState([
     { eventOptionSelected: null, elementOptionSelected: null },
@@ -24,9 +26,9 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
 
   const handleTestConnect = async () => {
     try {
-      // const response = await axios.get(`${apiInputValue}`);
-      setApiInputValue("http://127.0.0.1:5000/api");
-      const response = await axios.get(`http://127.0.0.1:5000/api`);
+      const response = await axios.get(`${apiInputValue}`);
+      // setApiInputValue("http://127.0.0.1:5000/api");
+      // const response = await axios.get(`http://127.0.0.1:5000/api`);
       setTestConnect(true);
       console.log("response.data", response.data);
       setResponseAPI(response.data);
@@ -98,20 +100,20 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
   };
 
   const handleDoneClick = () => {
-    console.log("--------------------");
-    elements.forEach((element, index) => {
-      console.log(
-        "Event Option Selected:",
-        element.eventOptionSelected ? element.eventOptionSelected.label : "None"
-      );
-      console.log(
-        "Element Option Selected:",
-        element.elementOptionSelected
-          ? element.elementOptionSelected.label
-          : "None"
-      );
-    });
-    console.log("--------------------");
+    // console.log("--------------------");
+    // elements.forEach((element, index) => {
+    //   console.log(
+    //     "Event Option Selected:",
+    //     element.eventOptionSelected ? element.eventOptionSelected.label : "None"
+    //   );
+    //   console.log(
+    //     "Element Option Selected:",
+    //     element.elementOptionSelected
+    //       ? element.elementOptionSelected.label
+    //       : "None"
+    //   );
+    // });
+    // console.log("--------------------");
     onLoadScript();
   };
 
@@ -128,24 +130,101 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
           clonedElement.id = \`\${sourceElement.id}\`; // No need to escape backticks here
           // Customize the clonedElement as necessary
           clonedElement.querySelectorAll("*").forEach((child, index) => {
+            
             const newId = \`\${child.id}\`; // No need to escape backticks here
             child.id = newId; // Set the new id
             // Check and change src for images
-            if (child.id.includes("image-2")) {
-              child.src = item.Product_Image; // Set the new src
-            }
-            // Modify text for P_Name
-            if (child.id.includes("P_Name")) {
-              child.textContent = item.Product_Name; // Set the new text
-            }
-            // Additional examples: Check and change text or other properties as needed
+
+            
           });
           container.appendChild(clonedElement); // Add the clonedElement to the container
         });
       })
       .catch((error) => console.error("Error:", error));
   };`;
+    let combinedChild = ""; // สร้างตัวแปรสำหรับเก็บสตริงที่รวมกันทั้งหมด
+
+    elements.forEach((element, index) => {
+      console.log(
+        element.eventOptionSelected
+          ? element.eventOptionSelected.label
+          : "None",
+        element.elementOptionSelected
+          ? element.elementOptionSelected.label
+          : "None"
+      );
+
+      console.log(sanitizedHTML);
+      const htmlString = sanitizedHTML; // จาก state Redux ของคุณ
+
+      // ใช้ DOMParser เพื่อแปลง string เป็น DOM
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlString, "text/html");
+      // ค้นหา element ที่มี id เป็น 'image-2'
+      const selectedElement = doc.getElementById(
+        element.elementOptionSelected.label
+      );
+
+      // เช็คว่า element ที่เลือกนั้นเป็น tag <img> หรือไม่
+      const isImgTag = selectedElement.tagName.toLowerCase() === "img";
+
+      console.log(isImgTag); // แสดงผลลัพธ์ว่าเป็น tag <img> หรือไม่
+      if (isImgTag) {
+        let child = `          \n// // Check and change src for ${element.elementOptionSelected.label}
+    if (child.tagName === "IMG" && child.id.includes("${element.elementOptionSelected.label}")) {
+    child.src = item.${element.eventOptionSelected.label}; // Set the new src
+  }`;
+        console.log("Child string:", child); // ใส่ "Child string:" ไว้เพื่อแสดงว่ามันเป็นสตริง child ที่ถูกเชื่อมต่อแล้ว
+
+        combinedChild += child; // เพิ่มสตริง child ในลูปนี้เข้าไปใน combinedChild
+      } else {
+        let child = `          \n// Modify text for ${element.elementOptionSelected.label}
+  if (child.id.includes("${element.elementOptionSelected.label}")) {
+    child.textContent = item.${element.eventOptionSelected.label}; // Set the new text
+  }`;
+
+        console.log("Child string:", child); // ใส่ "Child string:" ไว้เพื่อแสดงว่ามันเป็นสตริง child ที่ถูกเชื่อมต่อแล้ว
+
+        combinedChild += child; // เพิ่มสตริง child ในลูปนี้เข้าไปใน combinedChild
+      }
+    });
+
+    console.log("Combined Child:", combinedChild); // แสดงสตริงที่รวมกันทั้งหมดหลังจากลูป
+
+    const regex = /\/\/\sCheck\sand\schange\ssrc\sfor\simages/g;
+    script = script.replace(
+      regex,
+      `// Check and change src for images\n${combinedChild}\n`
+    );
     console.log(script);
+    handleSaveScript(script);
+  };
+
+  const handleSaveScript = async (script) => {
+    try {
+      const pagename = ListPages[IndexPages];
+      const ID = localStorage.getItem("ID");
+      const ProjectID = localStorage.getItem("ProjectID");
+      const token = localStorage.getItem("token");
+      console.log(pagename);
+      await axios.post(
+        "http://localhost:8081/users/editscript",
+        {
+          userID: ID,
+          projectId: ProjectID,
+          pageName: pagename.slice(0, -5),
+          content: script,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert("Create Script Success!");
+    } catch (error) {
+      alert("Create New Page Failed!");
+    }
   };
 
   return (

@@ -137,14 +137,15 @@ const PageExplorer = ({
         const ID = localStorage.getItem("ID");
         const ProjectID = localStorage.getItem("ProjectID");
         const token = localStorage.getItem("token");
+        console.log(editedPageName.slice(0, -5), editedNewPageName);
 
         await axios.post(
           "http://127.0.0.1:8081/users/editpage",
           {
             id: ID,
             proid: ProjectID,
-            pageName: editedPageName,
-            newpagename: editedNewPageName + ".html",
+            pageName: editedPageName.slice(0, -5),
+            newpagename: editedNewPageName,
           },
           {
             headers: {
