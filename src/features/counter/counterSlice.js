@@ -177,7 +177,7 @@ export const counterSlice = createSlice({
       appendElement(
         state,
         "Text",
-        `<p id="text-${state.currentTextNumber}" class="text-black" contenteditable="true">Text</p>`
+        `<p id="text-${state.currentTextNumber}" class="text-black">Text</p>`
       );
     },
     addLink: (state) => {

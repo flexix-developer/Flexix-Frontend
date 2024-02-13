@@ -72,22 +72,22 @@ const DesignWorkspace = () => {
     };
   }, [dispatch]);
 
-  const handleInput = useCallback(
-    (event) => {
-      // Log the edited content to the console
-      console.log("Content edited:", event.target.innerHTML);
-      dispatch(EditText(event.target.innerHTML));
-    },
-    [dispatch]
-  );
+  // const handleInput = useCallback(
+  //   (event) => {
+  //     // Log the edited content to the console
+  //     console.log("Content edited:", event.target.innerHTML);
+  //     dispatch(EditText(event.target.innerHTML));
+  //   },
+  //   [dispatch]
+  // );
 
-  useEffect(() => {
-    // Attach the input event listener to the contenteditable element
-    document.addEventListener("input", handleInput);
-    return () => {
-      document.removeEventListener("input", handleInput);
-    };
-  }, [handleInput]);
+  // useEffect(() => {
+  //   // Attach the input event listener to the contenteditable element
+  //   document.addEventListener("input", handleInput);
+  //   return () => {
+  //     document.removeEventListener("input", handleInput);
+  //   };
+  // }, [handleInput]);
 
   return (
     <div className="flex flex-col">
