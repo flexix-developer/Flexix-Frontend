@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import WidgetsTitle from "../toolboxWidgets/ToolboxWidgetsTitle";
 import Select from "react-select";
-import PopupEditAction from "../editAction/EditActionPopUp";
 import { useSelector, useDispatch } from "react-redux";
-
+import OnLoadActionPopUp from "../editAction/OnLoadActionPopUp";
+import OnClickActionPopUp from "../editAction/OnClickActionPopUp";
 const PropertiesData = () => {
   const [isEventVisible, setEventVisible] = useState(true);
   const [CheckPopupEditAction, setCheckPopupEditAction] = useState(false);
@@ -38,7 +38,6 @@ const PropertiesData = () => {
 
   const handleClickEidtAction = () => {
     setCheckPopupEditAction(true);
-    console.log("Edit Action", PopupEditAction);
     setLastSelect(currentFocus);
   };
 
@@ -46,6 +45,9 @@ const PropertiesData = () => {
     console.log(lastSelect);
   }, [lastSelect]);
 
+  const ClosePopupEditAction = () => {
+    setCheckPopupEditAction(false);
+  };
   return (
     <div>
       <WidgetsTitle
@@ -82,9 +84,20 @@ const PropertiesData = () => {
       {CheckPopupEditAction &&
         selectedEvent?.value === "Load" && ( // Use the selectedEvent state for conditional rendering
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
-            <PopupEditAction
+            <OnLoadActionPopUp
               handleClosePopupEditAction={handleClosePopupEditAction}
               lastSelect={lastSelect}
+              ClosePopupEditAction={ClosePopupEditAction}
+            />
+          </div>
+        )}
+      {CheckPopupEditAction &&
+        selectedEvent?.value === "Click" && ( // Use the selectedEvent state for conditional rendering
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
+            <OnClickActionPopUp
+              handleClosePopupEditAction={handleClosePopupEditAction}
+              lastSelect={lastSelect}
+              ClosePopupEditAction={ClosePopupEditAction}
             />
           </div>
         )}

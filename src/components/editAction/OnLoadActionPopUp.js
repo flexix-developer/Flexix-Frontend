@@ -6,7 +6,11 @@ import axios from "axios";
 import { IoMdClose } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 
-const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
+const OnLoadActionPopUp = ({
+  handleClosePopupEditAction,
+  lastSelect,
+  ClosePopupEditAction,
+}) => {
   console.log("lastSelect", lastSelect);
   const [apiInputValue, setApiInputValue] = useState("");
   const [apiInputValue2, setApiInputValue2] = useState("");
@@ -40,9 +44,9 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
 
   const handleTestConnect = async () => {
     try {
-      // const response = await axios.get(`${apiInputValue}`);
-      setApiInputValue("http://127.0.0.1:5000/api");
-      const response = await axios.get(`http://127.0.0.1:5000/api`);
+      const response = await axios.get(`${apiInputValue}`);
+      // setApiInputValue("http://127.0.0.1:5000/api");
+      // const response = await axios.get(`http://127.0.0.1:5000/api`);
       setTestConnect(true);
       console.log("response.data", response.data);
       setResponseAPI(response.data);
@@ -186,11 +190,13 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
 
   const handleDoneClick = () => {
     onLoadScript();
+    ClosePopupEditAction();
   };
 
   const handleMapDoneClick = async () => {
     console.log(elementsp2);
     SingleonLoadScript();
+    ClosePopupEditAction();
   };
 
   const handleNextClick = async () => {
@@ -250,7 +256,7 @@ const EditActionPopUp = ({ handleClosePopupEditAction, lastSelect }) => {
 
   const onLoadScript = () => {
     let script = `window.onload = function () {
-    fetch("http://127.0.0.1:5000/api")
+    fetch("${apiInputValue}")
       .then((response) => response.json())
       .then((data) => {
         const sourceElement = document.getElementById("${lastSelect.slice(1)}");
@@ -350,7 +356,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   const param = urlParams.get("id"); // ดึงค่า ID
   console.log(param); // แสดงค่า ID ใน console
-fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
+fetch(\`${apiInputValue2}\${param}\`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
@@ -445,7 +451,7 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
   };
 
   return (
-    <div className="bg-[#272727] p-4 w-5/12  pb-10  rounded-lg z-0">
+    <div className="bg-[#272727] p-4 w-5/12 max-h-[600px]  pb-10  rounded-lg z-100">
       <div className="flex w-full justify-end">
         <IoMdClose
           className="text-3xl text-red-500"
@@ -456,7 +462,9 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
       {!mapAction && (
         <div className="text-white w-full flex justify-center items-center flex-col ">
           <div className="flex justify-center ite">
-            <span className="text-3xl font-bold">New API Data Source</span>
+            <span className="text-3xl font-bold">Onload API Data Source</span>
+
+            {/* <span className="text-3xl font-bold">New API Data Source</span> */}
           </div>
           <div className="w-4/5 mt-2 flex flex-col  ">
             <span className="text-xl">API</span>
@@ -486,7 +494,7 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
               <span className="text-[#FFFFFF]">Wait...</span>
             )}
           </div>
-          <div className="w-4/5 mt-2 flex flex-col">
+          <div className="w-4/5 max-h-[140px] mt-2 flex flex-col overflow-y-scroll">
             {elements.map((element, index) => (
               <div key={`element-${index}`} className="flex justify-between">
                 <div
@@ -494,14 +502,16 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
                   className="flex w-10/12 justify-between items-center"
                 >
                   {/*Element*/}
-                  <div className="flex flex-col">
+                  <div className="flex flex-col ">
                     <span className="text-xl">Element Web</span>
                     <Select
+                      className="text-md text-black rounded-sm w-56 mt-1 relative z-50"
                       options={elementOptions}
                       value={element.elementOptionSelected}
                       onChange={(selectedOption) =>
                         handleSelectElementChange(selectedOption, index)
                       }
+                      menuPortalTarget={document.body}
                       styles={{
                         control: (provided) => ({
                           ...provided,
@@ -509,6 +519,7 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
                           color: "white",
                           // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
                         }),
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                         menu: (provided) => ({
                           ...provided,
                           backgroundColor: "#595959",
@@ -528,7 +539,6 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
                         }),
                         // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
                       }}
-                      className="text-md text-black rounded-sm w-56 mt-1"
                       // styles ของคุณที่นี่
                     />
                   </div>
@@ -540,6 +550,7 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
                       onChange={(selectedOption) =>
                         handleSelectChange(selectedOption, index)
                       }
+                      menuPortalTarget={document.body}
                       styles={{
                         control: (provided) => ({
                           ...provided,
@@ -547,6 +558,7 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
                           color: "white",
                           // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
                         }),
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                         menu: (provided) => ({
                           ...provided,
                           backgroundColor: "#595959",
@@ -719,9 +731,10 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
               <span className="text-[#FFFFFF]">Wait...</span>
             )}
           </div>
-          <div className="w-4/5 mt-2 flex flex-col">
+
+          <div className="w-4/5 mt-2 flex flex-col max-h-[280px] overflow-y-scroll">
             {elementsp2.map((element, index) => (
-              <div key={`element-${index}`} className="flex justify-between">
+              <div key={`element-${index}`} className="flex justify-between ">
                 <div
                   key={index}
                   className="flex w-10/12 justify-between items-center"
@@ -729,12 +742,14 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
                   {/*Element*/}
                   <div className="flex flex-col">
                     <span className="text-xl">Element Web</span>
+
                     <Select
                       options={elementNewPage}
                       value={element.elementOptionSelected}
                       onChange={(selectedOption) =>
                         handleSelectElementChange2(selectedOption, index)
                       }
+                      menuPortalTarget={document.body}
                       styles={{
                         control: (provided) => ({
                           ...provided,
@@ -742,6 +757,7 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
                           color: "white",
                           // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
                         }),
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                         menu: (provided) => ({
                           ...provided,
                           backgroundColor: "#595959",
@@ -773,6 +789,7 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
                       onChange={(selectedOption) =>
                         handleSelectChange2(selectedOption, index)
                       }
+                      menuPortalTarget={document.body}
                       styles={{
                         control: (provided) => ({
                           ...provided,
@@ -780,6 +797,7 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
                           color: "white",
                           // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
                         }),
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                         menu: (provided) => ({
                           ...provided,
                           backgroundColor: "#595959",
@@ -867,4 +885,4 @@ fetch(\`http://127.0.0.1:5000/api/book/\${param}\`)
   );
 };
 
-export default EditActionPopUp;
+export default OnLoadActionPopUp;
