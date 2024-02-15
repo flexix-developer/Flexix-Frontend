@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { parse } from "node-html-parser";
 import {
   WidthInputChange,
   HeightInputChange,
-  EditSrc } from "../../features/counter/counterSlice";
+  EditSrc,
+  AspectRatioInputChange,
+} from "../../features/counter/counterSlice";
 
 const PropertiesOptionsImage = () => {
   const dispatch = useDispatch();
@@ -26,7 +28,7 @@ const PropertiesOptionsImage = () => {
 
   const handleEditSrc = (event) => {
     dispatch(EditSrc(event.target.value));
-};
+  };
 
   const getSelectedWidthValue = () => {
     const targetNode = root.querySelector(counterState.currentFocus);
@@ -128,6 +130,32 @@ const PropertiesOptionsImage = () => {
     return ""; // Default value if none of the height classes match
   };
 
+  const getSelectedAspectRatioValue = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+
+    if (!targetNode) {
+      return ""; // Default value if no targetNode is found
+    }
+
+    const targetNodeStyle = targetNode.getAttribute("style");
+
+    if (!targetNodeStyle) {
+      return ""; // Default value if no style is found
+    }
+
+    const styleArray = targetNodeStyle.split(";");
+
+    for (let i = 0; i < styleArray.length; i++) {
+      const style = styleArray[i].split(":");
+
+      if (style[0].trim() === "aspect-ratio") {
+        return style[1].trim();
+      }
+    }
+
+    return "";
+  };
+
   const handleWidthInputChange = () => {
     let e = document.getElementsByClassName("WidthInputChange")[0];
     const widthValue = e.value;
@@ -139,6 +167,12 @@ const PropertiesOptionsImage = () => {
     let e = document.getElementsByClassName("HeightInputChange")[0];
     const heightValue = e.value;
     dispatch(HeightInputChange(heightValue));
+  };
+
+  const handleAspectRatioInputChange = () => {
+    let e = document.getElementsByClassName("AspectRatioInputChange")[0];
+    const aspectRatioValue = e.value;
+    dispatch(AspectRatioInputChange(aspectRatioValue));
   };
 
   const WidthOptions = [
@@ -211,6 +245,22 @@ const PropertiesOptionsImage = () => {
     { value: "h-fit", label: "fit" },
   ];
 
+  const AspectRatioOptions = [
+    { value: "1/1", label: "1:1" },
+    { value: "2/3", label: "2:3"},
+    { value: "3/2", label: "3:2"},
+    { value: "3/4", label: "3:4" },
+    { value: "4/3", label: "4:3" },
+    { value: "4/5", label: "4:5" },
+    { value: "5/4", label: "5:4" },
+    { value: "9/16", label: "9:16" },
+    { value: "9/21", label: "9:21" },
+    { value: "10/16", label: "10:16" },
+    { value: "16/9", label: "16:9" },
+    { value: "16/10", label: "16:10" },
+    { value: "21/9", label: "21:9" },
+  ];
+
   return (
     <div className="flex flex-col w-full p-2">
       <div className="flex flex-row pl-2 pb-1 text-lg">
@@ -228,7 +278,27 @@ const PropertiesOptionsImage = () => {
       <div className="flex flex-row pl-2 pb-1 text-xs w-full text-neutral-400">
         <p>Set this to make this whole block link somewhere</p>
       </div>
-      <div className="flex flex-row w-full justify-start p-2 items-center mt-4">
+      <div className="flex flex-row w-full justify-start pl-2 items-center mt-4">
+        <div className="w-4/12 mr-2">
+          <p>Aspect Ratio</p>
+        </div>
+        <div className="w-8/12 flex flex-row">
+          <div className="w-12/12 text-black">
+            <select
+              className="AspectRatioInputChange"
+              value={getSelectedAspectRatioValue()}
+              onChange={handleAspectRatioInputChange}
+            >
+              {AspectRatioOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-row w-full justify-start items-center mt-4">
         <div className="w-3/12 pl-2 mr-2">
           <p>Width</p>
         </div>
@@ -247,7 +317,9 @@ const PropertiesOptionsImage = () => {
             </select>
           </div>
         </div>
-        <div className="w-3/12 mr-2">
+      </div>
+      <div className="flex flex-row w-full justify-start pl-2 items-center mt-4">
+        <div className="w-3/12">
           <p>Height</p>
         </div>
         <div className="w-9/12 flex flex-row">
