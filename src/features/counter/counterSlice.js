@@ -400,6 +400,31 @@ export const counterSlice = createSlice({
       state.value = root.toString();
       SavePage(state, root.toString());
     },
+    AspectRatioInputChange: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const aspectRatioValue = action.payload;
+
+      const updateAspectRatio = (style, aspect) => {
+        const styleArray = style.split(";").map((prop) => prop.trim());
+        const updatedStyleArray = styleArray
+          .filter(
+            (prop) => !(prop === "" || prop.startsWith("aspect-ratio:"))
+          )
+          .concat(`aspect-ratio: ${aspect};`);
+        return updatedStyleArray.join("; ");
+      };
+
+      if (targetNode.attributes.style) {
+        const currentStyle = targetNode.attributes.style;
+        const updatedStyle = updateAspectRatio(currentStyle, aspectRatioValue);
+        targetNode.setAttribute("style", updatedStyle);
+      } else {
+        targetNode.setAttribute("style", `aspect-ratio: ${aspectRatioValue};`);
+      }
+
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
     updateValue: (state, action) => {
       countElements(state);
 
@@ -924,7 +949,7 @@ export const counterSlice = createSlice({
     EditId: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
       const newId = action.payload;
-    
+      targetNode.setAttribute("id", newId);
       targetNode.id = newId;
       state.value = root.toString();
       SavePage(state, root.toString());
@@ -994,6 +1019,7 @@ export const {
   EditSrc,
   EditHref,
   EditId,
+  AspectRatioInputChange,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
