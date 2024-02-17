@@ -4,8 +4,10 @@ import {
   focus,
   focusElement,
   removeSelectedElement,
+  dndUpdate,
   EditText,
 } from "../../features/counter/counterSlice";
+import { all } from "axios";
 
 const DesignWorkspace = () => {
   const dispatch = useDispatch();
@@ -89,6 +91,47 @@ const DesignWorkspace = () => {
   //   };
   // }, [handleInput]);
 
+  var allElements = document.querySelectorAll("*");
+
+  function draggableElement(event) {
+    event.dataTransfer.setData("text/plain", event.target.id);
+    console.log("dragging ", event.target.id);
+  }
+
+  allElements.forEach((element) => {
+    element.addEventListener("dragstart", draggableElement);
+  });
+
+  function allowDrop(event) {
+    event.preventDefault();
+  }
+
+  function dropElement(event) {
+    event.preventDefault();
+    var data = event.dataTransfer.getData("text/plain");
+    var element = document.getElementById(data);
+  
+    if (element) {
+      if (element.id === event.target.id) {
+        console.log("Cannot drop onto the same element.");
+        return;
+      }
+  
+      const allowedContainers = ['div', 'form'];
+      if (!allowedContainers.includes(event.target.tagName.toLowerCase())) {
+        console.log("Cannot drop outside allowed containers.");
+        return;
+      }
+  
+      element.parentNode.removeChild(element);
+  
+      event.target.appendChild(element);
+  
+      dispatch(dndUpdate(document.getElementById("main").innerHTML));
+    }
+  }
+  
+
   return (
     <div className="flex flex-col">
       {/* Use dangerouslySetInnerHTML to render sanitized HTML */}
@@ -96,9 +139,11 @@ const DesignWorkspace = () => {
         dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
         style={{ padding: "2px", minHeight: "720px" }}
         id="main"
+        onDrop={dropElement}
+        onDragOver={allowDrop}
       ></div>
     </div>
   );
-};
+}
 
 export default DesignWorkspace;
