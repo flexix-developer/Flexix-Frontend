@@ -69,75 +69,75 @@ const appendElement = (state, elementType, htmlTemplate) => {
 
 const countElements = (state) => {
   const rowElements = root.querySelectorAll('[id^="row-"]');
-      const colElements = root.querySelectorAll('[id^="col-"]');
-      const textElements = root.querySelectorAll('[id^="text-"]');
-      const linkElements = root.querySelectorAll('[id^="link-"]');
-      const imageElements = root.querySelectorAll('[id^="image-"]');
-      const embedElements = root.querySelectorAll('[id^="embed-"]');
-      const formElements = root.querySelectorAll('[id^="form-"]');
-      const labelElements = root.querySelectorAll('[id^="label-"]');
-      const buttonElements = root.querySelectorAll('[id^="button-"]');
-      const textareaElements = root.querySelectorAll('[id^="textarea-"]');
-      const inputElements = root.querySelectorAll('[id^="input-"]');
-      const selectElements = root.querySelectorAll('[id^="select-"]');
+  const colElements = root.querySelectorAll('[id^="col-"]');
+  const textElements = root.querySelectorAll('[id^="text-"]');
+  const linkElements = root.querySelectorAll('[id^="link-"]');
+  const imageElements = root.querySelectorAll('[id^="image-"]');
+  const embedElements = root.querySelectorAll('[id^="embed-"]');
+  const formElements = root.querySelectorAll('[id^="form-"]');
+  const labelElements = root.querySelectorAll('[id^="label-"]');
+  const buttonElements = root.querySelectorAll('[id^="button-"]');
+  const textareaElements = root.querySelectorAll('[id^="textarea-"]');
+  const inputElements = root.querySelectorAll('[id^="input-"]');
+  const selectElements = root.querySelectorAll('[id^="select-"]');
 
-      // สร้างตัวแปรเก็บค่า
-      let maxRowId = 0;
-      let maxColId = 0;
-      let maxTextId = 0;
-      let maxLinkId = 0;
-      let maxImageId = 0;
-      let maxEmbedId = 0;
-      let maxFormId = 0;
-      let maxLabelId = 0;
-      let maxButtonId = 0;
-      let maxTextareaId = 0;
-      let maxInputId = 0;
-      let maxSelectId = 0;
+  // สร้างตัวแปรเก็บค่า
+  let maxRowId = 0;
+  let maxColId = 0;
+  let maxTextId = 0;
+  let maxLinkId = 0;
+  let maxImageId = 0;
+  let maxEmbedId = 0;
+  let maxFormId = 0;
+  let maxLabelId = 0;
+  let maxButtonId = 0;
+  let maxTextareaId = 0;
+  let maxInputId = 0;
+  let maxSelectId = 0;
 
-      // ฟังก์ชันหาค่า id ที่มากที่สุด
-      function findMaxId(elements, prefix, maxId) {
-        elements.forEach((element) => {
-          const id = parseInt(
-            element.getAttribute("id").replace(`${prefix}`, ""),
-            10
-          );
-          if (!isNaN(id) && id > maxId) {
-            maxId = id;
-          } else {
-            maxId = id;
-          }
-        });
-        return maxId;
+  // ฟังก์ชันหาค่า id ที่มากที่สุด
+  function findMaxId(elements, prefix, maxId) {
+    elements.forEach((element) => {
+      const id = parseInt(
+        element.getAttribute("id").replace(`${prefix}`, ""),
+        10
+      );
+      if (!isNaN(id) && id > maxId) {
+        maxId = id;
+      } else {
+        maxId = id;
       }
+    });
+    return maxId;
+  }
 
-      // ใช้ฟังก์ชันเพื่อหาค่า id ที่มากที่สุด
-      maxRowId = findMaxId(rowElements, "row-", maxRowId);
-      maxColId = findMaxId(colElements, "col-", maxColId);
-      maxTextId = findMaxId(textElements, "text-", maxTextId);
-      maxLinkId = findMaxId(linkElements, "link-", maxLinkId);
-      maxImageId = findMaxId(imageElements, "image-", maxImageId);
-      maxEmbedId = findMaxId(embedElements, "embed-", maxEmbedId);
-      maxFormId = findMaxId(formElements, "form-", maxFormId);
-      maxLabelId = findMaxId(labelElements, "label-", maxLabelId);
-      maxButtonId = findMaxId(buttonElements, "button-", maxButtonId);
-      maxTextareaId = findMaxId(textareaElements, "textarea-", maxTextareaId);
-      maxInputId = findMaxId(inputElements, "input-", maxInputId);
-      maxSelectId = findMaxId(selectElements, "select-", maxSelectId);
+  // ใช้ฟังก์ชันเพื่อหาค่า id ที่มากที่สุด
+  maxRowId = findMaxId(rowElements, "row-", maxRowId);
+  maxColId = findMaxId(colElements, "col-", maxColId);
+  maxTextId = findMaxId(textElements, "text-", maxTextId);
+  maxLinkId = findMaxId(linkElements, "link-", maxLinkId);
+  maxImageId = findMaxId(imageElements, "image-", maxImageId);
+  maxEmbedId = findMaxId(embedElements, "embed-", maxEmbedId);
+  maxFormId = findMaxId(formElements, "form-", maxFormId);
+  maxLabelId = findMaxId(labelElements, "label-", maxLabelId);
+  maxButtonId = findMaxId(buttonElements, "button-", maxButtonId);
+  maxTextareaId = findMaxId(textareaElements, "textarea-", maxTextareaId);
+  maxInputId = findMaxId(inputElements, "input-", maxInputId);
+  maxSelectId = findMaxId(selectElements, "select-", maxSelectId);
 
-      state.currentRowNumber = maxRowId + 1;
-      state.currentColNumber = maxColId + 1;
-      state.currentTextNumber = maxTextId + 1;
-      state.currentLinkNumber = maxLinkId + 1;
-      state.currentImageNumber = maxImageId + 1;
-      state.currentEmbedNumber = maxEmbedId + 1;
-      state.currentFormNumber = maxFormId + 1;
-      state.currentLabelNumber = maxLabelId + 1;
-      state.currentButtonNumber = maxButtonId + 1;
-      state.currentTextareaNumber = maxTextareaId + 1;
-      state.currentInputNumber = maxInputId + 1;
-      state.currentSelectNumber = maxSelectId + 1;
-}
+  state.currentRowNumber = maxRowId + 1;
+  state.currentColNumber = maxColId + 1;
+  state.currentTextNumber = maxTextId + 1;
+  state.currentLinkNumber = maxLinkId + 1;
+  state.currentImageNumber = maxImageId + 1;
+  state.currentEmbedNumber = maxEmbedId + 1;
+  state.currentFormNumber = maxFormId + 1;
+  state.currentLabelNumber = maxLabelId + 1;
+  state.currentButtonNumber = maxButtonId + 1;
+  state.currentTextareaNumber = maxTextareaId + 1;
+  state.currentInputNumber = maxInputId + 1;
+  state.currentSelectNumber = maxSelectId + 1;
+};
 
 export const removeSelectedElement = () => (dispatch, getState) => {
   const { currentFocus } = getState().counter;
@@ -411,9 +411,7 @@ export const counterSlice = createSlice({
       const updateAspectRatio = (style, aspect) => {
         const styleArray = style.split(";").map((prop) => prop.trim());
         const updatedStyleArray = styleArray
-          .filter(
-            (prop) => !(prop === "" || prop.startsWith("aspect-ratio:"))
-          )
+          .filter((prop) => !(prop === "" || prop.startsWith("aspect-ratio:")))
           .concat(`aspect-ratio: ${aspect};`);
         return updatedStyleArray.join("; ");
       };
@@ -961,13 +959,14 @@ export const counterSlice = createSlice({
     AddFunc: (state, action) => {
       const targetNode = root.querySelector(state.elementAction);
       const FuncValue = action.payload;
+      console.log("AddFunc", FuncValue, targetNode, state.elementAction);
 
       const updateFunc = (onClickValue, newFunc) => {
         if (onClickValue) {
-          const updatedOnClick = onClickValue.replace(/onClick={.*?}/, '');
+          const updatedOnClick = onClickValue.replace(/onClick={.*?}/, "");
           return `${updatedOnClick} onClick={${newFunc}}`;
         } else {
-          return `onClick={${newFunc}}`;
+          return;
         }
       };
 
@@ -976,34 +975,15 @@ export const counterSlice = createSlice({
         const updatedOnClick = updateFunc(currentOnClick, FuncValue);
         targetNode.setAttribute("onClick", updatedOnClick);
       } else {
-        targetNode.setAttribute("onClick", `onClick={${FuncValue}}`);
+        // targetNode.setAttribute("onClick", `${FuncValue}()`);
+        targetNode.setAttribute(
+          "onclick",
+          `try{ ${FuncValue}(); }catch(e){ console.error('Error:', e); }`
+        );
       }
 
       state.value = root.toString();
       SavePage(state, root.toString());
-      // const targetNode = root.querySelector(state.currentFocus);
-      // const FuncValue = action.payload;
-
-      // const updateFunc = (style, aspect) => {
-      //   const styleArray = style.split(";").map((prop) => prop.trim());
-      //   const updatedStyleArray = styleArray
-      //     .filter(
-      //       (prop) => !(prop === "" || prop.startsWith("onClick={"))
-      //     )
-      //     .concat(`onClick={${aspect}}`);
-      //   return updatedStyleArray.join("} ");
-      // };
-
-      // if (targetNode.attributes.style) {
-      //   const currentStyle = targetNode.attributes.style;
-      //   const updatedStyle = updateFunc(currentStyle, FuncValue);
-      //   targetNode.setAttribute("onClick={", updatedStyle);
-      // } else {
-      //   targetNode.setAttribute("onClick={", `${FuncValue}}`);
-      // }
-
-      // state.value = root.toString();
-      // SavePage(state, root.toString());
     },
   },
 });

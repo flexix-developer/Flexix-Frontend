@@ -162,7 +162,7 @@ const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
   const handleElementActionChange = (selectedOption) => {
     console.log("Selected option:", selectedOption.value);
     setSelectActionElement(selectedOption.value);
-    dispatch(addElementAction(selectedOption.value));
+    dispatch(addElementAction("#" + selectedOption.value));
     // ทำอะไรกับ selectedOption ตามที่คุณต้องการ
   };
 
@@ -281,7 +281,7 @@ const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
       method: "${selectMethod}",
             headers: {
         "Content-Type": "application/json", // กำหนด Content-Type header เป็น application/json
-        ${headerString},
+        ${headerString}
       },
     });
 
@@ -325,7 +325,7 @@ ${bodyInputVariable}
       method: "${selectMethod}",
             headers: {
         "Content-Type": "application/json", // กำหนด Content-Type header เป็น application/json
-        ${headerString},
+        ${headerString}
       },
       body: JSON.stringify(dataBody), // แปลง object เป็นสตริง JSON
     });
@@ -368,11 +368,12 @@ ${bodyInputVariable}
         }
       );
       console.log(response.data.content);
-      dispatch(AddFunc(FuncName));
       console.log("Save Script Function Success!");
     } catch (error) {
       alert("Create New Page Failed!");
+      return;
     }
+    dispatch(AddFunc(FuncName));
   };
 
   return (
