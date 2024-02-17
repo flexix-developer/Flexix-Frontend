@@ -18,6 +18,7 @@ const initialState = {
   currentSelectNumber: 0,
   currentFocus: "",
   currentFocusElement: "",
+  elementAction: "",
   ListPages: [],
   IndexPages: null,
 };
@@ -158,6 +159,9 @@ export const counterSlice = createSlice({
     focusElement: (state, action) => {
       state.currentFocusElement = action.payload;
       // console.log(state.currentFocusElement);
+    },
+    addElementAction: (state, action) => {
+      state.elementAction = action.payload;
     },
     addRow: (state) => {
       appendElement(
@@ -954,6 +958,53 @@ export const counterSlice = createSlice({
       state.value = root.toString();
       SavePage(state, root.toString());
     },
+    AddFunc: (state, action) => {
+      const targetNode = root.querySelector(state.elementAction);
+      const FuncValue = action.payload;
+
+      const updateFunc = (onClickValue, newFunc) => {
+        if (onClickValue) {
+          const updatedOnClick = onClickValue.replace(/onClick={.*?}/, '');
+          return `${updatedOnClick} onClick={${newFunc}}`;
+        } else {
+          return `onClick={${newFunc}}`;
+        }
+      };
+
+      if (targetNode.attributes.onClick) {
+        const currentOnClick = targetNode.attributes.onClick;
+        const updatedOnClick = updateFunc(currentOnClick, FuncValue);
+        targetNode.setAttribute("onClick", updatedOnClick);
+      } else {
+        targetNode.setAttribute("onClick", `onClick={${FuncValue}}`);
+      }
+
+      state.value = root.toString();
+      SavePage(state, root.toString());
+      // const targetNode = root.querySelector(state.currentFocus);
+      // const FuncValue = action.payload;
+
+      // const updateFunc = (style, aspect) => {
+      //   const styleArray = style.split(";").map((prop) => prop.trim());
+      //   const updatedStyleArray = styleArray
+      //     .filter(
+      //       (prop) => !(prop === "" || prop.startsWith("onClick={"))
+      //     )
+      //     .concat(`onClick={${aspect}}`);
+      //   return updatedStyleArray.join("} ");
+      // };
+
+      // if (targetNode.attributes.style) {
+      //   const currentStyle = targetNode.attributes.style;
+      //   const updatedStyle = updateFunc(currentStyle, FuncValue);
+      //   targetNode.setAttribute("onClick={", updatedStyle);
+      // } else {
+      //   targetNode.setAttribute("onClick={", `${FuncValue}}`);
+      // }
+
+      // state.value = root.toString();
+      // SavePage(state, root.toString());
+    },
   },
 });
 
@@ -1020,6 +1071,8 @@ export const {
   EditHref,
   EditId,
   AspectRatioInputChange,
+  AddFunc,
+  addElementAction,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

@@ -7,9 +7,11 @@ import { IoMdClose } from "react-icons/io";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { FiTrash2, FiEdit } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
+import { addElementAction, AddFunc } from "../../features/counter/counterSlice";
 
 const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
   const { counter } = useSelector((state) => state);
+  const dispatch = useDispatch();
   const { value: sanitizedHTML } = counter;
   const [testConnect, setTestConnect] = useState(null);
   const [Method, setMethod] = useState(["GET", "POST", "PUT", "DELETE"]);
@@ -160,6 +162,7 @@ const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
   const handleElementActionChange = (selectedOption) => {
     console.log("Selected option:", selectedOption.value);
     setSelectActionElement(selectedOption.value);
+    dispatch(addElementAction(selectedOption.value));
     // ทำอะไรกับ selectedOption ตามที่คุณต้องการ
   };
 
@@ -365,7 +368,7 @@ ${bodyInputVariable}
         }
       );
       console.log(response.data.content);
-      setJsdataBypage(response.data.content);
+      dispatch(AddFunc(FuncName));
       console.log("Save Script Function Success!");
     } catch (error) {
       alert("Create New Page Failed!");
