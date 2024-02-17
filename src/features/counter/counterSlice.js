@@ -3,7 +3,7 @@ import { parse } from "node-html-parser";
 import axios from "axios";
 
 const initialState = {
-  value: ``,
+  value: ``, // HTML content
   currentRowNumber: 0,
   currentColNumber: 0,
   currentTextNumber: 0,
@@ -25,7 +25,7 @@ const initialState = {
 
 var root = parse(initialState.value);
 
-const SavePage = async (state, html) => {
+export const SavePage = async (state, html) => {
   state.value = html;
   const ID = localStorage.getItem("ID");
   const ProjectID = localStorage.getItem("ProjectID");
@@ -167,84 +167,84 @@ export const counterSlice = createSlice({
       appendElement(
         state,
         "Row",
-        `<div id="row-${state.currentRowNumber}" class="flex flex-row flex-wrap p-1 w-full  max-h-full bg-slate-400"></div>`
+        `<div id="row-${state.currentRowNumber}" class="flex flex-row flex-wrap p-1 w-full  max-h-full bg-slate-400" draggable="true"></div>`
       );
     },
     addCol: (state) => {
       appendElement(
         state,
         "Col",
-        `<div id="col-${state.currentColNumber}" class="flex flex-col flex-wrap p-1 w-full  max-h-full bg-slate-200"></div>`
+        `<div id="col-${state.currentColNumber}" class="flex flex-col flex-wrap p-1 w-full  max-h-full bg-slate-200" draggable="true"></div>`
       );
     },
     addText: (state) => {
       appendElement(
         state,
         "Text",
-        `<p id="text-${state.currentTextNumber}" class="text-black">Text</p>`
+        `<p id="text-${state.currentTextNumber}" class="text-black" draggable="true">Text</p>`
       );
     },
     addLink: (state) => {
       appendElement(
         state,
         "Link",
-        `<a href="https://www.w3schools.com" id="link-${state.currentLinkNumber}" class="text-sky-600" onClick="return false";>Link</a>`
+        `<a href="https://www.w3schools.com" id="link-${state.currentLinkNumber}" class="text-sky-600" onClick="return false"; draggable="true">Link</a>`
       );
     },
     addImage: (state) => {
       appendElement(
         state,
         "Image",
-        `<img id="image-${state.currentImageNumber}" alt="image-${state.currentImageNumber}" src="https://via.placeholder.com/150">`
+        `<img id="image-${state.currentImageNumber}" alt="image-${state.currentImageNumber}" src="https://via.placeholder.com/150" draggable="true">`
       );
     },
     addEmbed: (state) => {
       appendElement(
         state,
         "Embed",
-        `<iframe id="embed-${state.currentEmbedNumber}" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>`
+        `<iframe id="embed-${state.currentEmbedNumber}" src="https://www.youtube.com/embed/tgbNymZ7vqY" draggable="true"></iframe>`
       );
     },
     addForm: (state) => {
       appendElement(
         state,
         "Form",
-        `<form id="form-${state.currentFormNumber}" class="flex flex-col flex-wrap p-1 w-full  max-h-full bg-slate-300"></form>`
+        `<form id="form-${state.currentFormNumber}" class="flex flex-col flex-wrap p-1 w-full  max-h-full bg-slate-300" draggable="true"></form>`
       );
     },
     addLabel: (state) => {
       appendElement(
         state,
         "Label",
-        `<label id="label-${state.currentLabelNumber}">Label</label>`
+        `<label id="label-${state.currentLabelNumber}" draggable="true">Label</label>`
       );
     },
     addButton: (state) => {
       appendElement(
         state,
         "Button",
-        `<button id="button-${state.currentButtonNumber}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded" type="button">Button</button>`
+        `<button id="button-${state.currentButtonNumber}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded" type="button" draggable="true">Button</button>`
       );
     },
     addTextarea: (state) => {
       appendElement(
         state,
         "Textarea",
-        `<textarea id="textarea-${state.currentTextareaNumber}"></textarea>`
+        `<textarea id="textarea-${state.currentTextareaNumber}" draggable="true"></textarea>`
       );
     },
     addInput: (state) => {
       appendElement(
         state,
         "Input",
-        `<input type="text" id="input-${state.currentInputNumber}">`
+        `<input type="text" id="input-${state.currentInputNumber}" draggable="true">`
       );
     },
     addSelect: (state) => {
       appendElement(
         state,
         "Select",
-        `<select id="select-${state.currentSelectNumber}"></select>`
+        `<select id="select-${state.currentSelectNumber}" draggable="true"></select>`
       );
     },
     removeElement: (state) => {
@@ -427,9 +427,14 @@ export const counterSlice = createSlice({
       state.value = root.toString();
       SavePage(state, root.toString());
     },
+    dndUpdate: (state, action) => {
+      countElements(state);
+      state.value = action.payload;
+      root = parse(state.value);
+      SavePage(state, root.toString());
+    },
     updateValue: (state, action) => {
       countElements(state);
-
       state.value = action.payload;
       root = parse(state.value);
     },
@@ -1053,6 +1058,7 @@ export const {
   AspectRatioInputChange,
   AddFunc,
   addElementAction,
+  dndUpdate,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
