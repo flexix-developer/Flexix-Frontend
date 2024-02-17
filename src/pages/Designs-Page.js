@@ -7,6 +7,7 @@ import LayerExplorer from "../components/layerExplorer/LayerExplorer";
 
 import { IoSearchOutline } from "react-icons/io5";
 import { IoMdAddCircleOutline } from "react-icons/io";
+
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -414,7 +415,9 @@ const DesignPage = () => {
                 </div>
                 <div className="flex flex-col w-full h-full bg-neutral-700">
                   {selectedComponent === "Toolbox" && <Toolbox />}
-                  {selectedComponent === "Properties" && <Properties />}
+                  {selectedComponent === "Properties" && (
+                    <Properties activepage={activepage} />
+                  )}
                 </div>
               </div>
             </>

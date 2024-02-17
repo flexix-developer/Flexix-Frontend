@@ -3,7 +3,7 @@ import PropertiesOptions from "../propertiesOptions/PropertiesOptions";
 import PropertiesData from "../propertiesData/PropertiesData";
 import { useState } from "react";
 
-const Properties = () => {
+const Properties = ({ activepage }) => {
   const [selectedComponent, setSelectedComponent] = useState("PropertiesStyle");
 
   const handleComponentClick = (component) => {
@@ -47,7 +47,9 @@ const Properties = () => {
       <div>
         {selectedComponent === "PropertiesOptions" && <PropertiesOptions />}
         {selectedComponent === "PropertiesStyle" && <PropertiesStyle />}
-        {selectedComponent === "PropertiesData" && <PropertiesData />}
+        {selectedComponent === "PropertiesData" && (
+          <PropertiesData activepage={activepage} />
+        )}
       </div>
     </div>
   );

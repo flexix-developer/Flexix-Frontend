@@ -1,7 +1,7 @@
 import { PiPlugsConnectedBold } from "react-icons/pi";
 import { IoMdAdd } from "react-icons/io";
 import Select from "react-select";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { IoMdClose } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,7 +11,6 @@ const OnLoadActionPopUp = ({
   lastSelect,
   ClosePopupEditAction,
 }) => {
-  console.log("lastSelect", lastSelect);
   const [apiInputValue, setApiInputValue] = useState("");
   const [apiInputValue2, setApiInputValue2] = useState("");
   const [paramInputValue, setParamInputValue] = useState("");
@@ -27,6 +26,8 @@ const OnLoadActionPopUp = ({
   const [IDEActionOptions, setIDEActionOptions] = useState([]);
   const [mapAction, setMapAction] = useState(false);
   const [page2action, setPage2Action] = useState(null);
+  const [selectAuth, setSelectAuth] = useState("No Auth");
+  const [userToken, setUserToken] = useState("");
 
   const { counter } = useSelector((state) => state);
   const { value: sanitizedHTML } = counter;
@@ -34,6 +35,27 @@ const OnLoadActionPopUp = ({
   const { currentFocusElement: currentFocusElement } = counter;
   const { ListPages: ListPages } = counter;
   const { IndexPages: IndexPages } = counter;
+  const [Auth, setAuth] = useState([
+    "No Auth",
+    "Basic Auth",
+    "Bearer Token",
+    "JWT Token",
+    "OAuth2.0",
+    "API Key",
+    "No Auth",
+  ]);
+  const handleAuthChange = (selectedOption) => {
+    console.log("Selected option:", selectedOption.value);
+    setSelectAuth(selectedOption.value);
+    // ทำอะไรกับ selectedOption ตามที่คุณต้องการ
+  };
+  const handleTokenChange = (event) => {
+    console.log("Token:", event.target.value);
+    setUserToken(event.target.value);
+  };
+  useEffect(() => {
+    console.log(userToken);
+  }, [userToken]);
 
   const [elements, setElements] = useState([
     { eventOptionSelected: null, elementOptionSelected: null },
@@ -43,8 +65,20 @@ const OnLoadActionPopUp = ({
   ]);
 
   const handleTestConnect = async () => {
+    const authHeaders = {
+      "No Auth": {},
+      "Basic Auth": { Authorization: `Basic ${userToken}` },
+      "Bearer Token": { Authorization: `Bearer ${userToken}` },
+      "JWT Token": { Authorization: `Bearer ${userToken}` },
+      "OAuth2.0": { Authorization: `Bearer ${userToken}` },
+      "API Key": { Authorization: `ApiKey ${userToken}` },
+    };
+    const headers = authHeaders[selectAuth];
     try {
-      const response = await axios.get(`${apiInputValue}`);
+      const response = await axios.get(`${apiInputValue}`, {
+        method: "GET", // สามารถเปลี่ยนเป็น 'POST', 'PUT', ถ้ามีความจำเป็น
+        headers: headers, // ใช้ headers ที่ตั้งค่าไว้
+      });
       // setApiInputValue("http://127.0.0.1:5000/api");
       // const response = await axios.get(`http://127.0.0.1:5000/api`);
       setTestConnect(true);
@@ -74,9 +108,22 @@ const OnLoadActionPopUp = ({
       paramInputValue,
       dataTestInputValue
     );
+    const authHeaders = {
+      "No Auth": {},
+      "Basic Auth": { Authorization: `Basic ${userToken}` },
+      "Bearer Token": { Authorization: `Bearer ${userToken}` },
+      "JWT Token": { Authorization: `Bearer ${userToken}` },
+      "OAuth2.0": { Authorization: `Bearer ${userToken}` },
+      "API Key": { Authorization: `ApiKey ${userToken}` },
+    };
+    const headers = authHeaders[selectAuth];
     try {
       const response = await axios.get(
-        `${apiInputValue2}${dataTestInputValue}`
+        `${apiInputValue2}${dataTestInputValue}`,
+        {
+          method: "GET", // สามารถเปลี่ยนเป็น 'POST', 'PUT', ถ้ามีความจำเป็น
+          headers: headers, // ใช้ headers ที่ตั้งค่าไว้
+        }
       );
       // console.log("response.data", response.data);
       setResponseAPI(response.data);
@@ -255,8 +302,22 @@ const OnLoadActionPopUp = ({
   };
 
   const onLoadScript = () => {
+    const authHeaders = {
+      "No Auth": {},
+      "Basic Auth": { Authorization: `Basic ${userToken}` },
+      "Bearer Token": { Authorization: `Bearer ${userToken}` },
+      "JWT Token": { Authorization: `Bearer ${userToken}` },
+      "OAuth2.0": { Authorization: `Bearer ${userToken}` },
+      "API Key": { Authorization: `ApiKey ${userToken}` },
+    };
+    const headers = authHeaders[selectAuth];
+    console.log("headers", headers);
     let script = `window.onload = function () {
-    fetch("${apiInputValue}")
+    fetch("${apiInputValue}"
+    , {
+        method: "GET", // สามารถเปลี่ยนเป็น 'POST', 'PUT', ถ้ามีความจำเป็น
+        headers: ${JSON.stringify(headers).replace(/"/g, "'")},
+      })
       .then((response) => response.json())
       .then((data) => {
         const sourceElement = document.getElementById("${lastSelect.slice(1)}");
@@ -279,6 +340,7 @@ const OnLoadActionPopUp = ({
       })
       .catch((error) => console.error("Error:", error));
   };`;
+
     let combinedChild = ""; // สร้างตัวแปรสำหรับเก็บสตริงที่รวมกันทั้งหมด
 
     elements.forEach((element, index) => {
@@ -351,12 +413,25 @@ const OnLoadActionPopUp = ({
   };
 
   const SingleonLoadScript = () => {
+    const authHeaders = {
+      "No Auth": {},
+      "Basic Auth": { Authorization: `Basic ${userToken}` },
+      "Bearer Token": { Authorization: `Bearer ${userToken}` },
+      "JWT Token": { Authorization: `Bearer ${userToken}` },
+      "OAuth2.0": { Authorization: `Bearer ${userToken}` },
+      "API Key": { Authorization: `ApiKey ${userToken}` },
+    };
+    const headers = authHeaders[selectAuth];
+    console.log("headers", headers);
     let script = `// detail.js
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   const param = urlParams.get("id"); // ดึงค่า ID
   console.log(param); // แสดงค่า ID ใน console
-fetch(\`${apiInputValue2}\${param}\`)
+fetch(\`${apiInputValue2}\${param}\`, {
+        method: "GET", // สามารถเปลี่ยนเป็น 'POST', 'PUT', ถ้ามีความจำเป็น
+        headers: ${JSON.stringify(headers).replace(/"/g, "'")},
+      })
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
@@ -450,6 +525,47 @@ fetch(\`${apiInputValue2}\${param}\`)
     }
   };
 
+  const overflowRef = useRef(null);
+  const [isOverflow, setIsOverflow] = useState(false);
+  const [isOverflow2, setIsOverflow2] = useState(false);
+
+  const checkOverflow = () => {
+    const element = overflowRef.current;
+
+    if (!element) return;
+
+    const isOverflowingVertically = element.scrollHeight > element.clientHeight;
+    const isOverflowingHorizontally = element.scrollWidth > element.clientWidth;
+    if (isOverflowingVertically || isOverflowingHorizontally) {
+      setIsOverflow(true);
+      // ตัวอย่างการใช้งาน
+      console.log(`Is Overflowing Vertically: ${isOverflowingVertically}`);
+      console.log(`Is Overflowing Horizontally: ${isOverflowingHorizontally}`);
+    }
+  };
+
+  const checkOverflow2 = () => {
+    const element = overflowRef.current;
+
+    if (!element) return;
+
+    const isOverflowingVertically = element.scrollHeight > element.clientHeight;
+    const isOverflowingHorizontally = element.scrollWidth > element.clientWidth;
+    if (isOverflowingVertically || isOverflowingHorizontally) {
+      setIsOverflow2(true);
+      // ตัวอย่างการใช้งาน
+      console.log(`Is Overflowing Vertically: ${isOverflowingVertically}`);
+      console.log(`Is Overflowing Horizontally: ${isOverflowingHorizontally}`);
+    }
+  };
+
+  // เรียกใช้ฟังก์ชัน checkOverflow เมื่อ component ถูก mount
+  useEffect(() => {
+    checkOverflow();
+    checkOverflow2();
+    console.log(isOverflow);
+  }, [elements, elementsp2]);
+
   return (
     <div className="bg-[#272727] p-4 w-5/12 max-h-[600px]  pb-10  rounded-lg z-100">
       <div className="flex w-full justify-end">
@@ -473,7 +589,7 @@ fetch(\`${apiInputValue2}\${param}\`)
                 id="apiInput"
                 value={apiInputValue}
                 onChange={handleInputChange} // อัปเดต state ทุกครั้งที่มีการพิมพ
-                className="w-10/12 bg-[#595959] rounded-sm ps-2"
+                className="w-[88.5%] bg-[#595959] rounded-sm ps-2"
               />
               <button
                 className="bg-[#595959] w-12 rounded-sm"
@@ -483,29 +599,94 @@ fetch(\`${apiInputValue2}\${param}\`)
               </button>
             </div>
           </div>
+
+          <div className="w-4/5 mt-2 flex  items-end justify-between">
+            <div className="w-[25%]">
+              <span className="text-xl">Auth</span>
+
+              <Select
+                menuPortalTarget={document.body}
+                options={Auth.map((item, index) => ({
+                  value: item,
+                  label: item,
+                }))}
+                defaultValue={
+                  Auth.length > 0
+                    ? { value: Auth[0], label: Auth[0] }
+                    : undefined
+                }
+                onChange={handleAuthChange}
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    backgroundColor: "#595959",
+                    color: "white",
+                    // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
+                  }),
+                  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                  menu: (provided) => ({
+                    ...provided,
+                    backgroundColor: "#595959",
+                    // สำหรับเมนูดร็อปดาวน์
+                  }),
+                  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isFocused ? "#424242" : "#595959",
+                    color: "white",
+                    // สำหรับตัวเลือกภายในเมนู
+                  }),
+                  singleValue: (provided) => ({
+                    ...provided,
+                    color: "white",
+                  }),
+                  // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
+                }}
+              ></Select>
+            </div>
+            <div className="flex flex-col  w-[60%]">
+              <span className="text-xl">Token</span>
+              <input
+                id="apiInput"
+                className="w-full bg-[#595959] rounded-sm ps-2 h-[38px] ps-2 pe-2"
+                onChange={handleTokenChange}
+              />
+            </div>
+            <div className="h-[38px] w-12"></div>
+          </div>
           <div className="w-4/5 mt-2 ">
             {testConnect === true && (
-              <span className="text-[#42FF00]">Connect 200 Ok</span>
+              <span className="text-[#42FF00]">Connected</span>
             )}
             {testConnect === false && (
-              <span className="text-[#FF0000]">Connect Failed</span>
+              <span className="text-[#ff5555]">Connect Failed</span>
             )}
             {testConnect === null && (
               <span className="text-[#FFFFFF]">Wait...</span>
             )}
           </div>
-          <div className="w-4/5 max-h-[140px] mt-2 flex flex-col overflow-y-scroll">
+          <div
+            className="w-4/5 max-h-[140px] mt-2 flex flex-col overflow-y-auto"
+            ref={overflowRef}
+          >
             {elements.map((element, index) => (
-              <div key={`element-${index}`} className="flex justify-between">
+              <div
+                key={`element-${index}`}
+                className="flex justify-between w-full"
+              >
                 <div
                   key={index}
-                  className="flex w-10/12 justify-between items-center"
+                  className="flex w-11/12 justify-between items-center"
                 >
                   {/*Element*/}
-                  <div className="flex flex-col ">
+                  <div className="flex flex-col w-7/12">
                     <span className="text-xl">Element Web</span>
                     <Select
-                      className="text-md text-black rounded-sm w-56 mt-1 relative z-50"
+                      className={
+                        !isOverflow
+                          ? "text-md text-black rounded-sm w-[93%] mt-1 "
+                          : "text-md text-black rounded-sm w-[94%] mt-1  "
+                      }
                       options={elementOptions}
                       value={element.elementOptionSelected}
                       onChange={(selectedOption) =>
@@ -542,9 +723,14 @@ fetch(\`${apiInputValue2}\${param}\`)
                       // styles ของคุณที่นี่
                     />
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-xl">Json Key</span>
+                  <div className="flex flex-col w-7/12">
+                    <span className="text-xl ">Json Key</span>
                     <Select
+                      className={
+                        !isOverflow
+                          ? "text-md text-black rounded-sm w-[93%] mt-1 "
+                          : "text-md text-black rounded-sm w-[94%] mt-1  "
+                      }
                       options={eventOptions}
                       value={element.eventOptionSelected}
                       onChange={(selectedOption) =>
@@ -578,8 +764,6 @@ fetch(\`${apiInputValue2}\${param}\`)
                         }),
                         // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
                       }}
-                      className="text-md text-black rounded-sm w-56 mt-1"
-                      // styles ของคุณที่นี่
                     />
                   </div>
 
@@ -693,6 +877,9 @@ fetch(\`${apiInputValue2}\${param}\`)
             <span className="text-3xl font-bold">Mapping</span>
           </div>
           <div className="w-4/5 mt-2 flex flex-col  ">
+            <div>
+              <span className="text-xl">API</span>
+            </div>
             <div className="w-full flex justify-between mt-1 items-end">
               <div className="w-8/12 h-full">
                 <span className="text-xl ">API</span>
@@ -720,30 +907,83 @@ fetch(\`${apiInputValue2}\${param}\`)
               </button>
             </div>
           </div>
+
+          <div className="w-4/5 mt-2 flex  items-end justify-between">
+            <div className="w-[25%]">
+              <span className="text-xl">Auth</span>
+
+              <Select
+                className=""
+                options={Auth.map((item) => ({ value: item, label: item }))}
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    backgroundColor: "#595959",
+                    color: "white",
+                    // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
+                  }),
+                  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                  menu: (provided) => ({
+                    ...provided,
+                    backgroundColor: "#595959",
+                    // สำหรับเมนูดร็อปดาวน์
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isFocused ? "#424242" : "#595959",
+                    color: "white",
+                    // สำหรับตัวเลือกภายในเมนู
+                  }),
+                  singleValue: (provided) => ({
+                    ...provided,
+                    color: "white",
+                  }),
+                  // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
+                }}
+              ></Select>
+            </div>
+            <div className="flex flex-col  w-[60%]">
+              <span className="text-xl">Token</span>
+              <input
+                id="apiInput"
+                className="w-full bg-[#595959] rounded-sm ps-2 pe-2 h-[38px]"
+                onChange={handleTokenChange}
+              />
+            </div>
+
+            <div className="h-[38px] w-12"></div>
+          </div>
           <div className="w-4/5 mt-2 ">
             {testConnect === true && (
-              <span className="text-[#42FF00]">Connect 200 Ok</span>
+              <span className="text-[#42FF00]">Connected</span>
             )}
             {testConnect === false && (
-              <span className="text-[#FF0000]">Connect Failed</span>
+              <span className="text-[#ff5555]">Connect Failed</span>
             )}
             {testConnect === null && (
               <span className="text-[#FFFFFF]">Wait...</span>
             )}
           </div>
-
-          <div className="w-4/5 mt-2 flex flex-col max-h-[280px] overflow-y-scroll">
+          <div
+            className="w-4/5 mt-2 flex flex-col max-h-[200px] overflow-y-scroll"
+            ref={overflowRef}
+          >
             {elementsp2.map((element, index) => (
               <div key={`element-${index}`} className="flex justify-between ">
                 <div
                   key={index}
-                  className="flex w-10/12 justify-between items-center"
+                  className="flex w-11/12 justify-between items-center"
                 >
                   {/*Element*/}
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-7/12">
                     <span className="text-xl">Element Web</span>
 
                     <Select
+                      className={
+                        !isOverflow2
+                          ? "text-md text-black rounded-sm w-[93%] mt-1 "
+                          : "text-md text-black rounded-sm w-[95%] mt-1  "
+                      }
                       options={elementNewPage}
                       value={element.elementOptionSelected}
                       onChange={(selectedOption) =>
@@ -777,13 +1017,16 @@ fetch(\`${apiInputValue2}\${param}\`)
                         }),
                         // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
                       }}
-                      className="text-md text-black rounded-sm w-56 mt-1"
-                      // styles ของคุณที่นี่
                     />
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-7/12">
                     <span className="text-xl">Json Key</span>
                     <Select
+                      className={
+                        !isOverflow2
+                          ? "text-md text-black rounded-sm w-[93%] mt-1 "
+                          : "text-md text-black rounded-sm w-[95%] mt-1  "
+                      }
                       options={eventOptions}
                       value={element.eventOptionSelected}
                       onChange={(selectedOption) =>
@@ -817,8 +1060,6 @@ fetch(\`${apiInputValue2}\${param}\`)
                         }),
                         // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
                       }}
-                      className="text-md text-black rounded-sm w-56 mt-1"
-                      // styles ของคุณที่นี่
                     />
                   </div>
 

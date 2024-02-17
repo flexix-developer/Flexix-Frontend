@@ -4,7 +4,7 @@ import Select from "react-select";
 import { useSelector, useDispatch } from "react-redux";
 import OnLoadActionPopUp from "../editAction/OnLoadActionPopUp";
 import OnClickActionPopUp from "../editAction/OnClickActionPopUp";
-const PropertiesData = () => {
+const PropertiesData = ({ activepage }) => {
   const [isEventVisible, setEventVisible] = useState(true);
   const [CheckPopupEditAction, setCheckPopupEditAction] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null); // State to track selected event option
@@ -98,6 +98,7 @@ const PropertiesData = () => {
               handleClosePopupEditAction={handleClosePopupEditAction}
               lastSelect={lastSelect}
               ClosePopupEditAction={ClosePopupEditAction}
+              activepage={activepage}
             />
           </div>
         )}
