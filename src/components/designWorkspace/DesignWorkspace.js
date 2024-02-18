@@ -94,57 +94,62 @@ const DesignWorkspace = () => {
   var allElements = document.querySelectorAll("*");
 
   function draggableElement(event) {
-    var targetElement = document.getElementById(event.target.id);
-    if (targetElement) {
-      targetElement.classList.add("highlighted-dnd");
-      console.log("dragging ", event.target.id);
-    }
+    event.dataTransfer.setData("text/plain", event.target.id);
+    console.log("dragging ", event.target.id);
+    document.getElementById(event.target.id).classList.add("highlighted-dnd");
   }
 
-allElements.forEach((element) => {
-  element.addEventListener("dragstart", draggableElement);
-  element.addEventListener("dragleave", function (event) {
-    document.getElementById(event.target.id).classList.remove("highlighted-dndover");
+  allElements.forEach((element) => {
+    element.addEventListener("dragstart", draggableElement);
+    element.addEventListener("dragleave", function (event) {
+      document
+        .getElementById(event.target.id)
+        .classList.remove("highlighted-dndover");
+    });
   });
-});
 
-function allowDrop(event) {
-  event.preventDefault();
-  document.getElementById(event.target.id).classList.add("highlighted-dndover");
-}
+  function allowDrop(event) {
+    event.preventDefault();
+    document
+      .getElementById(event.target.id)
+      .classList.add("highlighted-dndover");
+  }
 
-function dropElement(event) {
-  event.preventDefault();
-  var data = event.dataTransfer.getData("text/plain");
-  var element = document.getElementById(data);
-  var targetElement = document.getElementById(event.target.id);
+  function dropElement(event) {
+    event.preventDefault();
+    var data = event.dataTransfer.getData("text/plain");
+    var element = document.getElementById(data);
 
-  if (element && targetElement) {
-    if (element.id === targetElement.id) {
-      console.log("Cannot drop onto the same element.");
-      targetElement.classList.remove("highlighted-dndover");
-      element.classList.remove("highlighted-dnd");
-      return;
-    }
+    if (element) {
+      if (element.id === event.target.id) {
+        document
+          .getElementById(event.target.id)
+          .classList.remove("highlighted-dndover");
+        document.getElementById(element.id).classList.remove("highlighted-dnd");
+        console.log("Cannot drop onto the same element.");
+        return;
+      }
 
-    const allowedContainers = ['div', 'form'];
-    if (!allowedContainers.includes(targetElement.tagName.toLowerCase())) {
-      console.log("Cannot drop outside allowed containers.");
-      targetElement.classList.remove("highlighted-dndover");
-      element.classList.remove("highlighted-dnd");
-      return;
-    }
+      const allowedContainers = ["div", "form"];
+      if (!allowedContainers.includes(event.target.tagName.toLowerCase())) {
+        document
+          .getElementById(event.target.id)
+          .classList.remove("highlighted-dndover");
+        document.getElementById(element.id).classList.remove("highlighted-dnd");
+        console.log("Cannot drop outside allowed containers.");
+        return;
+      }
+      document
+        .getElementById(event.target.id)
+        .classList.remove("highlighted-dndover");
+      document.getElementById(element.id).classList.remove("highlighted-dnd");
+      element.parentNode.removeChild(element);
 
-    targetElement.classList.remove("highlighted-dndover");
-    element.classList.remove("highlighted-dnd");
-    element.parentNode.removeChild(element);
+      event.target.appendChild(element);
 
-    targetElement.appendChild(element);
-
-    dispatch(dndUpdate(document.getElementById("main").innerHTML));
+      dispatch(dndUpdate(document.getElementById("main").innerHTML));
     }
   }
-  
 
   return (
     <div className="flex flex-col">
@@ -158,6 +163,6 @@ function dropElement(event) {
       ></div>
     </div>
   );
-}
+};
 
 export default DesignWorkspace;
