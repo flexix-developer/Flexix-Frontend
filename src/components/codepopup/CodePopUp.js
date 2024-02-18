@@ -35,11 +35,6 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
     setIsEditing(true);
   };
 
-  // const handleSave = async () => {
-  //   setIsEditing(false);
-  //   console.log(editableCode.html);
-  // };
-
   const handleSave = async () => {
     const ID = localStorage.getItem("ID");
     const ProjectID = localStorage.getItem("ProjectID");
@@ -52,7 +47,7 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
             id: ID,
             proid: ProjectID,
             pagename: activepage.slice(0, -4) + selectedCode,
-            content: editableCode.selectedCode,
+            content: editableCode.html,
           },
           {
             headers: {
@@ -74,7 +69,7 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
             userID: ID,
             projectId: ProjectID,
             pageName: activepage.slice(0, -5),
-            content: editableCode.selectedCode,
+            content: editableCode.js,
           },
           {
             headers: {
@@ -83,6 +78,7 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
           }
         );
         alert("Create Script Success!");
+        setIsEditing(false);
       } catch (error) {
         alert("Create New Page Failed!");
       }
