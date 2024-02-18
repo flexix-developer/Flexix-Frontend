@@ -122,12 +122,16 @@ function dropElement(event) {
   if (element && targetElement) {
     if (element.id === targetElement.id) {
       console.log("Cannot drop onto the same element.");
+      targetElement.classList.remove("highlighted-dndover");
+      element.classList.remove("highlighted-dnd");
       return;
     }
 
     const allowedContainers = ['div', 'form'];
     if (!allowedContainers.includes(targetElement.tagName.toLowerCase())) {
       console.log("Cannot drop outside allowed containers.");
+      targetElement.classList.remove("highlighted-dndover");
+      element.classList.remove("highlighted-dnd");
       return;
     }
 
