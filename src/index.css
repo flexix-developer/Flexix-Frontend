@@ -25,7 +25,17 @@
   color: royalblue;
   z-index: 999999;
 }
- 
+
+.highlighted-dnd {
+  outline: 2px solid royalblue;
+  opacity: 0.6;
+  cursor: move;
+}
+
+.highlighted-dndover{
+  outline: 1px dashed #6b6b6b;
+  cursor: move;
+}
 
 @tailwind components;
 @tailwind utilities;

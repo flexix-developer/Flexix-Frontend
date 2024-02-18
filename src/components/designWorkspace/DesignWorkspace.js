@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   focus,
@@ -94,40 +94,50 @@ const DesignWorkspace = () => {
   var allElements = document.querySelectorAll("*");
 
   function draggableElement(event) {
-    event.dataTransfer.setData("text/plain", event.target.id);
-    console.log("dragging ", event.target.id);
+    var targetElement = document.getElementById(event.target.id);
+    if (targetElement) {
+      targetElement.classList.add("highlighted-dnd");
+      console.log("dragging ", event.target.id);
+    }
   }
 
-  allElements.forEach((element) => {
-    element.addEventListener("dragstart", draggableElement);
+allElements.forEach((element) => {
+  element.addEventListener("dragstart", draggableElement);
+  element.addEventListener("dragleave", function (event) {
+    document.getElementById(event.target.id).classList.remove("highlighted-dndover");
   });
+});
 
-  function allowDrop(event) {
-    event.preventDefault();
-  }
+function allowDrop(event) {
+  event.preventDefault();
+  document.getElementById(event.target.id).classList.add("highlighted-dndover");
+}
 
-  function dropElement(event) {
-    event.preventDefault();
-    var data = event.dataTransfer.getData("text/plain");
-    var element = document.getElementById(data);
-  
-    if (element) {
-      if (element.id === event.target.id) {
-        console.log("Cannot drop onto the same element.");
-        return;
-      }
-  
-      const allowedContainers = ['div', 'form'];
-      if (!allowedContainers.includes(event.target.tagName.toLowerCase())) {
-        console.log("Cannot drop outside allowed containers.");
-        return;
-      }
-  
-      element.parentNode.removeChild(element);
-  
-      event.target.appendChild(element);
-  
-      dispatch(dndUpdate(document.getElementById("main").innerHTML));
+function dropElement(event) {
+  event.preventDefault();
+  var data = event.dataTransfer.getData("text/plain");
+  var element = document.getElementById(data);
+  var targetElement = document.getElementById(event.target.id);
+
+  if (element && targetElement) {
+    if (element.id === targetElement.id) {
+      console.log("Cannot drop onto the same element.");
+      return;
+    }
+
+    const allowedContainers = ['div', 'form'];
+    if (!allowedContainers.includes(targetElement.tagName.toLowerCase())) {
+      console.log("Cannot drop outside allowed containers.");
+      return;
+    }
+
+    targetElement.classList.remove("highlighted-dndover");
+    element.classList.remove("highlighted-dnd");
+    element.parentNode.removeChild(element);
+
+    targetElement.appendChild(element);
+
+    dispatch(dndUpdate(document.getElementById("main").innerHTML));
     }
   }
   
