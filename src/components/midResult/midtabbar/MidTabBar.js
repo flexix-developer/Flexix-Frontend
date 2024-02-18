@@ -41,7 +41,7 @@ const MidTabBar = ({
         }
       );
 
-      // console.log(response.data.content);
+      console.log(response.data.content);
       handleApiResponse(response);
       // setActivePage(page);
       handlePageActivate(page + ".html");

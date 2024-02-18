@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { FiTrash2, FiEdit } from "react-icons/fi";
 import { RiFileCopy2Line } from "react-icons/ri";
 import beautify from "js-beautify";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { updateValue } from "../../features/counter/counterSlice";
 
-const CodePopUp = ({ htmlCode, jsCode, closePopUp }) => {
+const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
+  const dispatch = useDispatch();
   const html_beautify = beautify.html;
   const [selectedCode, setSelectedCode] = useState("html");
   const [isEditing, setIsEditing] = useState(false);
@@ -31,9 +35,58 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp }) => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    // You may want to call a function to save the updated code here
-    setIsEditing(false);
+  // const handleSave = async () => {
+  //   setIsEditing(false);
+  //   console.log(editableCode.html);
+  // };
+
+  const handleSave = async () => {
+    const ID = localStorage.getItem("ID");
+    const ProjectID = localStorage.getItem("ProjectID");
+    const token = localStorage.getItem("token");
+    if (selectedCode === "html") {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8081/users/savepage",
+          {
+            id: ID,
+            proid: ProjectID,
+            pagename: activepage.slice(0, -4) + selectedCode,
+            content: editableCode.selectedCode,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("SavePage Success", response.data);
+        setIsEditing(false);
+        handleGetpage(activepage);
+      } catch (error) {
+        console.log("Error:", error);
+      }
+    } else {
+      try {
+        await axios.post(
+          "http://localhost:8081/users/editscript",
+          {
+            userID: ID,
+            projectId: ProjectID,
+            pageName: activepage.slice(0, -5),
+            content: editableCode.selectedCode,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        alert("Create Script Success!");
+      } catch (error) {
+        alert("Create New Page Failed!");
+      }
+    }
   };
 
   const handleChange = (event) => {
@@ -41,7 +94,41 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp }) => {
       ...prevCode,
       [selectedCode]: event.target.value,
     }));
+    console.log(editableCode.js);
   };
+
+  const handleApiResponse = (response) => {
+    const content = response.data.content;
+    dispatch(updateValue(content));
+  };
+
+  const handleGetpage = async (page) => {
+    try {
+      // Your axios.post code here to update the page name
+      const ID = localStorage.getItem("ID");
+      const ProjectID = localStorage.getItem("ProjectID");
+      const token = localStorage.getItem("token");
+
+      const response = await axios.post(
+        "http://127.0.0.1:8081/users/getpage",
+        {
+          id: ID,
+          proid: ProjectID,
+          pageName: page,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      handleApiResponse(response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
       <div className="bg-[#272727]  w-8/12 h-[800px]    rounded-lg z-100 border-2 text-white flex  flex-col">

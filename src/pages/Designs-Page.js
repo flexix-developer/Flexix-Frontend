@@ -590,6 +590,7 @@ const DesignPage = () => {
           htmlCode={htmlInPage}
           jsCode={jsInPage}
           closePopUp={handleClosePopUpCodeShow}
+          activepage={activepage}
         />
       )}
     </div>
