@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { parse } from "node-html-parser";
 import axios from "axios";
+import beautify from "js-beautify";
 
 const initialState = {
   value: ``, // HTML content
@@ -32,6 +33,7 @@ export const SavePage = async (state, html) => {
   const token = localStorage.getItem("token");
   const page = state.ListPages[state.IndexPages];
   console.log("SavePage", page, "state.IndexPages", state.ListPages);
+  const html_beautify = beautify.html;
 
   try {
     await axios.post(
@@ -40,7 +42,7 @@ export const SavePage = async (state, html) => {
         id: ID,
         proid: ProjectID,
         pagename: page,
-        content: html,
+        content: html_beautify(html),
       },
       {
         headers: {

@@ -13,6 +13,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import MidResult from "../components/midResult/MidResult";
 import { useSelector, useDispatch } from "react-redux";
+import CodePopUp from "../components/codepopup/CodePopUp";
 
 const DesignPage = () => {
   useTokenCheck("/design");
@@ -261,12 +262,50 @@ const DesignPage = () => {
     setFirstpage(false);
   };
 
+  // Show Code
+  const [htmlInPage, setHtmlInPage] = useState("");
+  const [jsInPage, setJsInPage] = useState("");
+  const [showCode, setShowCode] = useState(false);
+
+  const handleEyeIconClick = async () => {
+    const ID = localStorage.getItem("ID");
+    const ProjectID = localStorage.getItem("ProjectID");
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8081/users/gethtmlandscript",
+        {
+          id: ID,
+          proid: ProjectID,
+          pagename: activepage.slice(0, -5),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data.html);
+      console.log(response.data.js);
+      setHtmlInPage(response.data.html);
+      setJsInPage(response.data.js);
+      setShowCode(true);
+    } catch (error) {
+      alert("Create New Page Failed!");
+    }
+  };
+
+  const handleClosePopUpCodeShow = () => {
+    setShowCode(false);
+  };
+  //
   return (
     <div className="flex flex-col overflow-hidden h-screen">
       <NavBarDesign
         fname={userInfo.fname}
         lname={userInfo.lname}
         isWorkspace={true}
+        handleEyeIconClick={handleEyeIconClick}
       />
       {pages && pages.length === 0 && (
         <div className="flex flex-row flex-1">
@@ -545,6 +584,13 @@ const DesignPage = () => {
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
+      )}
+      {showCode && (
+        <CodePopUp
+          htmlCode={htmlInPage}
+          jsCode={jsInPage}
+          closePopUp={handleClosePopUpCodeShow}
+        />
       )}
     </div>
   );
