@@ -145,6 +145,15 @@ const DesignWorkspace = () => {
       document.querySelectorAll(".highlighted-dndover").forEach((element) => {
         element.classList.remove("highlighted-dndover");
       });
+      document.querySelectorAll(".highlighted-dnd").forEach((element) => {
+        element.classList.remove("highlighted-dnd");
+      });
+      document.querySelectorAll('[style*="z-index: 100;"]').forEach((element) => {
+        element.style.removeProperty('z-index');
+      });
+      document.querySelectorAll('[style]').forEach((element) => {
+        element.removeAttribute('style');
+      });
       element.parentNode.removeChild(element);
 
         // allElements.forEach((el) => {
