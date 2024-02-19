@@ -95,9 +95,10 @@ const DesignWorkspace = () => {
 
   function draggableElement(event) {
     event.dataTransfer.setData("text/plain", event.target.id);
-    console.log("dragging ", event.target.id);
     document.getElementById(event.target.id).classList.add("highlighted-dnd");
-  }
+
+    document.getElementById(event.target.id).style.zIndex = "100";
+}
 
   allElements.forEach((element) => {
     element.addEventListener("dragstart", draggableElement);
@@ -131,23 +132,28 @@ const DesignWorkspace = () => {
       }
 
       const allowedContainers = ["div", "form"];
-      if (!allowedContainers.includes(event.target.tagName.toLowerCase())) {
-        document
-          .getElementById(event.target.id)
-          .classList.remove("highlighted-dndover");
+      if (!allowedContainers.includes(event.currentTarget.tagName.toLowerCase())) {
+        event.currentTarget.classList.remove("highlighted-dndover");
+        
+
         document.getElementById(element.id).classList.remove("highlighted-dnd");
         console.log("Cannot drop outside allowed containers.");
         return;
       }
-      document
-        .getElementById(event.target.id)
-        .classList.remove("highlighted-dndover");
+      event.currentTarget.classList.remove("highlighted-dndover");
       document.getElementById(element.id).classList.remove("highlighted-dnd");
+      document.querySelectorAll(".highlighted-dndover").forEach((element) => {
+        element.classList.remove("highlighted-dndover");
+      });
       element.parentNode.removeChild(element);
 
-      event.target.appendChild(element);
+        allElements.forEach((el) => {
+            el.style.zIndex = "auto";
+        });
 
-      dispatch(dndUpdate(document.getElementById("main").innerHTML));
+        event.target.appendChild(element);
+
+        dispatch(dndUpdate(document.getElementById("main").innerHTML));
     }
   }
 
