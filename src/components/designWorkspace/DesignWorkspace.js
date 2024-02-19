@@ -147,9 +147,9 @@ const DesignWorkspace = () => {
       });
       element.parentNode.removeChild(element);
 
-        allElements.forEach((el) => {
-            el.style.zIndex = "auto";
-        });
+        // allElements.forEach((el) => {
+        //     el.style.zIndex = "auto";
+        // });
 
         event.target.appendChild(element);
 
