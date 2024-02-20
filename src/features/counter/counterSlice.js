@@ -211,7 +211,7 @@ export const counterSlice = createSlice({
       appendElement(
         state,
         "Form",
-        `<form id="form-${state.currentFormNumber}" class="flex flex-col flex-wrap p-1 w-full  max-h-full bg-slate-300" draggable="true"></form>`
+        `<form id="form-${state.currentFormNumber}" name="" class="flex flex-col flex-wrap p-1 w-full  max-h-full bg-slate-300" draggable="true"></form>`
       );
     },
     addLabel: (state) => {
@@ -232,14 +232,14 @@ export const counterSlice = createSlice({
       appendElement(
         state,
         "Textarea",
-        `<textarea id="textarea-${state.currentTextareaNumber}" draggable="true"></textarea>`
+        `<textarea id="textarea-${state.currentTextareaNumber}" name="" placeholder="" draggable="true"></textarea>`
       );
     },
     addInput: (state) => {
       appendElement(
         state,
         "Input",
-        `<input type="text" id="input-${state.currentInputNumber}" draggable="true">`
+        `<input type="text" id="input-${state.currentInputNumber}" name="" placeholder="" draggable="true">`
       );
     },
     addSelect: (state) => {
@@ -963,6 +963,27 @@ export const counterSlice = createSlice({
       state.value = root.toString();
       SavePage(state, root.toString());
     },
+    EditName: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const newName = action.payload;
+      targetNode.setAttribute("name", newName);
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
+    EditPlaceholder: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const newPlaceholder = action.payload;
+      targetNode.setAttribute("placeholder", newPlaceholder);
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
+    EditType: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const newType = action.payload;
+      targetNode.setAttribute("type", newType);
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
     AddFunc: (state, action) => {
       const targetNode = root.querySelector(state.elementAction);
       const FuncValue = action.payload;
@@ -987,6 +1008,45 @@ export const counterSlice = createSlice({
           "onclick",
           `try{ ${FuncValue}(); }catch(e){ console.error('Error:', e); }`
         );
+      }
+
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
+    AddOptionsSelect: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const OptionValue = action.payload;
+      console.log("AddOptionsSelect", OptionValue, targetNode, state.currentFocus);
+
+      const updateOptions = (targetNode, OptionValue) => {
+        const option = document.createElement("option");
+        option.value = OptionValue;
+        option.text = OptionValue;
+        targetNode.add(option);
+      };
+
+      if (targetNode.tagName === "SELECT") {
+        updateOptions(targetNode, OptionValue);
+      }
+
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
+    RemoveOptionsSelect: (state, action) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      const OptionValue = action.payload;
+      console.log("RemoveOptionsSelect", OptionValue, targetNode, state.currentFocus);
+
+      const removeOptions = (targetNode, OptionValue) => {
+        for (let i = 0; i < targetNode.options.length; i++) {
+          if (targetNode.options[i].value === OptionValue) {
+            targetNode.remove(i);
+          }
+        }
+      };
+
+      if (targetNode.tagName === "SELECT") {
+        removeOptions(targetNode, OptionValue);
       }
 
       state.value = root.toString();
@@ -1057,10 +1117,15 @@ export const {
   EditSrc,
   EditHref,
   EditId,
+  EditName,
+  EditPlaceholder,
+  EditType,
   AspectRatioInputChange,
   AddFunc,
   addElementAction,
   dndUpdate,
+  AddOptionsSelect,
+  RemoveOptionsSelect,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

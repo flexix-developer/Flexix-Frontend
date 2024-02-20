@@ -15,12 +15,12 @@ const PropertiesOptionsCol = () => {
 
   return (
     <div className="flex flex-col w-full p-2">
-      <div className="flex flex-row pl-2 pb-1 text-lg">
+      {/* <div className="flex flex-row pl-2 pb-1 text-lg">
         <p>Column Layouts</p>
       </div>
       <div className="flex flex-col bg-neutral-800 p-2 rounded-md">
         <div className="flex flex-row w-full">
-          <div className="flex flex-row w-6/12 items-center justify-center bg-neutral-900 p-2 m-1 rounded-sm">
+          <div className="flex flex-row w-6/12 items-center justify-center bg-neutral-900 p-2 m-1 rounded-sm" >
             <div className="flex justify-center bg-neutral-500 text-black font-bold w-full rounded-sm cursor-pointer">
               <p>1/1</p>
             </div>
@@ -79,20 +79,7 @@ const PropertiesOptionsCol = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-row pl-2 pb-1 text-lg mt-2">
-        <p>Link URL</p>
-      </div>
-      <div className="flex flex-row pl-2 pb-1">
-        <input
-          type="text"
-          placeholder="e.g. https://www.google.com"
-          className="w-11/12 p-1 pl-2 bg-neutral-700 rounded border-2 border-neutral-600"
-        />
-      </div>
-      <div className="flex flex-row pl-2 pb-1 text-xs w-full text-neutral-400">
-        <p>Set this to make this whole block link somewhere</p>
-      </div>
+      </div> */}
     </div>
   );
 };
