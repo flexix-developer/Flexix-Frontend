@@ -64,6 +64,14 @@ const OnLoadActionPopUp = ({
     { eventOptionSelected: null, elementOptionSelected: null },
   ]);
 
+  // const [rows, setRows] = useState([
+  //   { param: "", dataFromID: "", testData: "" },
+  // ]);
+  // const addRow = () => {
+  //   const newRow = { param: "", testData: "", dataFromID: "" };
+  //   setRows([...rows, newRow]);
+  // };
+
   const handleTestConnect = async () => {
     const authHeaders = {
       "No Auth": {},
@@ -119,7 +127,7 @@ const OnLoadActionPopUp = ({
     const headers = authHeaders[selectAuth];
     try {
       const response = await axios.get(
-        `${apiInputValue2}${dataTestInputValue}`,
+        `${apiInputValue2}?${paramInputValue}=${dataTestInputValue}`,
         {
           method: "GET", // สามารถเปลี่ยนเป็น 'POST', 'PUT', ถ้ามีความจำเป็น
           headers: headers, // ใช้ headers ที่ตั้งค่าไว้
@@ -150,6 +158,7 @@ const OnLoadActionPopUp = ({
   const handleInputChange = (event) => {
     setApiInputValue(event.target.value);
   };
+
   const handleInputChange2 = (event) => {
     setApiInputValue2(event.target.value);
   };
@@ -243,7 +252,7 @@ const OnLoadActionPopUp = ({
   const handleMapDoneClick = async () => {
     console.log(elementsp2);
     SingleonLoadScript();
-    ClosePopupEditAction();
+    // ClosePopupEditAction();
   };
 
   const handleNextClick = async () => {
@@ -390,7 +399,7 @@ const OnLoadActionPopUp = ({
         let child = `          \n// // Check and change src for ${nameactionButton}
                    if (child.id.includes("${nameactionButton}")) {
                     child.addEventListener("click", function () {
-                      window.location.href = \`${pageAction}?id=\${item.ID}\`;
+                      window.location.href = \`${pageAction}?${paramInputValue}=\${item.ID}\`;
                       console.log(item.ID);
                     });
                   }`;
@@ -423,22 +432,41 @@ const OnLoadActionPopUp = ({
     };
     const headers = authHeaders[selectAuth];
     console.log("headers", headers);
+    //     let script = `// detail.js
+    // document.addEventListener("DOMContentLoaded", function () {
+    //   const urlParams = new URLSearchParams(window.location.search);
+    //   const param = urlParams.get("id"); // ดึงค่า ID
+    //   console.log(param); // แสดงค่า ID ใน console
+    // fetch(\`${apiInputValue2}\${param}\`, {
+    //         method: "GET", // สามารถเปลี่ยนเป็น 'POST', 'PUT', ถ้ามีความจำเป็น
+    //         headers: ${JSON.stringify(headers).replace(/"/g, "'")},
+    //       })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       console.log(data);
+    //       // อัปเดต UI ตามข้อมูลที่ได้
+    //     })
+    //     .catch((error) => console.error("Error loading product details:", error));
+
+    // });
+    // `;
+
     let script = `// detail.js
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   const param = urlParams.get("id"); // ดึงค่า ID
   console.log(param); // แสดงค่า ID ใน console
-fetch(\`${apiInputValue2}\${param}\`, {
-        method: "GET", // สามารถเปลี่ยนเป็น 'POST', 'PUT', ถ้ามีความจำเป็น
-        headers: ${JSON.stringify(headers).replace(/"/g, "'")},
-      })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      // อัปเดต UI ตามข้อมูลที่ได้
+fetch(\`${apiInputValue2}?id=\${param}\`, {
+      method: "GET", // สามารถเปลี่ยนเป็น 'POST', 'PUT', ถ้ามีความจำเป็น
+      headers: ${JSON.stringify(headers).replace(/"/g, "'")},
     })
-    .catch((error) => console.error("Error loading product details:", error));
-  
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    // อัปเดต UI ตามข้อมูลที่ได้
+  })
+  .catch((error) => console.error("Error loading product details:", error));
+
 });
 `;
     let combinedChild = ""; // สร้างตัวแปรสำหรับเก็บสตริงที่รวมกันทั้งหมด
@@ -494,7 +522,7 @@ fetch(\`${apiInputValue2}\${param}\`, {
       `// อัปเดต UI ตามข้อมูลที่ได้\n${combinedChild}\n`
     );
     console.log(script);
-    handleSaveScript(pageAction, script);
+    // handleSaveScript(pageAction, script);
     // add If Next Close Popup
   };
 
@@ -566,8 +594,14 @@ fetch(\`${apiInputValue2}\${param}\`, {
     console.log(isOverflow);
   }, [elements, elementsp2]);
 
+  const [selectedOptionDataFrom, setSelectedOptionDataFrom] = useState(null);
+  const handleSelectElementDataFromChange = (selectedOption) => {
+    setSelectedOptionDataFrom(selectedOption); // อัปเดต state ด้วยค่าที่เลือก
+    console.log("selectedOptionDataFrom:", selectedOptionDataFrom); // แสดงค่าที่เลือกใน console
+  };
+
   return (
-    <div className="bg-[#272727] p-4 w-5/12 max-h-[600px]  pb-10  rounded-lg z-100">
+    <div className="bg-[#272727] p-4 w-5/12 max-h-[800px]  pb-10  rounded-lg z-100">
       <div className="flex w-full justify-end">
         <IoMdClose
           className="text-3xl text-red-500"
@@ -654,6 +688,91 @@ fetch(\`${apiInputValue2}\${param}\`, {
             </div>
             <div className="h-[38px] w-12"></div>
           </div>
+
+          {/*  Param */}
+
+          <div
+            className={
+              !isOverflow
+                ? "w-4/5 max-h-[220px] overflow-y-auto "
+                : "w-[78%] max-h-[220px] overflow-y-auto mr-2 "
+            }
+            id="over"
+            ref={overflowRef}
+          >
+            <div className="w-full mt-2 flex  items-end justify-between ">
+              {/* <div className="w-[20.5%] "> */}
+              <div className={isOverflow ? "w-[25.5%]" : "w-[25.5%]"}>
+                <span className="text-xl">Param</span>
+                <input
+                  className="w-full bg-[#595959] rounded-sm ps-2 h-[38px]"
+                  value={paramInputValue}
+                  onChange={handleInputParamChange}
+                />
+              </div>
+              <div
+                className={
+                  !isOverflow
+                    ? "flex flex-col w-[28%] "
+                    : "flex flex-col w-[29%] ml-4"
+                }
+              >
+                <span className="text-xl">TestData</span>
+                <input
+                  className="w-full bg-[#595959] rounded-sm ps-2 h-[38px]"
+                  value={dataTestInputValue}
+                  onChange={handleInputDataTestChange}
+                />
+              </div>
+              <div
+                className={
+                  !isOverflow
+                    ? "flex flex-col w-[29%] "
+                    : "flex flex-col w-[29%] ml-3"
+                }
+              >
+                <span className="text-xl">Data From ID</span>
+
+                <Select
+                  // options={elements}
+                  // menuPortalTarget={document.body}
+                  // onChange={(e) => handleInputChange(e.value)}
+                  options={elementOptions}
+                  value={selectedOptionDataFrom}
+                  onChange={handleSelectElementDataFromChange}
+                  menuPortalTarget={document.body}
+                  styles={{
+                    control: (provided) => ({
+                      ...provided,
+                      backgroundColor: "#595959",
+                      color: "white",
+                      // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
+                    }),
+                    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                    menu: (provided) => ({
+                      ...provided,
+                      backgroundColor: "#595959",
+                      // สำหรับเมนูดร็อปดาวน์
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      backgroundColor: state.isFocused ? "#424242" : "#595959",
+                      color: "white",
+                      // สำหรับตัวเลือกภายในเมนู
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      color: "white",
+                    }),
+                    // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
+                  }}
+                ></Select>
+              </div>
+              <div className="h-[38px] w-12"></div>
+            </div>
+          </div>
+          {/*  Param */}
+
           <div className="w-4/5 mt-2 ">
             {testConnect === true && (
               <span className="text-[#42FF00]">Connected</span>
@@ -666,7 +785,12 @@ fetch(\`${apiInputValue2}\${param}\`, {
             )}
           </div>
           <div
-            className="w-4/5 max-h-[140px] mt-2 flex flex-col overflow-y-auto"
+            // className="w-4/5 max-h-[140px] mt-2 flex flex-col overflow-y-auto"
+            className={
+              !isOverflow
+                ? "w-4/5 max-h-[140px] mt-2 flex flex-col overflow-y-auto"
+                : "w-[82%] max-h-[140px] mt-2 ml-4 flex flex-col overflow-y-auto"
+            }
             ref={overflowRef}
           >
             {elements.map((element, index) => (
@@ -728,7 +852,7 @@ fetch(\`${apiInputValue2}\${param}\`, {
                     <Select
                       className={
                         !isOverflow
-                          ? "text-md text-black rounded-sm w-[93%] mt-1 "
+                          ? "text-md text-black rounded-sm w-[94%] mt-1 "
                           : "text-md text-black rounded-sm w-[94%] mt-1  "
                       }
                       options={eventOptions}
@@ -877,11 +1001,11 @@ fetch(\`${apiInputValue2}\${param}\`, {
             <span className="text-3xl font-bold">Mapping</span>
           </div>
           <div className="w-4/5 mt-2 flex flex-col  ">
-            <div>
+            {/* <div>
               <span className="text-xl">API</span>
-            </div>
+            </div> */}
             <div className="w-full flex justify-between mt-1 items-end">
-              <div className="w-8/12 h-full">
+              <div className="w-[89%] h-full">
                 <span className="text-xl ">API</span>
                 <input
                   id="apiInput"
@@ -890,7 +1014,7 @@ fetch(\`${apiInputValue2}\${param}\`, {
                   className="w-full h-10 bg-[#595959] rounded-sm ps-2"
                 />
               </div>
-              <div className="w-2/12 h-full">
+              {/* <div className="w-2/12 h-full">
                 <span className="text-xl ">Data Test</span>
                 <input
                   id="DataTestInput"
@@ -898,7 +1022,7 @@ fetch(\`${apiInputValue2}\${param}\`, {
                   onChange={handleInputDataTestChange} // อัปเดต state ทุกครั้งที่มีการพิมพ
                   className="w-full h-10 bg-[#595959] rounded-sm ps-2"
                 />
-              </div>
+              </div> */}
               <button
                 className="bg-[#595959] w-12 rounded-sm h-10"
                 onClick={handleTestConnect2}
@@ -950,9 +1074,10 @@ fetch(\`${apiInputValue2}\${param}\`, {
                 onChange={handleTokenChange}
               />
             </div>
-
             <div className="h-[38px] w-12"></div>
           </div>
+          {/*  */}
+
           <div className="w-4/5 mt-2 ">
             {testConnect === true && (
               <span className="text-[#42FF00]">Connected</span>
@@ -965,7 +1090,7 @@ fetch(\`${apiInputValue2}\${param}\`, {
             )}
           </div>
           <div
-            className="w-4/5 mt-2 flex flex-col max-h-[200px] overflow-y-scroll"
+            className="w-4/5 mt-2 flex flex-col max-h-[210px] overflow-y-scroll"
             ref={overflowRef}
           >
             {elementsp2.map((element, index) => (
