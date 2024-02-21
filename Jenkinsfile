@@ -1,20 +1,20 @@
 pipeline {
     agent any
         stages {
-            stage('Install Packages') {
+            stage('Check file') {
                 agent {
                     label 'flexix-frontend'
                 }
                 steps {
-                    sh 'npm install'
+                    sh 'ls'
                 }
             }
-            stage('Run Project') {
+            stage('run app') {
                 agent {
                     label 'flexix-frontend'
                 }
                 steps {
-                    sh 'npm start'
+                    sh 'docker compose up -d'
                 }
             }
         }
