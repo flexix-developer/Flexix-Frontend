@@ -1,20 +1,20 @@
 pipeline {
     agent any
-        stages {
-            stage('Check file') {
-                steps {
-                    sh 'ls'
-                }
-            }
-            stage('install node modules') {
-                steps {
-                    sh 'npm install'
-                }
-            }
-            stage('Run tests') {
-                steps {
-                    sh 'npm start'
-                }
+    stages {
+        stage('Check file') {
+            steps {
+                bat 'dir'  // ใช้ bat แทน sh สำหรับ Windows
             }
         }
+        stage('install node modules') {
+            steps {
+                bat 'npm install'
+            }
+        }
+        stage('Run tests') {
+            steps {
+                bat 'npm start'
+            }
+        }
+    }
 }
