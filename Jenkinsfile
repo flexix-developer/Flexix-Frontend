@@ -6,9 +6,14 @@ pipeline {
                     sh 'ls'
                 }
             }
-            stage('run app') {
+            stage('install node modules') {
                 steps {
-                    sh 'docker compose up -d'
+                    sh 'npm install'
+                }
+            }
+            stage('Run tests') {
+                steps {
+                    sh 'npm start'
                 }
             }
         }
