@@ -22,6 +22,7 @@ const HomePage = () => {
         const token = localStorage.getItem("token");
         const response = await axios.get(
           `http://localhost:8081/users/readall/${ID}`,
+          // `http://ceproject.thddns.net:3322/users/readall/${ID}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -53,6 +54,7 @@ const HomePage = () => {
       const token = localStorage.getItem("token");
       const response = await axios.get(
         `http://localhost:8081/users/readproject/${ID}`,
+        // `http://ceproject.thddns.net:3322/users/readproject/${ID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -115,6 +117,7 @@ const HomePage = () => {
       const token = localStorage.getItem("token");
       await axios.delete(
         `http://localhost:8081/users/delproject/${projectId}`,
+        // `http://ceproject.thddns.net:3322/users/delproject/${projectId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -143,6 +146,7 @@ const HomePage = () => {
       const id = localStorage.getItem("ID");
       await axios.put(
         `http://localhost:8081/users/editname/${projectId}`,
+        // `http://ceproject.thddns.net:3322/users/editname/${projectId}`,
         { id: id, newpname: editedProjectName },
         {
           headers: {
@@ -179,6 +183,7 @@ const HomePage = () => {
         try {
           await axios.post(
             "http://127.0.0.1:8081/users/create",
+            // "http://ceproject.thddns.net:3322/users/create",
             {
               id: ID,
               name: editedProjectName,

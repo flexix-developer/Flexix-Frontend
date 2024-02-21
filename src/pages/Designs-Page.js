@@ -117,6 +117,7 @@ const DesignPage = () => {
 
       const response = await axios.get(
         `http://localhost:8081/users/getpages/${ID}/${ProjectID}`,
+        // `http://ceproject.thddns.net:3322/users/getpages/${ID}/${ProjectID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -149,6 +150,8 @@ const DesignPage = () => {
       const token = localStorage.getItem("token");
       const response = await axios.get(
         `http://localhost:8081/users/readall/${ID}`,
+        // `http://ceproject.thddns.net:3322/users/readall/${ID}`,
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -223,6 +226,7 @@ const DesignPage = () => {
       try {
         await axios.post(
           "http://127.0.0.1:8081/users/page",
+          // "http://ceproject.thddns.net:3322/users/page",
           {
             userID: ID,
             projectId: ProjectID,
@@ -274,6 +278,7 @@ const DesignPage = () => {
     try {
       const response = await axios.post(
         "http://127.0.0.1:8081/users/gethtmlandscript",
+        // "http://ceproject.thddns.net:3322/users/gethtmlandscript",
         {
           id: ID,
           proid: ProjectID,
@@ -305,6 +310,7 @@ const DesignPage = () => {
         fname={userInfo.fname}
         lname={userInfo.lname}
         isWorkspace={true}
+        activepage={activepage}
         handleEyeIconClick={handleEyeIconClick}
       />
       {pages && pages.length === 0 && (

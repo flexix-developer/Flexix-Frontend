@@ -181,6 +181,7 @@ function ForgotThree() {
     }
 
     const apiUrl = "http://localhost:8081/reset";
+    // const apiUrl = "http://ceproject.thddns.net:3322/reset";
 
     try {
       // Make a PUT request to the Django API

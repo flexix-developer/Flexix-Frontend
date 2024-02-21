@@ -71,6 +71,7 @@ const PageExplorer = ({
     try {
       await axios.post(
         "http://127.0.0.1:8081/users/deletepage",
+        // "http://ceproject.thddns.net:3322/users/deletepage",
         {
           id: ID,
           proid: ProjectID,
@@ -141,6 +142,7 @@ const PageExplorer = ({
 
         await axios.post(
           "http://127.0.0.1:8081/users/editpage",
+          // "http://ceproject.thddns.net:3322/users/editpage",
           {
             id: ID,
             proid: ProjectID,
@@ -178,6 +180,7 @@ const PageExplorer = ({
 
       const response = await axios.post(
         "http://127.0.0.1:8081/users/getpage",
+        // "http://ceproject.thddns.net:3322/users/getpage",
         {
           id: ID,
           proid: ProjectID,

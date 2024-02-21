@@ -2,8 +2,15 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoEyeOutline } from "react-icons/io5";
 import { FaCode } from "react-icons/fa6";
+import axios from "axios";
 
-function NavBarDesign({ fname, lname, isWorkspace, handleEyeIconClick }) {
+function NavBarDesign({
+  fname,
+  lname,
+  isWorkspace,
+  handleEyeIconClick,
+  activepage,
+}) {
   // State for managing the dropdown visibility
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -16,37 +23,31 @@ function NavBarDesign({ fname, lname, isWorkspace, handleEyeIconClick }) {
     localStorage.clear();
   };
 
-  //   const [htmlInPage, setHtmlInPage] = useState("");
-  //   const [jsInPage, setJsInPage] = useState("");
-  //   const [showCode, setShowCode] = useState(false);
-
-  // const handleEyeIconClick = async () => {
-  //   const ID = localStorage.getItem("ID");
-  //   const ProjectID = localStorage.getItem("ProjectID");
-  //   const token = localStorage.getItem("token");
-  //   try {
-  //     const response = await axios.post(
-  //       "http://127.0.0.1:8081/users/gethtmlandscript",
-  //       {
-  //         id: ID,
-  //         proid: ProjectID,
-  //         pagename: activepage.slice(0, -5),
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     console.log(response.data.html);
-  //     console.log(response.data.js);
-  //     setHtmlInPage(response.data.html);
-  //     setJsInPage(response.data.js);
-  //     setShowCode(true);
-  //   } catch (error) {
-  //     alert("Create New Page Failed!");
-  //   }
-  // };
+  const handleCodeIconClick = async () => {
+    const ID = localStorage.getItem("ID");
+    const ProjectID = localStorage.getItem("ProjectID");
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8081/users/preview",
+        // "http://ceproject.thddns.net:3322/users/preview",
+        {
+          id: ID,
+          proid: ProjectID,
+          pagename: activepage.slice(0, -5),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data.url);
+      window.open(response.data.url, "_blank"); // เพิ่มบรรทัดนี้
+    } catch (error) {
+      alert("Create New Page Failed!");
+    }
+  };
 
   return (
     <nav className="bg-gray-900">
@@ -64,7 +65,11 @@ function NavBarDesign({ fname, lname, isWorkspace, handleEyeIconClick }) {
           <div className="flex flex-row ml-5">
             {/* <div className="mx-5 cursor-pointer" onClick={handleEyeIconClick}> */}
             <div className="mx-5 cursor-pointer">
-              <IoEyeOutline color="white" size={30} />
+              <IoEyeOutline
+                color="white"
+                size={30}
+                onClick={handleCodeIconClick}
+              />
             </div>
             {/* <div className="cursor-pointer" onClick={handleCodeIconClick}> */}
             <div className="cursor-pointer" onClick={handleEyeIconClick}>

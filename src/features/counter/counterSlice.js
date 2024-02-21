@@ -38,6 +38,7 @@ export const SavePage = async (state, html) => {
   try {
     await axios.post(
       "http://127.0.0.1:8081/users/savepage",
+      // "http://ceproject.thddns.net:3322/users/savepage",
       {
         id: ID,
         proid: ProjectID,
@@ -1016,7 +1017,12 @@ export const counterSlice = createSlice({
     AddOptionsSelect: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
       const OptionValue = action.payload;
-      console.log("AddOptionsSelect", OptionValue, targetNode, state.currentFocus);
+      console.log(
+        "AddOptionsSelect",
+        OptionValue,
+        targetNode,
+        state.currentFocus
+      );
 
       const updateOptions = (targetNode, OptionValue) => {
         const option = document.createElement("option");
@@ -1035,7 +1041,12 @@ export const counterSlice = createSlice({
     RemoveOptionsSelect: (state, action) => {
       const targetNode = root.querySelector(state.currentFocus);
       const OptionValue = action.payload;
-      console.log("RemoveOptionsSelect", OptionValue, targetNode, state.currentFocus);
+      console.log(
+        "RemoveOptionsSelect",
+        OptionValue,
+        targetNode,
+        state.currentFocus
+      );
 
       const removeOptions = (targetNode, OptionValue) => {
         for (let i = 0; i < targetNode.options.length; i++) {

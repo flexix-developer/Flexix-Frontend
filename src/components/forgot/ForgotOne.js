@@ -122,6 +122,9 @@ function ForgotOne({ onNextStep }) {
 
     try {
       const response = await axios.post("http://localhost:8081/forgot", {
+        // const response = await axios.post(
+        //   "http://ceproject.thddns.net:3322/forgot",
+        //   {
         email: email,
       });
 
