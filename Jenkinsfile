@@ -3,17 +3,20 @@ pipeline {
     stages {
         stage('Check file') {
             steps {
-                bat 'dir'  // ใช้ bat แทน sh สำหรับ Windows
+                bat 'dir'
             }
         }
-        stage('install node modules') {
+        stage('Install node modules') {
             steps {
                 bat 'npm install'
             }
         }
         stage('Run tests') {
             steps {
-                bat 'npm start'
+                script {
+                    // ใช้ Start-Process เพื่อให้ npm start ทำงานเบื้องหลัง
+                    powershell 'Start-Process npm -ArgumentList "start" -NoNewWindow -PassThru'
+                }
             }
         }
     }
