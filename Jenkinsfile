@@ -13,9 +13,9 @@ pipeline {
                 echo 'Show Docker running'
                 bat 'docker ps'
                 echo 'Stop Docker all'
-                bat 'docker stop $(docker ps -q)'
+                powershell 'docker stop (docker ps -q) -ErrorAction SilentlyContinue'
                 echo 'Delete Docker all'
-                bat 'docker rm $(docker ps -aq) || true'
+                powershell 'docker rm (docker ps -aq) -ErrorAction SilentlyContinue'
             }
         }
         stage('Create Container') {
