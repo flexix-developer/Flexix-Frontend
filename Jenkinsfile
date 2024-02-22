@@ -13,24 +13,26 @@ pipeline {
                     bat 'docker compose up -d'
                 }
             }
-            stage('Wait for Container') {
+            stage('Check Directory') {
                 steps {
                     echo 'Check Directory'
                     bat 'dir'
+                    echo 'Check Python Version'
+                    bat 'python --version'
                 }
             }
             stage('Run Robot') {
                 steps {
                     echo 'Run Test Register'
-                    bat 'robot ./Test_Flexix/valid_register.robot'
+                    bat 'python -m robot ./Test_Flexix/valid_register.robot'
                     echo 'Run Test Login'
-                    bat 'robot ./Test_Flexix/valid_login.robot'
+                    bat 'python -m robot ./Test_Flexix/valid_login.robot'
                     echo 'Run Test Create Project'
-                    bat 'robot ./Test_Flexix/valid_create_project.robot'
+                    bat 'python -m robot ./Test_Flexix/valid_create_project.robot'
                     echo 'Run Test Rename Project'
-                    bat 'robot ./Test_Flexix/valid_rename_project.robot'
+                    bat 'python -m robot ./Test_Flexix/valid_rename_project.robot'
                     echo 'Run Test Delete Project'
-                    bat 'robot ./Test_Flexix/valid_delete_project.robot'
+                    bat 'python -m robot ./Test_Flexix/valid_delete_project.robot'
                 }
             }
             stage('Stop and Remove Docker Container') {
