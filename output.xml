@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.11.2 on win32)" generated="2024-02-22T22:43:13.256567" rpa="false" schemaversion="5">
+<suite id="s1" name="Valid Login" source="C:\Users\mon\Documents\GitHub\Flexix-Frontend\Test_Flexix\valid_login.robot">
+<test id="s1-t1" name="Valid Login" line="5">
+<kw name="Open Login Page" owner="resource">
+<kw name="Open Browser" owner="Selenium2Library">
+<msg time="2024-02-22T22:43:13.575203" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/login'.</msg>
+<errors>
+<msg time="2024-02-22T22:43:19.252208" level="ERROR">Execution stopped by user.</msg>
+</errors>
+</robot>

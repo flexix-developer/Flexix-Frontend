@@ -1,125 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.0 (Python 3.12.1 on win32)" generated="2024-02-08T16:41:15.146556" rpa="false" schemaversion="5">
-<suite id="s1" name="Valid Rename Project" source="E:\Github-file\Flexix-Robot\valid_rename_project.robot">
-<test id="s1-t1" name="Valid Rename Project" line="5">
+<robot generator="Robot 7.0 (Python 3.11.2 on win32)" generated="2024-02-22T22:16:17.837093" rpa="false" schemaversion="5">
+<suite id="s1" name="Valid Register" source="C:\Users\mon\Documents\GitHub\Flexix-Frontend\Test_Flexix\valid_register.robot">
+<test id="s1-t1" name="Valid Register" line="5">
 <kw name="Open Login Page" owner="resource">
 <kw name="Open Browser" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:15.381611" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/login'.</msg>
+<msg time="2024-02-22T22:16:18.193613" level="INFO">Opening browser 'chrome' to base url 'http://localhost:3000/login'.</msg>
 <arg>${LOGIN URL}</arg>
 <arg>${BROWSER}</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2024-02-08T16:41:15.381611" elapsed="4.032892"/>
+<status status="PASS" start="2024-02-22T22:16:18.192600" elapsed="5.751819"/>
 </kw>
 <kw name="Maximize Browser Window" owner="Selenium2Library">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" start="2024-02-08T16:41:19.415504" elapsed="0.121510"/>
+<status status="PASS" start="2024-02-22T22:16:23.944419" elapsed="0.124998"/>
 </kw>
 <kw name="Set Selenium Speed" owner="Selenium2Library">
 <arg>${DELAY}</arg>
 <doc>Sets the delay that is waited after each Selenium command.</doc>
-<status status="PASS" start="2024-02-08T16:41:19.537014" elapsed="0.000000"/>
+<status status="PASS" start="2024-02-22T22:16:24.069417" elapsed="0.000000"/>
 </kw>
 <kw name="Login Page Should Be Open" owner="resource">
 <kw name="Title Should Be" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:20.541471" level="INFO">Page title is 'Frontend Builder'.</msg>
+<msg time="2024-02-22T22:16:25.075837" level="INFO">Page title is 'Frontend Builder'.</msg>
 <arg>Frontend Builder</arg>
 <doc>Verifies that the current page title equals ``title``.</doc>
-<status status="PASS" start="2024-02-08T16:41:19.538014" elapsed="1.003457"/>
+<status status="PASS" start="2024-02-22T22:16:24.070418" elapsed="1.005419"/>
 </kw>
-<status status="PASS" start="2024-02-08T16:41:19.537014" elapsed="1.004457"/>
+<status status="PASS" start="2024-02-22T22:16:24.070418" elapsed="1.005419"/>
 </kw>
-<status status="PASS" start="2024-02-08T16:41:15.380609" elapsed="5.160862"/>
+<status status="PASS" start="2024-02-22T22:16:18.191602" elapsed="6.884235"/>
+</kw>
+<kw name="Submit To Register Page" owner="resource">
+<kw name="Click Link" owner="Selenium2Library">
+<msg time="2024-02-22T22:16:25.076836" level="INFO">Clicking link '/register'.</msg>
+<arg>/register</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<status status="PASS" start="2024-02-22T22:16:25.076836" elapsed="3.456499"/>
+</kw>
+<status status="PASS" start="2024-02-22T22:16:25.076836" elapsed="3.456499"/>
+</kw>
+<kw name="Input First Name" owner="resource">
+<kw name="Input Text" owner="Selenium2Library">
+<msg time="2024-02-22T22:16:28.534325" level="INFO">Typing text 'Roos' into text field 'fname'.</msg>
+<arg>fname</arg>
+<arg>${fname}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-02-22T22:16:28.534325" elapsed="3.100864"/>
+</kw>
+<arg>Roos</arg>
+<status status="PASS" start="2024-02-22T22:16:28.534325" elapsed="3.100864"/>
+</kw>
+<kw name="Input Last Name" owner="resource">
+<kw name="Input Text" owner="Selenium2Library">
+<msg time="2024-02-22T22:16:31.636189" level="INFO">Typing text 'Ter' into text field 'lname'.</msg>
+<arg>lname</arg>
+<arg>${lname}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-02-22T22:16:31.636189" elapsed="3.085281"/>
+</kw>
+<arg>Ter</arg>
+<status status="PASS" start="2024-02-22T22:16:31.635189" elapsed="3.086281"/>
 </kw>
 <kw name="Input Email" owner="resource">
 <kw name="Input Text" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:20.542473" level="INFO">Typing text 'admin@admin.com' into text field 'email'.</msg>
+<msg time="2024-02-22T22:16:34.722441" level="INFO">Typing text 'un_admin1@gmail.com' into text field 'email'.</msg>
 <arg>email</arg>
 <arg>${email}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-02-08T16:41:20.542473" elapsed="3.124394"/>
+<status status="PASS" start="2024-02-22T22:16:34.722441" elapsed="3.101386"/>
 </kw>
-<arg>admin@admin.com</arg>
-<status status="PASS" start="2024-02-08T16:41:20.541471" elapsed="3.125396"/>
+<arg>un_admin1@gmail.com</arg>
+<status status="PASS" start="2024-02-22T22:16:34.722441" elapsed="3.101386"/>
 </kw>
 <kw name="Input The Password" owner="resource">
 <kw name="Input Text" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:23.668868" level="INFO">Typing text 'Admin1234' into text field 'password'.</msg>
+<msg time="2024-02-22T22:16:37.824821" level="INFO">Typing text 'Unadmin12345' into text field 'password'.</msg>
 <arg>password</arg>
 <arg>${password}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-02-08T16:41:23.668868" elapsed="3.089473"/>
+<status status="PASS" start="2024-02-22T22:16:37.824821" elapsed="3.094835"/>
 </kw>
-<arg>Admin1234</arg>
-<status status="PASS" start="2024-02-08T16:41:23.667849" elapsed="3.090492"/>
+<arg>Unadmin12345</arg>
+<status status="PASS" start="2024-02-22T22:16:37.824821" elapsed="3.094835"/>
 </kw>
-<kw name="Submit Credentials" owner="resource">
+<kw name="Input Confirm Password" owner="resource">
+<kw name="Input Text" owner="Selenium2Library">
+<msg time="2024-02-22T22:16:40.920648" level="INFO">Typing text 'Unadmin12345' into text field 'name'.</msg>
+<arg>name</arg>
+<arg>${name}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2024-02-22T22:16:40.920648" elapsed="3.097395"/>
+</kw>
+<arg>Unadmin12345</arg>
+<status status="PASS" start="2024-02-22T22:16:40.920648" elapsed="3.097395"/>
+</kw>
+<kw name="Submit Register" owner="resource">
 <kw name="Click Button" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:26.759341" level="INFO">Clicking button 'sign_in'.</msg>
-<arg>sign_in</arg>
+<msg time="2024-02-22T22:16:44.019439" level="INFO">Clicking button 'sign_up'.</msg>
+<arg>sign_up</arg>
 <doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2024-02-08T16:41:26.759341" elapsed="3.048975"/>
+<status status="PASS" start="2024-02-22T22:16:44.019439" elapsed="3.051328"/>
 </kw>
-<status status="PASS" start="2024-02-08T16:41:26.758341" elapsed="3.049975"/>
+<status status="PASS" start="2024-02-22T22:16:44.018404" elapsed="3.052363"/>
 </kw>
 <kw name="Store Alert" owner="resource">
 <kw name="Handle Alert" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:29.809317" level="INFO">HANDLE::&lt;class 'NoneType'&gt;::None</msg>
+<msg time="2024-02-22T22:16:47.071747" level="INFO">HANDLE::&lt;class 'NoneType'&gt;::None</msg>
 <doc>Handles the current alert and returns its message.</doc>
-<status status="PASS" start="2024-02-08T16:41:29.809317" elapsed="3.004681"/>
+<status status="PASS" start="2024-02-22T22:16:47.071747" elapsed="3.007455"/>
 </kw>
-<status status="PASS" start="2024-02-08T16:41:29.808316" elapsed="3.005682"/>
+<status status="PASS" start="2024-02-22T22:16:47.071747" elapsed="3.007455"/>
 </kw>
-<kw name="Click FiEdit" owner="resource">
-<kw name="Click Element" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:32.815980" level="INFO">Clicking element 'fiCheckIcon'.</msg>
-<arg>fiCheckIcon</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-02-08T16:41:32.814979" elapsed="2.048089"/>
-</kw>
-<status status="PASS" start="2024-02-08T16:41:32.814979" elapsed="2.048089"/>
-</kw>
-<kw name="Input New Name Project" owner="resource">
-<kw name="Input Text" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:34.865091" level="INFO">Typing text 'Test_Rename' into text field 'new_name_project'.</msg>
-<arg>new_name_project</arg>
-<arg>${new_name_project}</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2024-02-08T16:41:34.864091" elapsed="3.100036"/>
-</kw>
-<arg>Test_Rename</arg>
-<status status="PASS" start="2024-02-08T16:41:34.864091" elapsed="3.100036"/>
-</kw>
-<kw name="Click Save Name" owner="resource">
-<kw name="Click Element" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:37.966109" level="INFO">Clicking element 'save_new_name'.</msg>
-<arg>save_new_name</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2024-02-08T16:41:37.965110" elapsed="2.049945"/>
-</kw>
-<status status="PASS" start="2024-02-08T16:41:37.965110" elapsed="2.049945"/>
-</kw>
-<kw name="Workspace Page Should Be Open" owner="resource">
-<kw name="Location Should Be" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:41.024257" level="INFO">Current location is 'http://localhost:3000/workspace'.</msg>
-<arg>${WORKSPACE URL}</arg>
-<doc>Verifies that the current URL is exactly ``url``.</doc>
-<status status="PASS" start="2024-02-08T16:41:40.016062" elapsed="1.008195"/>
-</kw>
+<kw name="Login Page Should Be Open" owner="resource">
 <kw name="Title Should Be" owner="Selenium2Library">
-<msg time="2024-02-08T16:41:42.031060" level="INFO">Page title is 'Frontend Builder'.</msg>
+<msg time="2024-02-22T22:16:51.086770" level="INFO">Page title is 'Frontend Builder'.</msg>
 <arg>Frontend Builder</arg>
 <doc>Verifies that the current page title equals ``title``.</doc>
-<status status="PASS" start="2024-02-08T16:41:41.024257" elapsed="1.006803"/>
+<status status="PASS" start="2024-02-22T22:16:50.080228" elapsed="1.006542"/>
 </kw>
-<status status="PASS" start="2024-02-08T16:41:40.016062" elapsed="2.014998"/>
+<status status="PASS" start="2024-02-22T22:16:50.080228" elapsed="1.006542"/>
 </kw>
 <kw name="Close Browser" owner="Selenium2Library" type="TEARDOWN">
 <doc>Closes the current browser.</doc>
-<status status="PASS" start="2024-02-08T16:41:42.032064" elapsed="3.096661"/>
+<status status="PASS" start="2024-02-22T22:16:51.087771" elapsed="3.090897"/>
 </kw>
-<status status="PASS" start="2024-02-08T16:41:15.380609" elapsed="29.749116"/>
+<status status="PASS" start="2024-02-22T22:16:18.191602" elapsed="35.988051"/>
 </test>
-<status status="PASS" start="2024-02-08T16:41:15.147558" elapsed="29.984153"/>
+<status status="PASS" start="2024-02-22T22:16:17.839093" elapsed="36.342580"/>
 </suite>
 <statistics>
 <total>
@@ -128,7 +135,7 @@
 <tag>
 </tag>
 <suite>
-<stat pass="1" fail="0" skip="0" id="s1" name="Valid Rename Project">Valid Rename Project</stat>
+<stat pass="1" fail="0" skip="0" id="s1" name="Valid Register">Valid Register</stat>
 </suite>
 </statistics>
 <errors>

@@ -9,10 +9,3 @@ services:
     ports:
       - "3000:80"
 
-    robot:
-      build:
-        context: Test_Flexix
-        target: builder
-      container_name: robot
-      ports:
-        - "3001:80"
