@@ -16,17 +16,22 @@ pipeline {
             stage('Run Robot') {
                 steps {
                     echo 'Run Test Register'
-                    bat 'robot ./Test_Flexix/valid_register.robot'
+                    bat 'C:\\Users\\mon\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\robot.exe ./Test_Flexix/valid_register.robot'
+                    
                     echo 'Run Test Login'
-                    bat 'robot ./Test_Flexix/valid_login.robot'
+                    bat 'C:\\Users\\mon\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\robot.exe ./Test_Flexix/valid_login.robot'
+                    
                     echo 'Run Test Create Project'
-                    bat 'robot ./Test_Flexix/valid_create_project.robot'
+                    bat 'C:\\Users\\mon\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\robot.exe ./Test_Flexix/valid_create_project.robot'
+                    
                     echo 'Run Test Rename Project'
-                    bat 'robot ./Test_Flexix/valid_rename_project.robot'
+                    bat 'C:\\Users\\mon\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\robot.exe ./Test_Flexix/valid_rename_project.robot'
+                    
                     echo 'Run Test Delete Project'
-                    bat 'robot ./Test_Flexix/valid_delete_project.robot'
+                    bat 'C:\\Users\\mon\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\robot.exe ./Test_Flexix/valid_delete_project.robot'
                 }
             }
+
             stage('Stop and Remove Docker Container') {
                 steps {
                     echo 'Show Docker running'
