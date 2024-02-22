@@ -22,6 +22,14 @@ pipeline {
                     bat 'docker compose -f ./compose.yaml up -d --build'
                 }
             }
+            stage('install dependencies') {
+                steps {
+                    echo 'install Library'
+                    bat 'pip install robotframework'
+                    bat 'pip install robotframework-seleniumlibrary'
+                    bat 'pip install robotframework-selenium2library'
+                }
+            }
             stage('Run Robot') {
                 steps {
                     echo 'Run Test Register'
