@@ -25,15 +25,15 @@ pipeline {
             stage('Run Robot') {
                 steps {
                     echo 'Run Test Register'
-                    bat 'robot ./valid_register.robot'
+                    bat 'robot ./Test_Flexix/valid_register.robot'
                     echo 'Run Test Login'
-                    bat 'robot ./valid_login.robot'
+                    bat 'robot ./Test_Flexix/valid_login.robot'
                     echo 'Run Test Create Project'
-                    bat 'robot ./valid_create_project.robot'
+                    bat 'robot ./Test_Flexix/valid_create_project.robot'
                     echo 'Run Test Rename Project'
-                    bat 'robot ./valid_rename_project.robot'
+                    bat 'robot ./Test_Flexix/valid_rename_project.robot'
                     echo 'Run Test Delete Project'
-                    bat 'robot ./valid_delete_project.robot'
+                    bat 'robot ./Test_Flexix/valid_delete_project.robot'
                 }
             }
     }
