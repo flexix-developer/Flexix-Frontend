@@ -500,7 +500,7 @@ const DesignPage = () => {
                     }
                     required
                   />
-                  <label>Width:</label>
+                  {/* <label>Width:</label>
                   <div className="flex w-full h-full">
                     <input
                       type="text"
@@ -566,7 +566,7 @@ const DesignPage = () => {
                     >
                       Sub page
                     </label>
-                  </div>
+                  </div> */}
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

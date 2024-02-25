@@ -98,7 +98,7 @@ const DesignWorkspace = () => {
     document.getElementById(event.target.id).classList.add("highlighted-dnd");
 
     document.getElementById(event.target.id).style.zIndex = "100";
-}
+  }
 
   allElements.forEach((element) => {
     element.addEventListener("dragstart", draggableElement);
@@ -132,9 +132,10 @@ const DesignWorkspace = () => {
       }
 
       const allowedContainers = ["div", "form"];
-      if (!allowedContainers.includes(event.currentTarget.tagName.toLowerCase())) {
+      if (
+        !allowedContainers.includes(event.currentTarget.tagName.toLowerCase())
+      ) {
         event.currentTarget.classList.remove("highlighted-dndover");
-        
 
         document.getElementById(element.id).classList.remove("highlighted-dnd");
         console.log("Cannot drop outside allowed containers.");
@@ -148,26 +149,28 @@ const DesignWorkspace = () => {
       document.querySelectorAll(".highlighted-dnd").forEach((element) => {
         element.classList.remove("highlighted-dnd");
       });
-      document.querySelectorAll('[style*="z-index: 100;"]').forEach((element) => {
-        element.style.removeProperty('z-index');
-      });
-      document.querySelectorAll('[style]').forEach((element) => {
-        element.removeAttribute('style');
+      document
+        .querySelectorAll('[style*="z-index: 100;"]')
+        .forEach((element) => {
+          element.style.removeProperty("z-index");
+        });
+      document.querySelectorAll("[style]").forEach((element) => {
+        element.removeAttribute("style");
       });
       element.parentNode.removeChild(element);
 
-        // allElements.forEach((el) => {
-        //     el.style.zIndex = "auto";
-        // });
+      // allElements.forEach((el) => {
+      //     el.style.zIndex = "auto";
+      // });
 
-        event.target.appendChild(element);
+      event.target.appendChild(element);
 
-        dispatch(dndUpdate(document.getElementById("main").innerHTML));
+      dispatch(dndUpdate(document.getElementById("main").innerHTML));
     }
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-auto ">
       {/* Use dangerouslySetInnerHTML to render sanitized HTML */}
       <div
         dangerouslySetInnerHTML={{ __html: sanitizedHTML }}

@@ -99,7 +99,7 @@ const MidResult = ({
           activepage={activepage}
           handleClickTabBar={handleClickTabBar}
         />
-        <div className="overflow-auto max-h-screen">
+        <div className="overflow-auto max-h-[820px]">
           <DesignWorkspace />
         </div>
       </div>
@@ -126,7 +126,7 @@ const MidResult = ({
                     }
                     required
                   />
-                  <label>Width:</label>
+                  {/* <label>Width:</label>
                   <div className="flex w-full h-full">
                     <input
                       type="text"
@@ -192,7 +192,7 @@ const MidResult = ({
                     >
                       Sub page
                     </label>
-                  </div>
+                  </div> */}
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
