@@ -2,7 +2,7 @@ import { PiPlugsConnectedBold } from "react-icons/pi";
 import { IoMdAdd } from "react-icons/io";
 import Select from "react-select";
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import axios, { all } from "axios";
 import { IoMdClose } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -28,6 +28,7 @@ const OnLoadActionPopUp = ({
   const [page2action, setPage2Action] = useState(null);
   const [selectAuth, setSelectAuth] = useState("No Auth");
   const [userToken, setUserToken] = useState("");
+  const [allKeysNested, setAllKeysNested] = useState([]);
 
   const { counter } = useSelector((state) => state);
   const { value: sanitizedHTML } = counter;
@@ -64,13 +65,94 @@ const OnLoadActionPopUp = ({
     { eventOptionSelected: null, elementOptionSelected: null },
   ]);
 
-  // const [rows, setRows] = useState([
-  //   { param: "", dataFromID: "", testData: "" },
-  // ]);
-  // const addRow = () => {
-  //   const newRow = { param: "", testData: "", dataFromID: "" };
-  //   setRows([...rows, newRow]);
-  // };
+  const getAllKeysNested = (obj) => {
+    const uniqueKeys = new Set();
+    const excludeKeys = new Set(["config", "headers", "request"]); // กำหนด keys ที่ไม่ต้องการให้รวมอยู่
+
+    const extractKeys = (obj, parentPath) => {
+      if (typeof obj === "object" && obj !== null) {
+        for (let key in obj) {
+          if (excludeKeys.has(key)) continue; // ข้าม keys ที่ไม่ต้องการ
+
+          // สร้าง path ใหม่โดยตรวจสอบว่า parentPath ว่างหรือไม่
+          const path = parentPath ? `${parentPath}.${key}` : key;
+          if (Array.isArray(obj[key])) {
+            // ถ้าเป็น array, ข้าม index และเรียกใช้กับ element แต่ละอัน
+            uniqueKeys.add(path);
+            obj[key].forEach((item) => extractKeys(item, path));
+          } else if (typeof obj[key] === "object" && obj[key] !== null) {
+            // ถ้าเป็น object, เรียกฟังก์ชันนี้แบบ recursive
+            uniqueKeys.add(path);
+            extractKeys(obj[key], path);
+          } else {
+            // สำหรับค่าปกติ, เพิ่ม path ลงใน set
+            uniqueKeys.add(path);
+          }
+        }
+      }
+    };
+
+    extractKeys(obj, "");
+    console.log([...uniqueKeys]);
+    setAllKeysNested([...uniqueKeys]);
+
+    return [...uniqueKeys]; // แปลง Set เป็น Array
+  };
+
+  const JsonAllKey = allKeysNested.map((key) => ({
+    value: key, // assuming you want the key itself to be the value
+    label: key, // what will be displayed in the dropdown
+  }));
+
+  const [selectedJsonHeadOption, setSelectedJsonHeadOption] = useState(null);
+
+  // ฟังก์ชันเพื่อเข้าถึงข้อมูลโดยใช้เส้นทาง (path)
+  const getNestedData = (path, obj) => {
+    return path.split(".").reduce((acc, part) => {
+      const match = part.match(/^(.+)\[(\d+)\]$/); // จับคู่ส่วนที่เป็น array index
+      if (match) {
+        // ถ้ามีการเข้าถึง array, ใช้ชื่อและ index เพื่อเข้าถึงข้อมูล
+        const arrayName = match[1];
+        const arrayIndex = parseInt(match[2], 10);
+        return acc && acc[arrayName] ? acc[arrayName][arrayIndex] : undefined;
+      }
+      return acc ? acc[part] : undefined; // การเข้าถึง property ปกติ
+    }, obj);
+  };
+
+  // Handle change event
+  const handleChange = (option) => {
+    setSelectedJsonHeadOption(option);
+
+    console.log("Selected option:", option);
+    // ใช้ฟังก์ชัน getNestedData เพื่อเข้าถึงข้อมูล
+    const selectedPath = option.value; // ตัวอย่างเส้นทาง 'data[0]' หรือ 'data.someArray[0]'
+    const sampleData = getNestedData(selectedPath, responseAPI) || {};
+
+    console.log(`Selected data at '${selectedPath}':`, sampleData);
+
+    // ตรวจสอบว่า sampleData เป็น object และสร้าง options จาก keys ของมัน
+    let keysOptions = [];
+    if (Array.isArray(sampleData)) {
+      // ถ้าเป็น array, สร้าง options จาก keys ของ object แรกใน array
+      keysOptions =
+        sampleData.length > 0
+          ? Object.keys(sampleData[0]).map((key) => ({
+              value: key,
+              label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+            }))
+          : [];
+    } else if (typeof sampleData === "object") {
+      // ถ้าเป็น object, สร้าง options จาก keys
+      keysOptions = Object.keys(sampleData).map((key) => ({
+        value: key,
+        label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+      }));
+    }
+
+    // อัพเดท state ด้วย options ที่สร้างขึ้น
+    setEventOptions(keysOptions);
+  };
 
   const handleTestConnect = async () => {
     const authHeaders = {
@@ -87,21 +169,26 @@ const OnLoadActionPopUp = ({
         method: "GET", // สามารถเปลี่ยนเป็น 'POST', 'PUT', ถ้ามีความจำเป็น
         headers: headers, // ใช้ headers ที่ตั้งค่าไว้
       });
-      // setApiInputValue("http://127.0.0.1:5000/api");
-      // const response = await axios.get(`http://127.0.0.1:5000/api`);
+
       setTestConnect(true);
-      console.log("response.data", response.data);
-      setResponseAPI(response.data);
 
-      // สร้าง options สำหรับ Select จาก key ของข้อมูลแรก (หรือข้อมูลอื่นตามที่ต้องการ)
-      const sampleData = response.data[0] || {}; // ใช้ข้อมูลแรกเป็นตัวอย่าง
-      const keysOptions = Object.keys(sampleData).map((key) => ({
-        value: key,
-        label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
-      }));
+      console.log("response.data", response);
 
-      // อัพเดท state ของ eventOptions ด้วย keysOptions ที่สร้างขึ้น
-      setEventOptions(keysOptions);
+      getAllKeysNested(response);
+
+      setResponseAPI(response);
+
+      console.log("allkey", allKeysNested);
+
+      // // สร้าง options สำหรับ Select จาก key ของข้อมูลแรก (หรือข้อมูลอื่นตามที่ต้องการ)
+      // const sampleData = response.data[0] || {}; // ใช้ข้อมูลแรกเป็นตัวอย่าง
+      // const keysOptions = Object.keys(sampleData).map((key) => ({
+      //   value: key,
+      //   label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+      // }));
+
+      // // อัพเดท state ของ eventOptions ด้วย keysOptions ที่สร้างขึ้น
+      // setEventOptions(keysOptions);
     } catch (error) {
       console.error("Error fetching data:", error);
       setTestConnect(false);
@@ -247,6 +334,7 @@ const OnLoadActionPopUp = ({
   const handleDoneClick = () => {
     onLoadScript();
     ClosePopupEditAction();
+    console.log(selectedJsonHeadOption);
   };
 
   const handleMapDoneClick = async () => {
@@ -330,10 +418,11 @@ const OnLoadActionPopUp = ({
       })
       .then((response) => response.json())
       .then((data) => {
+        const APIData =  ${selectedJsonHeadOption.value}
         const sourceElement = document.getElementById("${lastSelect.slice(1)}");
         const container = sourceElement.parentNode;
         container.innerHTML = ""; // Clear the container to prepare for new elements
-        data.forEach((item, i) => {
+        APIData.forEach((item, i) => {
           const clonedElement = sourceElement.cloneNode(true);
           clonedElement.id = \`\${sourceElement.id}\`; // No need to escape backticks here
           // Customize the clonedElement as necessary
@@ -691,9 +780,7 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
             <div className="h-[38px] w-12"></div>
           </div>
 
-          {/*  Param */}
-
-          <div
+          {/* <div
             className={
               !isOverflow
                 ? "w-4/5 max-h-[220px] overflow-y-auto "
@@ -703,7 +790,6 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
             ref={overflowRef}
           >
             <div className="w-full mt-2 flex  items-end justify-between ">
-              {/* <div className="w-[20.5%] "> */}
               <div className={isOverflow ? "w-[25.5%]" : "w-[25.5%]"}>
                 <span className="text-xl">Param</span>
                 <input
@@ -736,9 +822,6 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
                 <span className="text-xl">Data From ID</span>
 
                 <Select
-                  // options={elements}
-                  // menuPortalTarget={document.body}
-                  // onChange={(e) => handleInputChange(e.value)}
                   options={elementOptions}
                   value={selectedOptionDataFrom}
                   onChange={handleSelectElementDataFromChange}
@@ -748,32 +831,27 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
                       ...provided,
                       backgroundColor: "#595959",
                       color: "white",
-                      // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
                     }),
                     menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                     menu: (provided) => ({
                       ...provided,
                       backgroundColor: "#595959",
-                      // สำหรับเมนูดร็อปดาวน์
                     }),
                     option: (provided, state) => ({
                       ...provided,
                       backgroundColor: state.isFocused ? "#424242" : "#595959",
                       color: "white",
-                      // สำหรับตัวเลือกภายในเมนู
                     }),
                     singleValue: (provided) => ({
                       ...provided,
                       color: "white",
                     }),
-                    // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
                   }}
                 ></Select>
               </div>
               <div className="h-[38px] w-12"></div>
             </div>
-          </div>
-          {/*  Param */}
+          </div> */}
 
           <div className="w-4/5 mt-2 ">
             {testConnect === true && (
@@ -786,8 +864,41 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
               <span className="text-[#FFFFFF]">Wait...</span>
             )}
           </div>
+          <div className="w-4/5 mt-2 ">
+            <span className="text-xl">Json Head</span>
+            <div className="flex justify-between">
+              <Select
+                className="text-md text-black rounded-sm w-[88.5%] mt-1 "
+                options={JsonAllKey}
+                value={selectedJsonHeadOption} // Set the selected option
+                onChange={handleChange} // Update state on change
+                menuPortalTarget={document.body}
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    backgroundColor: "#595959",
+                    color: "white",
+                  }),
+                  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                  menu: (provided) => ({
+                    ...provided,
+                    backgroundColor: "#595959",
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isFocused ? "#424242" : "#595959",
+                    color: "white",
+                  }),
+                  singleValue: (provided) => ({
+                    ...provided,
+                    color: "white",
+                  }),
+                }}
+              />
+              <div className="h-[38px] w-12"></div>
+            </div>
+          </div>
           <div
-            // className="w-4/5 max-h-[140px] mt-2 flex flex-col overflow-y-auto"
             className={
               !isOverflow
                 ? "w-4/5 max-h-[140px] mt-2 flex flex-col overflow-y-auto"
