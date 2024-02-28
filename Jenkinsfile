@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Clean Workspace') {
+            stage('Clear Container') {
                 steps {
                     echo 'DownTime'
                     bat 'docker compose down || true'
@@ -9,7 +9,7 @@ pipeline {
             }
             stage('Create Container') {
                 steps {
-                    echo 'Run Container'
+                    echo 'Run App'
                     bat 'docker compose up -d'
                 }
             }
@@ -32,7 +32,7 @@ pipeline {
                 }
             }
 
-            stage('Stop and Remove Docker Container') {
+            stage('End Container') {
                 steps {
                     echo 'Show Docker running'
                     bat 'docker ps'
