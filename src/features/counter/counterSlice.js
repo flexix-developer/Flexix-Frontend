@@ -59,6 +59,10 @@ export const SavePage = async (state, html) => {
 
 const appendElement = (state, elementType, htmlTemplate) => {
   state[`current${elementType}Number`] += 1;
+  if (state.currentFocus === "") {
+    state.currentFocus = "#main";
+    state.currentFocusElement = "div";
+  }
   const element = parse(htmlTemplate);
   const targetNode =
     state.currentFocus === ""
@@ -148,6 +152,7 @@ export const removeSelectedElement = () => (dispatch, getState) => {
   if (currentFocus !== "" && currentFocus !== "#main") {
     dispatch(removeElement());
     dispatch(focus(""));
+    dispatch(focusElement(""));
   }
 };
 
