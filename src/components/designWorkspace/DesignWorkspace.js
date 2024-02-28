@@ -97,7 +97,6 @@ const DesignWorkspace = () => {
     event.dataTransfer.setData("text/plain", event.target.id);
     document.getElementById(event.target.id).classList.add("highlighted-dnd");
 
-    document.getElementById(event.target.id).style.zIndex = "100";
   }
 
   allElements.forEach((element) => {
@@ -117,64 +116,70 @@ const DesignWorkspace = () => {
   }
 
   function dropElement(event) {
-    event.preventDefault();
-    var data = event.dataTransfer.getData("text/plain");
-    var element = document.getElementById(data);
-
-    if (element) {
-      if (element.id === event.target.id) {
-        document
-          .getElementById(event.target.id)
-          .classList.remove("highlighted-dndover");
-        document.getElementById(element.id).classList.remove("highlighted-dnd");
-        console.log("Cannot drop onto the same element.");
-        return;
-      }
-
-      const allowedContainers = ["div", "form"];
-      if (
-        !allowedContainers.includes(event.currentTarget.tagName.toLowerCase())
-      ) {
+    try {
+      event.preventDefault();
+      var data = event.dataTransfer.getData("text/plain");
+      var draggedElement = document.getElementById(data);
+  
+      if (draggedElement) {
+        if (draggedElement.id === event.target.id) {
+          document
+            .getElementById(event.target.id)
+            .classList.remove("highlighted-dndover");
+          document.getElementById(draggedElement.id).classList.remove("highlighted-dnd");
+          console.log("Cannot drop onto the same element.");
+          return;
+        }
+  
+        const allowedContainers = ["div", "form"];
+        if (
+          !allowedContainers.includes(event.currentTarget.tagName.toLowerCase())
+        ) {
+          event.currentTarget.classList.remove("highlighted-dndover");
+  
+          document.getElementById(draggedElement.id).classList.remove("highlighted-dnd");
+          console.log("Cannot drop outside allowed containers.");
+          return;
+        }
         event.currentTarget.classList.remove("highlighted-dndover");
-
-        document.getElementById(element.id).classList.remove("highlighted-dnd");
-        console.log("Cannot drop outside allowed containers.");
-        return;
-      }
-      event.currentTarget.classList.remove("highlighted-dndover");
-      document.getElementById(element.id).classList.remove("highlighted-dnd");
-      document.querySelectorAll(".highlighted-dndover").forEach((element) => {
-        element.classList.remove("highlighted-dndover");
-      });
-      document.querySelectorAll(".highlighted-dnd").forEach((element) => {
-        element.classList.remove("highlighted-dnd");
-      });
-      document
-        .querySelectorAll('[style*="z-index: 100;"]')
-        .forEach((element) => {
-          element.style.removeProperty("z-index");
+        document.getElementById(draggedElement.id).classList.remove("highlighted-dnd");
+        document.querySelectorAll(".highlighted-dndover").forEach((element) => {
+          element.classList.remove("highlighted-dndover");
         });
-      document.querySelectorAll("[style]").forEach((element) => {
-        element.removeAttribute("style");
-      });
-      element.parentNode.removeChild(element);
+        document.querySelectorAll(".highlighted-dnd").forEach((element) => {
+          element.classList.remove("highlighted-dnd");
+        });
+        
+        if (event.target.tagName.toLowerCase() === "div" || event.target.tagName.toLowerCase() === "form"){
+          event.target.appendChild(draggedElement);
+        } else {
 
-      // allElements.forEach((el) => {
-      //     el.style.zIndex = "auto";
-      // });
+        const targetParent = event.target.parentNode;
+        const draggedParent = draggedElement.parentNode;
 
-      event.target.appendChild(element);
-
-      dispatch(dndUpdate(document.getElementById("main").innerHTML));
+        // console.log("targetParent", targetParent);
+        // console.log("draggedParent", draggedParent);
+        // console.log("event.target", event.target);
+        // console.log("draggedElement", draggedElement);
+  
+        targetParent.insertBefore(draggedElement, event.target);
+        draggedParent.insertBefore(event.target, draggedElement);
+        }
+        
+        dispatch(dndUpdate(document.getElementById("main").innerHTML));
+      }
+    } catch (error) {
+      console.error("Error in dropElement:", error);
     }
   }
+  
 
   return (
-    <div className="flex flex-col overflow-auto ">
+    <div className="flex flex-col overflow-auto">
       {/* Use dangerouslySetInnerHTML to render sanitized HTML */}
       <div
         dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
-        style={{ padding: "2px", minHeight: "720px" }}
+        style={{ padding: "2px", minHeight: "720px"}}
         id="main"
         onDrop={dropElement}
         onDragOver={allowDrop}
