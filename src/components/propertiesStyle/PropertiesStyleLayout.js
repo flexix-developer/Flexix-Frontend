@@ -4,9 +4,15 @@ import {
   AlignHorizontalLeft,
   AlignHorizontalCenter,
   AlignHorizontalRight,
+  AlignHorizontalSpaceBetween,
+  AlignHorizontalSpaceAround,
+  AlignHorizontalSpaceEvenly,
+  AlignHorizontalStretch,
   AlignVerticalBottom,
   AlignVerticalCenter,
   AlignVerticalTop,
+  AlignVerticalBaseline,
+  AlignVerticalStretch,
   WidthInputChange,
   HeightInputChange,
 } from "../../features/counter/counterSlice";
@@ -16,10 +22,15 @@ import {
   MdAlignHorizontalLeft,
   MdAlignHorizontalCenter,
   MdAlignHorizontalRight,
+  MdOutlineVerticalAlignCenter,
   MdAlignVerticalBottom,
   MdAlignVerticalCenter,
   MdAlignVerticalTop,
 } from "react-icons/md";
+
+import { RxSpaceBetweenHorizontally, RxSpaceEvenlyHorizontally, RxStretchHorizontally  } from "react-icons/rx";
+import { CgArrowAlignV } from "react-icons/cg";
+import { LuAlignHorizontalSpaceAround } from "react-icons/lu";
 
 const PropertiesStyleLayout = () => {
   const dispatch = useDispatch();
@@ -42,6 +53,26 @@ const PropertiesStyleLayout = () => {
     return targetNode && targetNode.classList.contains("justify-center");
   };
 
+  const isJustifySpaceBetween = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("justify-between");
+  };
+
+  const isJustifySpaceAround = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("justify-around");
+  };
+
+  const isJustifySpaceEvenly = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("justify-evenly");
+  };
+
+  const isJustifyStretch = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("justify-stretch");
+  };
+
   const isItemsStart = () => {
     const targetNode = root.querySelector(counterState.currentFocus);
     return targetNode && targetNode.classList.contains("items-start");
@@ -55,6 +86,16 @@ const PropertiesStyleLayout = () => {
   const isItemsCenter = () => {
     const targetNode = root.querySelector(counterState.currentFocus);
     return targetNode && targetNode.classList.contains("items-center");
+  };
+
+  const isItemsBaseline = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("items-baseline");
+  };
+
+  const isItemsStretch = () => {
+    const targetNode = root.querySelector(counterState.currentFocus);
+    return targetNode && targetNode.classList.contains("items-stretch");
   };
 
   const getSelectedWidthValue = () => {
@@ -230,6 +271,22 @@ const PropertiesStyleLayout = () => {
     dispatch(AlignHorizontalRight());
   };
 
+  const handleAlignHorizontalSpaceBetween = () => {
+    dispatch(AlignHorizontalSpaceBetween());
+  };
+
+  const handleAlignHorizontalSpaceAround = () => {
+    dispatch(AlignHorizontalSpaceAround());
+  };
+
+  const handleAlignHorizontalSpaceEvenly = () => {
+    dispatch(AlignHorizontalSpaceEvenly());
+  };
+
+  const handleAlignHorizontalStretch = () => {
+    dispatch(AlignHorizontalStretch());
+  };
+
   const handleAlignVerticalBottom = () => {
     dispatch(AlignVerticalBottom());
   };
@@ -240,6 +297,14 @@ const PropertiesStyleLayout = () => {
 
   const handleAlignVerticalTop = () => {
     dispatch(AlignVerticalTop());
+  };
+
+  const handleAlignVerticalBaseline = () => {
+    dispatch(AlignVerticalBaseline());
+  };
+
+  const handleAlignVerticalStretch = () => {
+    dispatch(AlignVerticalStretch());
   };
 
   const handleWidthInputChange = () => {
@@ -357,7 +422,7 @@ const PropertiesStyleLayout = () => {
     <div className="flex flex-col w-full">
       <div className="flex flex-row w-full justify-start p-2 items-center">
         <div className="w-3/12 pl-2">
-          <p>Align</p>
+          <p>Justify</p>
         </div>
         <div className="w-9/12 flex flex-row">
           <div
@@ -392,6 +457,53 @@ const PropertiesStyleLayout = () => {
           </div>
           <div
             className="w-1/12 text-center mx-2 cursor-pointer"
+            onClick={handleAlignHorizontalSpaceBetween}
+          >
+            {isJustifySpaceBetween() ? (
+              <RxSpaceBetweenHorizontally  color="skyblue" />
+            ) : (
+              <RxSpaceBetweenHorizontally  />
+            )}
+          </div>
+          <div
+            className="w-1/12 text-center mx-2 cursor-pointer"
+            onClick={handleAlignHorizontalSpaceAround}
+          >
+            {isJustifySpaceAround() ? (
+              <LuAlignHorizontalSpaceAround  color="skyblue" />
+            ) : (
+              <LuAlignHorizontalSpaceAround  />
+            )}
+            </div>
+          <div
+            className="w-1/12 text-center mx-2 cursor-pointer"
+            onClick={handleAlignHorizontalSpaceEvenly}
+          >
+            {isJustifySpaceEvenly() ? (
+              <RxSpaceEvenlyHorizontally color="skyblue" />
+            ) : (
+              <RxSpaceEvenlyHorizontally  />
+            )}
+          </div>
+          <div
+            className="w-1/12 text-center mx-2 cursor-pointer"
+            onClick={handleAlignHorizontalStretch}
+          >
+            {isJustifyStretch() ? (
+              <RxStretchHorizontally color="skyblue" />
+            ) : (
+              <RxStretchHorizontally/>
+            )}
+            </div>
+        </div>
+      </div>
+      <div className="flex flex-row w-full justify-start p-2 items-center">
+        <div className="w-3/12 pl-2">
+          <p>Align</p>
+        </div>
+        <div className="w-9/12 flex flex-row">
+          <div
+            className="w-1/12 text-center mx-1 cursor-pointer"
             onClick={handleAlignVerticalBottom}
           >
             {isItemsEnd() ? (
@@ -420,9 +532,28 @@ const PropertiesStyleLayout = () => {
               <MdAlignVerticalTop />
             )}
           </div>
+          <div
+            className="w-1/12 text-center mx-1 cursor-pointer"
+            onClick={handleAlignVerticalBaseline}
+          >
+            {isItemsBaseline() ? (
+              <MdOutlineVerticalAlignCenter color="skyblue" />
+            ) : (
+              <MdOutlineVerticalAlignCenter />
+            )}
+            </div>
+          <div
+            className="w-1/12 text-center mx-1 cursor-pointer"
+            onClick={handleAlignVerticalStretch}
+          >
+            {isItemsStretch() ? (
+              <CgArrowAlignV color="skyblue" />
+            ) : (
+              <CgArrowAlignV />
+            )}
+            </div>
         </div>
       </div>
-
       <div className="flex flex-row w-full justify-start p-2 items-center">
         <div className="w-3/12 pl-2 mr-2">
           <p>Width</p>

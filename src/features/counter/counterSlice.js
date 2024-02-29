@@ -265,6 +265,10 @@ export const counterSlice = createSlice({
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.remove("justify-end");
       targetNode.classList.remove("justify-center");
+      targetNode.classList.remove("justify-between");
+      targetNode.classList.remove("justify-around");
+      targetNode.classList.remove("justify-evenly");
+      targetNode.classList.remove("justify-stretch");
       targetNode.classList.toggle("justify-start", true);
       state.value = root.toString();
       SavePage(state, root.toString());
@@ -273,6 +277,10 @@ export const counterSlice = createSlice({
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.remove("justify-start");
       targetNode.classList.remove("justify-end");
+      targetNode.classList.remove("justify-between");
+      targetNode.classList.remove("justify-around");
+      targetNode.classList.remove("justify-evenly");
+      targetNode.classList.remove("justify-stretch");
       targetNode.classList.toggle("justify-center", true);
       state.value = root.toString();
       SavePage(state, root.toString());
@@ -281,7 +289,59 @@ export const counterSlice = createSlice({
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.remove("justify-start");
       targetNode.classList.remove("justify-center");
+      targetNode.classList.remove("justify-between");
+      targetNode.classList.remove("justify-around");
+      targetNode.classList.remove("justify-evenly");
+      targetNode.classList.remove("justify-stretch");
       targetNode.classList.toggle("justify-end", true);
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
+    AlignHorizontalSpaceBetween: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("justify-start");
+      targetNode.classList.remove("justify-center");
+      targetNode.classList.remove("justify-end");
+      targetNode.classList.remove("justify-around");
+      targetNode.classList.remove("justify-evenly");
+      targetNode.classList.remove("justify-stretch");
+      targetNode.classList.toggle("justify-between", true);
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
+    AlignHorizontalSpaceAround: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("justify-start");
+      targetNode.classList.remove("justify-center");
+      targetNode.classList.remove("justify-end");
+      targetNode.classList.remove("justify-between");
+      targetNode.classList.remove("justify-evenly");
+      targetNode.classList.remove("justify-stretch");
+      targetNode.classList.toggle("justify-around", true);
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
+    AlignHorizontalSpaceEvenly: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("justify-start");
+      targetNode.classList.remove("justify-center");
+      targetNode.classList.remove("justify-end");
+      targetNode.classList.remove("justify-between");
+      targetNode.classList.remove("justify-around");
+      targetNode.classList.remove("justify-stretch");
+      targetNode.classList.toggle("justify-evenly", true);
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
+    AlignHorizontalStretch: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("justify-start");
+      targetNode.classList.remove("justify-center");
+      targetNode.classList.remove("justify-end");
+      targetNode.classList.remove("justify-between");
+      targetNode.classList.remove("justify-around");
+      targetNode.classList.remove("justify-evenly");
+      targetNode.classList.toggle("justify-stretch", true);
       state.value = root.toString();
       SavePage(state, root.toString());
     },
@@ -289,6 +349,8 @@ export const counterSlice = createSlice({
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.remove("items-end");
       targetNode.classList.remove("items-center");
+      targetNode.classList.remove("items-baseline");
+      targetNode.classList.remove("items-stretch");
       targetNode.classList.toggle("items-start", true);
       state.value = root.toString();
       SavePage(state, root.toString());
@@ -297,6 +359,8 @@ export const counterSlice = createSlice({
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.remove("items-start");
       targetNode.classList.remove("items-center");
+      targetNode.classList.remove("items-baseline");
+      targetNode.classList.remove("items-stretch");
       targetNode.classList.toggle("items-end", true);
       state.value = root.toString();
       SavePage(state, root.toString());
@@ -305,7 +369,29 @@ export const counterSlice = createSlice({
       const targetNode = root.querySelector(state.currentFocus);
       targetNode.classList.remove("items-start");
       targetNode.classList.remove("items-end");
+      targetNode.classList.remove("items-baseline");
+      targetNode.classList.remove("items-stretch");
       targetNode.classList.toggle("items-center", true);
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
+    AlignVerticalBaseline: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("items-start");
+      targetNode.classList.remove("items-end");
+      targetNode.classList.remove("items-center");
+      targetNode.classList.remove("items-stretch");
+      targetNode.classList.toggle("items-baseline", true);
+      state.value = root.toString();
+      SavePage(state, root.toString());
+    },
+    AlignVerticalStretch: (state) => {
+      const targetNode = root.querySelector(state.currentFocus);
+      targetNode.classList.remove("items-start");
+      targetNode.classList.remove("items-end");
+      targetNode.classList.remove("items-center");
+      targetNode.classList.remove("items-baseline");
+      targetNode.classList.toggle("items-stretch", true);
       state.value = root.toString();
       SavePage(state, root.toString());
     },
@@ -1150,15 +1236,15 @@ export const {
   AlignHorizontalLeft,
   AlignHorizontalRight,
   AlignHorizontalCenter,
+  AlignHorizontalSpaceBetween,
+  AlignHorizontalSpaceAround,
+  AlignHorizontalSpaceEvenly,
+  AlignHorizontalStretch,
   AlignVerticalTop,
   AlignVerticalBottom,
   AlignVerticalCenter,
-  AlignHorizontalLeftRemove,
-  AlignHorizontalRightRemove,
-  AlignHorizontalCenterRemove,
-  AlignVerticalTopRemove,
-  AlignVerticalBottomRemove,
-  AlignVerticalCenterRemove,
+  AlignVerticalBaseline,
+  AlignVerticalStretch,
   WidthInputChange,
   HeightInputChange,
   BackgroundColorChange,
