@@ -424,8 +424,9 @@ const PropertiesStyleLayout = () => {
         </div>
         <div className="w-9/12 flex flex-row">
           <div
-            className="w-1/12 text-center mx-2 cursor-pointer"
+            className="w-1/12 text-center mx-2 cursor-pointer tooltip"
             onClick={handleAlignHorizontalLeft}
+            title="Justify Start"
           >
             {isJustifyStart() ? (
               <MdAlignHorizontalLeft color="skyblue" />
@@ -434,8 +435,9 @@ const PropertiesStyleLayout = () => {
             )}
           </div>
           <div
-            className="w-1/12 text-center mx-1 cursor-pointer"
+            className="w-1/12 text-center mx-1 cursor-pointer tooltip"
             onClick={handleAlignHorizontalCenter}
+            title="Justify Center"
           >
             {isJustifyCenter() ? (
               <MdAlignHorizontalCenter color="skyblue" />
@@ -444,8 +446,9 @@ const PropertiesStyleLayout = () => {
             )}
           </div>
           <div
-            className="w-1/12 text-center mx-2 cursor-pointer"
+            className="w-1/12 text-center mx-2 cursor-pointer tooltip"
             onClick={handleAlignHorizontalRight}
+            title="Justify End"
           >
             {isJustifyEnd() ? (
               <MdAlignHorizontalRight color="skyblue" />
@@ -454,8 +457,9 @@ const PropertiesStyleLayout = () => {
             )}
           </div>
           <div
-            className="w-1/12 text-center mx-2 cursor-pointer"
+            className="w-1/12 text-center mx-2 cursor-pointer tooltip"
             onClick={handleAlignHorizontalSpaceBetween}
+            title="Justify Space Between"
           >
             {isJustifySpaceBetween() ? (
               <RxSpaceBetweenHorizontally  color="skyblue" />
@@ -464,8 +468,9 @@ const PropertiesStyleLayout = () => {
             )}
           </div>
           <div
-            className="w-1/12 text-center mx-2 cursor-pointer"
+            className="w-1/12 text-center mx-2 cursor-pointer tooltip"
             onClick={handleAlignHorizontalSpaceAround}
+            title="Justify Space Around"
           >
             {isJustifySpaceAround() ? (
               <LuAlignHorizontalSpaceAround  color="skyblue" />
@@ -474,8 +479,9 @@ const PropertiesStyleLayout = () => {
             )}
             </div>
           <div
-            className="w-1/12 text-center mx-2 cursor-pointer"
+            className="w-1/12 text-center mx-2 cursor-pointer tooltip"
             onClick={handleAlignHorizontalSpaceEvenly}
+            title="Justify Space Evenly"
           >
             {isJustifySpaceEvenly() ? (
               <RxSpaceEvenlyHorizontally color="skyblue" />
@@ -484,8 +490,9 @@ const PropertiesStyleLayout = () => {
             )}
           </div>
           <div
-            className="w-1/12 text-center mx-2 cursor-pointer"
+            className="w-1/12 text-center mx-2 cursor-pointer tooltip"
             onClick={handleAlignHorizontalStretch}
+            title="Justify Stretch"
           >
             {isJustifyStretch() ? (
               <RxStretchHorizontally color="skyblue" />
@@ -501,8 +508,9 @@ const PropertiesStyleLayout = () => {
         </div>
         <div className="w-9/12 flex flex-row">
           <div
-            className="w-1/12 text-center mx-1 cursor-pointer"
+            className="w-1/12 text-center mx-1 cursor-pointer tooltip"
             onClick={handleAlignVerticalBottom}
+            title="Align End"
           >
             {isItemsEnd() ? (
               <MdAlignVerticalBottom color="skyblue" />
@@ -511,8 +519,9 @@ const PropertiesStyleLayout = () => {
             )}
           </div>
           <div
-            className="w-1/12 text-center mx-2 cursor-pointer"
+            className="w-1/12 text-center mx-2 cursor-pointer tooltip"
             onClick={handleAlignVerticalCenter}
+            title="Align Center"
           >
             {isItemsCenter() ? (
               <MdAlignVerticalCenter color="skyblue" />
@@ -521,8 +530,9 @@ const PropertiesStyleLayout = () => {
             )}
           </div>
           <div
-            className="w-1/12 text-center mx-2 cursor-pointer"
+            className="w-1/12 text-center mx-2 cursor-pointer tooltip"
             onClick={handleAlignVerticalTop}
+            title="Align Start"
           >
             {isItemsStart() ? (
               <MdAlignVerticalTop color="skyblue" />
@@ -531,8 +541,9 @@ const PropertiesStyleLayout = () => {
             )}
           </div>
           <div
-            className="w-1/12 text-center mx-1 cursor-pointer"
+            className="w-1/12 text-center mx-1 cursor-pointer tooltip"
             onClick={handleAlignVerticalBaseline}
+            title="Align Baseline"
           >
             {isItemsBaseline() ? (
               <RxAlignBaseline color="skyblue" />
@@ -541,8 +552,9 @@ const PropertiesStyleLayout = () => {
             )}
             </div>
           <div
-            className="w-1/12 text-center mx-2 cursor-pointer"
+            className="w-1/12 text-center mx-2 cursor-pointer tooltip"
             onClick={handleAlignVerticalStretch}
+            title="Align Stretch"
           >
             {isItemsStretch() ? (
               <RxStretchVertically color="skyblue" />
