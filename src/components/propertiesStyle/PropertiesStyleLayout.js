@@ -22,14 +22,12 @@ import {
   MdAlignHorizontalLeft,
   MdAlignHorizontalCenter,
   MdAlignHorizontalRight,
-  MdOutlineVerticalAlignCenter,
   MdAlignVerticalBottom,
   MdAlignVerticalCenter,
   MdAlignVerticalTop,
 } from "react-icons/md";
 
-import { RxSpaceBetweenHorizontally, RxSpaceEvenlyHorizontally, RxStretchHorizontally  } from "react-icons/rx";
-import { CgArrowAlignV } from "react-icons/cg";
+import { RxSpaceBetweenHorizontally, RxSpaceEvenlyHorizontally, RxStretchHorizontally, RxStretchVertically, RxAlignBaseline  } from "react-icons/rx";
 import { LuAlignHorizontalSpaceAround } from "react-icons/lu";
 
 const PropertiesStyleLayout = () => {
@@ -537,9 +535,9 @@ const PropertiesStyleLayout = () => {
             onClick={handleAlignVerticalBaseline}
           >
             {isItemsBaseline() ? (
-              <MdOutlineVerticalAlignCenter color="skyblue" />
+              <RxAlignBaseline color="skyblue" />
             ) : (
-              <MdOutlineVerticalAlignCenter />
+              <RxAlignBaseline />
             )}
             </div>
           <div
@@ -547,9 +545,9 @@ const PropertiesStyleLayout = () => {
             onClick={handleAlignVerticalStretch}
           >
             {isItemsStretch() ? (
-              <CgArrowAlignV color="skyblue" />
+              <RxStretchVertically color="skyblue" />
             ) : (
-              <CgArrowAlignV />
+              <RxStretchVertically />
             )}
             </div>
         </div>
