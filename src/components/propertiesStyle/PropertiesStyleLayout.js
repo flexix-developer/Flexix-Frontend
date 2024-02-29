@@ -541,7 +541,7 @@ const PropertiesStyleLayout = () => {
             )}
             </div>
           <div
-            className="w-1/12 text-center mx-1 cursor-pointer"
+            className="w-1/12 text-center mx-2 cursor-pointer"
             onClick={handleAlignVerticalStretch}
           >
             {isItemsStretch() ? (
