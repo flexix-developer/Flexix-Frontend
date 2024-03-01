@@ -340,7 +340,7 @@ const OnLoadActionPopUp = ({
   const handleMapDoneClick = async () => {
     console.log(elementsp2);
     SingleonLoadScript();
-    // ClosePopupEditAction();
+    ClosePopupEditAction();
   };
 
   const handleNextClick = async () => {
@@ -612,7 +612,7 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
       `// อัปเดต UI ตามข้อมูลที่ได้\n${combinedChild}\n`
     );
     console.log(script);
-    // handleSaveScript(pageAction, script);
+    handleSaveScript(pageAction, script);
     // add If Next Close Popup
   };
 
@@ -1032,12 +1032,122 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
           {/* IDEActionOptions */}
 
           {actionButton && (
-            <div className="flex justify-between w-4/5 mt-4 ">
-              <div className="flex w-10/12 justify-between items-center ">
-                <div className="flex flex-col ">
+            <div className="flex justify-between w-4/5 mt-4 flex-col">
+              <div
+                className={
+                  !isOverflow
+                    ? "w-full max-h-[220px] overflow-y-auto "
+                    : "w-full max-h-[220px] overflow-y-auto  "
+                }
+                id="over"
+                ref={overflowRef}
+              >
+                <div className="w-full mt-2 flex  items-end justify-between ">
+                  <div className={isOverflow ? "w-[43%]" : "w-[40%]"}>
+                    <span className="text-xl">Param</span>
+                    <input
+                      className="w-full bg-[#595959] rounded-sm ps-2 h-[38px]"
+                      value={paramInputValue}
+                      onChange={handleInputParamChange}
+                    />
+                  </div>
+
+                  <div
+                    className={
+                      !isOverflow
+                        ? "flex flex-col w-[43%] "
+                        : "flex flex-col w-[43%] "
+                    }
+                  >
+                    <span className="text-xl">TestData</span>
+                    <input
+                      className="w-full bg-[#595959] rounded-sm ps-2 h-[38px]"
+                      value={dataTestInputValue}
+                      onChange={handleInputDataTestChange}
+                    />
+                  </div>
+                  <div className="h-[38px] w-12"></div>
+                </div>
+              </div>
+
+              {/*  */}
+
+              <div
+                className={
+                  !isOverflow
+                    ? "w-full max-h-[220px] overflow-y-auto "
+                    : "w-full max-h-[220px] overflow-y-auto mr-2 "
+                }
+                id="over"
+                ref={overflowRef}
+              >
+                <div className="w-full mt-2 flex  items-end justify-between ">
+                  <div className={isOverflow ? "w-[43%]" : "w-[43%]"}>
+                    <span className="text-xl">Element Action</span>
+                    <Select
+                      className="w-full"
+                      value={IDEActionOptions.find(
+                        (option) => option.value === pageAction
+                      )}
+                      onChange={(selectedOption) =>
+                        handleSelectElementActionChange(selectedOption)
+                      }
+                      options={IDEActionOptions}
+                      menuPortalTarget={document.body}
+                      styles={{
+                        control: (provided) => ({
+                          ...provided,
+                          backgroundColor: "#595959",
+                          color: "white",
+                          // คุณอาจจะต้องการปรับแต่งสไตล์อื่นๆ ที่นี่
+                        }),
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                        menu: (provided) => ({
+                          ...provided,
+                          backgroundColor: "#595959",
+                          // สำหรับเมนูดร็อปดาวน์
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: state.isFocused
+                            ? "#424242"
+                            : "#595959",
+                          color: "white",
+                          // สำหรับตัวเลือกภายในเมนู
+                        }),
+                        singleValue: (provided) => ({
+                          ...provided,
+                          color: "white",
+                        }),
+                        // คุณสามารถเพิ่มการปรับแต่งสำหรับส่วนอื่นๆ ที่ต้องการ
+                      }}
+                    />
+                  </div>
+
+                  <div
+                    className={
+                      !isOverflow
+                        ? "flex flex-col w-[43%] "
+                        : "flex flex-col w-[43%] "
+                    }
+                  >
+                    <span className="text-xl">Page Action</span>
+                    <input
+                      id="PAGEACTION"
+                      value={pageAction}
+                      onChange={handlePageActionChange} // อัปเดต state ทุกครั้งที่มีการพิมพ
+                      className="w-[263px] h-[38px] bg-[#595959] rounded-sm ps-2"
+                    />
+                  </div>
+                  <div className="h-[38px] w-12"></div>
+                </div>
+              </div>
+
+              {/* <div className="flex  justify-between items-center w-full">
+                <div className="flex flex-col w-7/12">
                   <span className="text-xl">Element Action</span>
                   <Select
-                    className="w-56"
+                    className="w-[93%]"
                     value={IDEActionOptions.find(
                       (option) => option.value === pageAction
                     )}
@@ -1079,10 +1189,11 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
                     id="PAGEACTION"
                     value={pageAction}
                     onChange={handlePageActionChange} // อัปเดต state ทุกครั้งที่มีการพิมพ
-                    className="w-56 h-9 bg-[#595959] rounded-sm ps-2"
+                    className="w-[263px] h-9 bg-[#595959] rounded-sm ps-2"
                   />
                 </div>
-              </div>
+                <div className="h-[38px] w-12"></div>
+              </div> */}
             </div>
           )}
           {actionButton == false ? (

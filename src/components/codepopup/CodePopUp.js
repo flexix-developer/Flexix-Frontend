@@ -14,6 +14,8 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
   const formattedHtml = html_beautify(htmlCode, {
     indent_size: 2,
     space_in_empty_paren: true,
+    indent_with_tabs: true,
+    eol: "\n",
   });
 
   const [editableCode, setEditableCode] = useState({
@@ -170,7 +172,6 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
               <code>
                 {selectedCode === "html" ? editableCode.html : editableCode.js}
               </code>
-              {/* <code>{formattedHtml}</code> */}
             </pre>
           )}
         </div>
