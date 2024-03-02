@@ -141,7 +141,7 @@ const LayerExplorer = () => {
       iconMapping[tagType]?.check(tag) && iconMapping[tagType]?.icon;
 
       return (
-        <div className={`border-l border-gray-300 p-2 ${tag.id === highlightedElementId ? "highlighted-text" : ""}`}>
+        <div className="border-l border-gray-300 p-2">
         <div className="flex items-center">
             {hasNonEmptyChildNodes && (
               <span onClick={toggleExpansion} className="cursor-pointer">
@@ -153,7 +153,7 @@ const LayerExplorer = () => {
               </span>
             )}
   
-            {tagIcon && <span className="ml-2">{tagIcon}</span>}
+            {tagIcon && <span className={`ml-2 ${tag.id === highlightedElementId ? "highlighted-text" : ""}`}>{tagIcon}</span>}
   
             {isEditing ? (
               <div className="flex items-center">
@@ -174,7 +174,7 @@ const LayerExplorer = () => {
             ) : (
               <div className="flex items-center">
                 <span
-                  className="ml-2 font-semibold"
+                  className={`ml-2 font-semibold ${tag.id === highlightedElementId ? "highlighted-text" : ""}`}
                   title={tag.id}
                   onClick={handleClick}
                 >
@@ -182,7 +182,7 @@ const LayerExplorer = () => {
                 </span>
   
                 <span
-                  className="cursor-pointer ml-2 text-white-500"
+                  className={`cursor-pointer ml-2 text-white-500 ${tag.id === highlightedElementId ? "highlighted-text" : ""}`}
                   title={tag.id}
                   onClick={handleEditClick}
                 >
