@@ -158,8 +158,8 @@ export const removeSelectedElement = () => (dispatch, getState) => {
 
   if (currentFocus !== "" && currentFocus !== "#main") {
     dispatch(removeElement());
-    dispatch(focus(""));
-    dispatch(focusElement(""));
+    dispatch(focus("#main"));
+    dispatch(focusElement("div"));
   }
 };
 
@@ -1307,8 +1307,74 @@ export const counterSlice = createSlice({
       // Assuming SavePage is a function that handles saving the updated HTML content
       SavePage(state, root.toString());
     },
+    deleteOption: (state, action) => {
+      countElements(state);
+      const targetNode = root.querySelector(state.currentFocus);
+      const optionIdToDelete = action.payload;
+
+      const deleteOption = (targetNode, optionIdToDelete) => {
+        if (targetNode.tagName === "SELECT") {
+          const optionToDelete = targetNode.querySelector(`#${optionIdToDelete}`);
+          optionToDelete.remove();
+        } else {
+          console.error("Target element is not a SELECT");
+        }
+      };
+
+      deleteOption(targetNode, optionIdToDelete);
+
+      state.value = root.toString();
+      SavePage(state, root.toString());
+      countElements(state);
+    },
+    editOptionValue: (state, action) => {
+      countElements(state);
+      const targetNode = root.querySelector(state.currentFocus);
+      const { optionIdToEdit, newOptionValue } = action.payload;
     
+      const editOption = (targetNode, optionIdToEdit, newOptionValue) => {
+        if (targetNode.tagName === "SELECT") {
+          const optionToEdit = targetNode.querySelector(`#${optionIdToEdit}`);
+          if (optionToEdit) {
+            optionToEdit.setAttribute("value", newOptionValue);
+          } else {
+            console.error(`Option with id "${optionIdToEdit}" not found`);
+          }
+        } else {
+          console.error("Target element is not a SELECT");
+        }
+      };
     
+      editOption(targetNode, optionIdToEdit, newOptionValue);
+    
+      state.value = root.toString();
+      SavePage(state, root.toString());
+      countElements(state);
+    },
+    editOptionText: (state, action) => {
+      countElements(state);
+      const targetNode = root.querySelector(state.currentFocus);
+      const { optionIdToEdit, newOptionText } = action.payload;
+    
+      const editOption = (targetNode, optionIdToEdit, newOptionText) => {
+        if (targetNode.tagName === "SELECT") {
+          const optionToEdit = targetNode.querySelector(`#${optionIdToEdit}`);
+          if (optionToEdit) {
+            optionToEdit.textContent = newOptionText;
+          } else {
+            console.error(`Option with id "${optionIdToEdit}" not found`);
+          }
+        } else {
+          console.error("Target element is not a SELECT");
+        }
+      };
+    
+      editOption(targetNode, optionIdToEdit, newOptionText);
+    
+      state.value = root.toString();
+      SavePage(state, root.toString());
+      countElements(state);
+    },
   },
 });
 
@@ -1382,6 +1448,9 @@ export const {
   addElementAction,
   dndUpdate,
   AddOptionsSelect,
+  deleteOption,
+  editOptionValue,
+  editOptionText,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
