@@ -226,6 +226,8 @@ const PropertiesStyleBoarder = () => {
                 dispatch(BorderColorChange(borderColor.toUpperCase()));
               }}
               style={{ color: "white" }}
+              className="tooltip"
+              title="Hex Color"
             >
               {getSelectedBorderColorValue().slice(0, 7).toUpperCase()}
             </p>

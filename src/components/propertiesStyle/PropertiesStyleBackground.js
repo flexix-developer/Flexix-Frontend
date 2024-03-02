@@ -64,6 +64,8 @@ const PropertiesStyleBackground = () => {
                 dispatch(BackgroundColorChange(newColor.toUpperCase()));
               }}
               style={{ color: "white" }}
+              className="tooltip"
+              title="Hex Color"
             >
               {getSelectedColorValue().slice(0, 7).toUpperCase()}
             </p>
@@ -76,7 +78,8 @@ const PropertiesStyleBackground = () => {
                 dispatch(BackgroundColorOpacityChange(newOpacity));
               }}
               style={{ color: "white" }}
-              className="w-6/12"
+              className="w-6/12 tooltip"
+              title="Opacity"
             >
               100
             </p>

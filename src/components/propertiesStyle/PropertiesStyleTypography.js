@@ -500,6 +500,8 @@ const PropertiesStyleTypography = () => {
                 dispatch(TextColorChange(textColor.toUpperCase()));
               }}
               style={{ color: "white" }}
+              className="tooltip"
+              title="Hex Color"
             >
               {getSelectedTextColorValue().slice(0, 7).toUpperCase()}
             </p>
@@ -509,14 +511,16 @@ const PropertiesStyleTypography = () => {
       <div className="flex flex-row w-full justify-start pb-2 items-center">
         <div className="flex flex-row w-6/12 justify-between mx-2">
           <div
-            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer tooltip"
             onClick={handleTextStylesBold}
+            title="Bold"
           >
             {isBold() ? <MdFormatBold color="skyblue" /> : <MdFormatBold />}
           </div>
           <div
-            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer tooltip"
             onClick={handleTextStylesItalic}
+            title="Italic"
           >
             {isItalic() ? (
               <MdFormatItalic color="skyblue" />
@@ -525,8 +529,9 @@ const PropertiesStyleTypography = () => {
             )}
           </div>
           <div
-            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer tooltip"
             onClick={handleTextStylesUnderline}
+            title="Underline"
           >
             {isUnderlined() ? (
               <MdFormatUnderlined color="skyblue" />
@@ -535,8 +540,9 @@ const PropertiesStyleTypography = () => {
             )}
           </div>
           <div
-            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer tooltip"
             onClick={handleTextStylesStrikethrough}
+            title="Strikethrough"
           >
             {isStrikethrough() ? (
               <MdStrikethroughS color="skyblue" />
@@ -547,8 +553,9 @@ const PropertiesStyleTypography = () => {
         </div>
         <div className="flex flex-row w-6/12 justify-between">
           <div
-            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer tooltip"
             onClick={handleTextAlignLeft}
+            title="Align Left"
           >
             {isTextAlignLeft() ? (
               <MdFormatAlignLeft color="skyblue" />
@@ -557,8 +564,9 @@ const PropertiesStyleTypography = () => {
             )}
           </div>
           <div
-            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer tooltip"
             onClick={handleTextAlignCenter}
+            title="Align Center"
           >
             {isTextAlignCenter() ? (
               <MdFormatAlignCenter color="skyblue" />
@@ -567,8 +575,9 @@ const PropertiesStyleTypography = () => {
             )}
           </div>
           <div
-            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer tooltip"
             onClick={handleTextAlignRight}
+            title="Align Right"
           >
             {isTextAlignRight() ? (
               <MdFormatAlignRight color="skyblue" />
@@ -577,8 +586,9 @@ const PropertiesStyleTypography = () => {
             )}
           </div>
           <div
-            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer tooltip"
             onClick={handleTextAlignJustify}
+            title="Align Justify"
           >
             {isTextAlignJustify() ? (
               <MdFormatAlignJustify color="skyblue" />

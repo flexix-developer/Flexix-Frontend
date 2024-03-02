@@ -273,16 +273,16 @@ const PropertiesStyleMarginPadding = () => {
   return (
     <div className="flex flex-col w-full mt-3 pl-2">
       <div className="flex flex-row w-full pl-1 ml-20">
-        <p className="mr-7">
+        <p className="mr-7 tooltip" title="Top">
           <TbBoxAlignTopFilled />
         </p>
-        <p className="mr-6">
+        <p className="mr-6 tooltip" title="Right">
           <TbBoxAlignRightFilled />
         </p>
-        <p className="mr-6">
+        <p className="mr-6 tooltip" title="Bottom">
           <TbBoxAlignBottomFilled />
         </p>
-        <p>
+        <p className="tooltip" title="Left">
           <TbBoxAlignLeftFilled />
         </p>
       </div>
