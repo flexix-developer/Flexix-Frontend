@@ -23,42 +23,51 @@ const LayerExplorer = () => {
   const { highlightedElementId } = useSelector((state) => state.counter);
 
   const handleClick = (event) => {
-    const clickedElement = event.target;
-    const clickedElementId = clickedElement.textContent;
-
-    if (clickedElementId !== "") {
-      const highlightedElement = document.querySelector(".highlighted-text");
-      const highlightedElement2 = document.querySelector(".highlighted");
-
-      if (clickedElementId !== "main") {
-        if (highlightedElement) {
-          highlightedElement.classList.remove("highlighted-text");
-          highlightedElement.classList.remove("highlighted");
-          highlightedElement2.classList.remove("highlighted-text");
-          highlightedElement2.classList.remove("highlighted");
+    try {
+      const clickedElement = event.target;
+      const clickedElementId = clickedElement.textContent;
+  
+      if (clickedElementId !== "") {
+        const highlightedElement = document.querySelector(".highlighted-text");
+        const highlightedElement2 = document.querySelector(".highlighted");
+  
+        if (clickedElementId !== "main") {
+          if (highlightedElement) {
+            // highlightedElement.classList.remove("highlighted-text");
+            highlightedElement.classList.remove("highlighted");
+          }
+          if (highlightedElement2) {
+            highlightedElement2.classList.remove("highlighted-text");
+            highlightedElement2.classList.remove("highlighted");
+          }
+  
+          const clickedElement = document.getElementById(clickedElementId);
+  
+          if (clickedElement) {
+            clickedElement.classList.add("highlighted");
+          }
+        } else {
+          if (highlightedElement) {
+            // highlightedElement.classList.remove("highlighted-text");
+            highlightedElement.classList.remove("highlighted");
+          }
+          if (highlightedElement2) {
+            highlightedElement2.classList.remove("highlighted-text");
+            highlightedElement2.classList.remove("highlighted");
+          }
         }
-
-        const clickedElement = document.getElementById(clickedElementId);
-
-        if (clickedElement) {
-          clickedElement.classList.add("highlighted");
-        }
-      } else {
-        if (highlightedElement) {
-          highlightedElement.classList.remove("highlighted-text");
-          highlightedElement.classList.remove("highlighted");
-          highlightedElement2.classList.remove("highlighted-text");
-          highlightedElement2.classList.remove("highlighted");
-        }
+  
+        dispatch(focusElement(clickedElement.tagName.toLowerCase()));
+        dispatch(focus("#" + clickedElementId));
+  
+        // Dispatch the action to update highlightedElementId
+        dispatch(highlightElement(clickedElementId));
       }
-
-      dispatch(focusElement(clickedElement.tagName.toLowerCase()));
-      dispatch(focus("#" + clickedElementId));
-
-      // Dispatch the action to update highlightedElementId
-      dispatch(highlightElement(clickedElementId));
+    } catch (error) {
+      console.error("Error in handleClick:", error);
     }
   };
+  
 
   const findAllMainDivTags = () =>
     root

@@ -18,50 +18,59 @@ const DesignWorkspace = () => {
 
   const handleClick = useCallback(
     (event) => {
-      const clickedElementId = event.target.id;
-      const clickedElement = event.target;
-      const elementType = clickedElement.tagName.toLowerCase();
-
-      if (clickedElementId !== "") {
-        const highlightedElement = document.querySelector(".highlighted");
-        const highlightedElement2 = document.querySelector(".highlighted-text");
-
-        // Check if the clicked element is not the "main" ID
-        if (clickedElementId !== "main") {
-          // Remove the previous highlighting
-          if (highlightedElement) {
-            highlightedElement.classList.remove("highlighted");
-            highlightedElement.classList.remove("highlighted-text");
-            highlightedElement2.classList.remove("highlighted");
-            highlightedElement2.classList.remove("highlighted-text");
-          }
-
-          const clickedElement = document.getElementById(clickedElementId);
-
-          // Add highlighting to the clicked element
-          if (clickedElement) {
-            clickedElement.classList.add("highlighted");
-          }
-        } else {
-          // Clicked element is "main" ID, remove the highlighting
-          if (highlightedElement) {
-            highlightedElement.classList.remove("highlighted");
-            highlightedElement.classList.remove("highlighted-text");
-            highlightedElement2.classList.remove("highlighted");
-            highlightedElement2.classList.remove("highlighted-text");
-          }
-        }
-
-        dispatch(focusElement(elementType));
-        dispatch(focus("#" + clickedElementId));
+      try {
+        const clickedElementId = event.target.id;
+        const clickedElement = event.target;
+        const elementType = clickedElement.tagName.toLowerCase();
+  
         if (clickedElementId !== "") {
-          dispatch(highlightElement(clickedElementId));
+          const highlightedElement = document.querySelector(".highlighted");
+          const highlightedElement2 = document.querySelector(".highlighted-text");
+  
+          // Check if the clicked element is not the "main" ID
+          if (clickedElementId !== "main") {
+            // Remove the previous highlighting
+            if (highlightedElement) {
+              highlightedElement.classList.remove("highlighted");
+              highlightedElement.classList.remove("highlighted-text");
+            }
+            if (highlightedElement2) {
+              highlightedElement2.classList.remove("highlighted");
+              // highlightedElement2.classList.remove("highlighted-text");
+            }
+  
+            const clickedElement = document.getElementById(clickedElementId);
+  
+            // Add highlighting to the clicked element
+            if (clickedElement) {
+              clickedElement.classList.add("highlighted");
+            }
+          } else {
+            // Clicked element is "main" ID, remove the highlighting
+            if (highlightedElement) {
+              highlightedElement.classList.remove("highlighted");
+              highlightedElement.classList.remove("highlighted-text");
+            }
+            if (highlightedElement2) {
+              highlightedElement2.classList.remove("highlighted");
+              // highlightedElement2.classList.remove("highlighted-text");
+            }
+          }
+  
+          dispatch(focusElement(elementType));
+          dispatch(focus("#" + clickedElementId));
+          if (clickedElementId !== "") {
+            dispatch(highlightElement(clickedElementId));
+          }
+          // Perform additional actions based on the clicked ID if needed
         }
-        // Perform additional actions based on the clicked ID if needed
+      } catch (error) {
+        console.error("Error in handleClick:", error);
       }
     },
     [dispatch]
   );
+  
 
   // Attach the click event listener to the document
   useEffect(() => {
