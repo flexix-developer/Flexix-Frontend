@@ -465,6 +465,7 @@ const OnLoadActionPopUp = ({
 
       // เช็คว่า element ที่เลือกนั้นเป็น tag <img> หรือไม่
       const isImgTag = selectedElement.tagName.toLowerCase() === "img";
+      const isbuttonTag = selectedElement.tagName.toLowerCase() === "button";
 
       console.log(isImgTag); // แสดงผลลัพธ์ว่าเป็น tag <img> หรือไม่
       if (isImgTag) {
@@ -472,6 +473,22 @@ const OnLoadActionPopUp = ({
     if (child.tagName === "IMG" && child.id.includes("${element.elementOptionSelected.label}")) {
     child.src = item.${element.eventOptionSelected.label}; // Set the new src
   }`;
+        console.log("Child string:", child); // ใส่ "Child string:" ไว้เพื่อแสดงว่ามันเป็นสตริง child ที่ถูกเชื่อมต่อแล้ว
+
+        combinedChild += child; // เพิ่มสตริง child ในลูปนี้เข้าไปใน combinedChild
+      }
+      // else if (isbuttonTag) {
+      //   let child = `          \ndocument.getElementById("${element.elementOptionSelected.label}").value = data.${element.eventOptionSelected.label};`;
+      //   console.log("Child string:", child); // ใส่ "Child string:" ไว้เพื่อแสดงว่ามันเป็นสตริง child ที่ถูกเชื่อมต่อแล้ว
+
+      //   combinedChild += child; // เพิ่มสตริง child ในลูปนี้เข้าไปใน combinedChild
+      // }
+      else if (isbuttonTag) {
+        let child = `
+        \n// // Check and change src for ${element.elementOptionSelected.label}
+    if (child.tagName === "BUTTON" && child.id.includes("${element.elementOptionSelected.label}")) {
+    child.value = item.${element.eventOptionSelected.label}; // Set the new src
+    }`;
         console.log("Child string:", child); // ใส่ "Child string:" ไว้เพื่อแสดงว่ามันเป็นสตริง child ที่ถูกเชื่อมต่อแล้ว
 
         combinedChild += child; // เพิ่มสตริง child ในลูปนี้เข้าไปใน combinedChild
@@ -1043,7 +1060,7 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
                 ref={overflowRef}
               >
                 <div className="w-full mt-2 flex  items-end justify-between ">
-                  <div className={isOverflow ? "w-[43%]" : "w-[40%]"}>
+                  <div className={isOverflow ? "w-[43%]" : "w-[43%]"}>
                     <span className="text-xl">Param</span>
                     <input
                       className="w-full bg-[#595959] rounded-sm ps-2 h-[38px]"

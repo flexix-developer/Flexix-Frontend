@@ -23,7 +23,7 @@ const initialState = {
   elementAction: "",
   ListPages: [],
   IndexPages: null,
-  highlightedElementId : "",
+  highlightedElementId: "",
 };
 
 var root = parse(initialState.value);
@@ -1291,7 +1291,12 @@ export const counterSlice = createSlice({
       countElements(state);
       const targetNode = root.querySelector(state.currentFocus);
       const optionValue = action.payload;
-      console.log("AddOptionsSelect", optionValue, targetNode, state.currentFocus);
+      console.log(
+        "AddOptionsSelect",
+        optionValue,
+        targetNode,
+        state.currentFocus
+      );
 
       const updateOptions = (targetNode, optionValue) => {
         if (targetNode.tagName === "SELECT") {
@@ -1300,7 +1305,7 @@ export const counterSlice = createSlice({
           console.error("Target element is not a SELECT");
         }
       };
-      
+
       updateOptions(targetNode, optionValue);
 
       // Assuming root is a DOMParser instance
@@ -1315,7 +1320,9 @@ export const counterSlice = createSlice({
 
       const deleteOption = (targetNode, optionIdToDelete) => {
         if (targetNode.tagName === "SELECT") {
-          const optionToDelete = targetNode.querySelector(`#${optionIdToDelete}`);
+          const optionToDelete = targetNode.querySelector(
+            `#${optionIdToDelete}`
+          );
           optionToDelete.remove();
         } else {
           console.error("Target element is not a SELECT");
@@ -1332,7 +1339,7 @@ export const counterSlice = createSlice({
       countElements(state);
       const targetNode = root.querySelector(state.currentFocus);
       const { optionIdToEdit, newOptionValue } = action.payload;
-    
+
       const editOption = (targetNode, optionIdToEdit, newOptionValue) => {
         if (targetNode.tagName === "SELECT") {
           const optionToEdit = targetNode.querySelector(`#${optionIdToEdit}`);
@@ -1345,9 +1352,9 @@ export const counterSlice = createSlice({
           console.error("Target element is not a SELECT");
         }
       };
-    
+
       editOption(targetNode, optionIdToEdit, newOptionValue);
-    
+
       state.value = root.toString();
       SavePage(state, root.toString());
       countElements(state);
@@ -1356,7 +1363,7 @@ export const counterSlice = createSlice({
       countElements(state);
       const targetNode = root.querySelector(state.currentFocus);
       const { optionIdToEdit, newOptionText } = action.payload;
-    
+
       const editOption = (targetNode, optionIdToEdit, newOptionText) => {
         if (targetNode.tagName === "SELECT") {
           const optionToEdit = targetNode.querySelector(`#${optionIdToEdit}`);
@@ -1369,9 +1376,9 @@ export const counterSlice = createSlice({
           console.error("Target element is not a SELECT");
         }
       };
-    
+
       editOption(targetNode, optionIdToEdit, newOptionText);
-    
+
       state.value = root.toString();
       SavePage(state, root.toString());
       countElements(state);
