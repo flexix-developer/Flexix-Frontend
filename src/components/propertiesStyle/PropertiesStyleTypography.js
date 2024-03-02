@@ -449,6 +449,7 @@ const PropertiesStyleTypography = () => {
             className="FontInputChange"
             value={getSelectedFontValue()}
             onChange={handleFontChange}
+            style={{ width: "9em" }}
           >
             {fontOptions
               .sort((a, b) => a.label.localeCompare(b.label))
@@ -469,6 +470,7 @@ const PropertiesStyleTypography = () => {
             className="SizeInputChange"
             value={getSelectedFontSizeValue()}
             onChange={handleSizeChange}
+            style={{ width: "9em" }}
           >
             {sizeOptions.map((Option) => (
               <option key={Option.value} value={Option.value}>
