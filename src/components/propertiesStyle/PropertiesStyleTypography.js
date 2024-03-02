@@ -1,8 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FontFamilyChange, FontSizeChange, TextColorChange,
-  TextStyleBold, TextStyleItalic, TextStyleUnderline, TextStyleLineThrough,
-  TextAlignLeft, TextAlignCenter, TextAlignRight, TextAlignJustify } from "../../features/counter/counterSlice";
+import {
+  FontFamilyChange,
+  FontSizeChange,
+  TextColorChange,
+  TextStyleBold,
+  TextStyleItalic,
+  TextStyleUnderline,
+  TextStyleLineThrough,
+  TextAlignLeft,
+  TextAlignCenter,
+  TextAlignRight,
+  TextAlignJustify,
+} from "../../features/counter/counterSlice";
 import { parse } from "node-html-parser";
 import {
   MdFormatBold,
@@ -22,9 +32,120 @@ const PropertiesStyleTypography = () => {
   const root = parse(counterState.value);
 
   const fontOptions = [
-    { value: "font-sans", label: "font-sans" },
-    { value: "font-serif", label: "font-serif" },
-    { value: "font-mono", label: "font-mono" },
+    { value: "font-sans", label: "Sans" },
+    { value: "font-serif", label: "Serif" },
+    { value: "font-mono", label: "Mono" },
+    { value: "font-roboto", label: "Roboto" },
+    { value: "font-kanit", label: "Kanit" },
+    { value: "font-prompt", label: "Prompt" },
+    { value: "font-chakra-petch", label: "Chakra-Petch" },
+    { value: "font-sarabun", label: "Sarabun" },
+    { value: "font-noto-sans-thai", label: "Noto-Sans-Thai" },
+    { value: "font-mitr", label: "Mitr" },
+    { value: "font-taviraj", label: "Taviraj" },
+    { value: "font-itim", label: "Itim" },
+    { value: "font-pridi", label: "Pridi" },
+    { value: "font-sriracha", label: "Sriracha" },
+    { value: "font-bai-jamjuree", label: "Bai-Jamjuree" },
+    { value: "font-krub", label: "Krub" },
+    { value: "font-niramit", label: "Niramit" },
+    { value: "font-mali", label: "Mali" },
+    { value: "font-athiti", label: "Athiti" },
+    { value: "font-charm", label: "Charm" },
+    { value: "font-anuphan", label: "Anuphan" },
+    { value: "font-k2d", label: "K2d" },
+    { value: "font-pattaya", label: "Pattaya" },
+    { value: "font-ibm-plex-sans-thai", label: "Ibm-Plex-Sans-Thai" },
+    { value: "font-maitree", label: "Maitree" },
+    { value: "font-chonburi", label: "Chonburi" },
+    { value: "font-trirong", label: "Trirong" },
+    { value: "font-thasadith", label: "Thasadith" },
+    { value: "font-fahkwang", label: "Fahkwang" },
+    { value: "font-koho", label: "Koho" },
+    { value: "font-kodchasan", label: "Kodchasan" },
+    { value: "font-noto-serif-thai", label: "Noto-Serif-Thai" },
+    { value: "font-charmonman", label: "Charmonman" },
+    {
+      value: "font-ibm-plex-sans-thai-looped",
+      label: "Ibm-Plex-Sans-Thai-Looped",
+    },
+    { value: "font-srisakdi", label: "Srisakdi" },
+    {
+      value: "font-noto-sans-thai-looped",
+      label: "Noto-Sans-Thai-Looped",
+    },
+    { value: "font-Open-Sans", label: "Open-Sans" },
+    { value: "font-Spectral", label: "Spectral" },
+    { value: "font-Slabo-27px", label: "Slabo-27px" },
+    { value: "font-Lato", label: "Lato" },
+    { value: "font-Roboto-Condensed", label: "Roboto-Condensed" },
+    { value: "font-Oswald", label: "Oswald" },
+    { value: "font-Source-Sans-Pro", label: "Source-Sans-Pro" },
+    { value: "font-Raleway", label: "Raleway" },
+    { value: "font-Zilla-Slab", label: "Zilla-Slab" },
+    { value: "font-Montserrat", label: "Montserrat" },
+    { value: "font-PT-Sans", label: "PT-Sans" },
+    { value: "font-Roboto-Slab", label: "Roboto-Slab" },
+    { value: "font-Merriweather", label: "Merriweather" },
+    { value: "font-Saira-Condensed", label: "Saira-Condensed" },
+    { value: "font-Saira", label: "Saira" },
+    { value: "font-Open-Sans-Condensed", label: "Open-Sans-Condensed" },
+    { value: "font-Saira-Semi-Condensed", label: "Saira-Semi-Condensed" },
+    { value: "font-Saira-Extra-Condensed", label: "Saira-Extra-Condensed" },
+    { value: "font-Julee", label: "Julee" },
+    { value: "font-Archivo", label: "Archivo" },
+    { value: "font-Ubuntu", label: "Ubuntu" },
+    { value: "font-Lora", label: "Lora" },
+    { value: "font-Manuale", label: "Manuale" },
+    { value: "font-Asap-Condensed", label: "Asap-Condensed" },
+    { value: "font-Faustina", label: "Faustina" },
+    { value: "font-Cairo", label: "Cairo" },
+    { value: "font-Playfair-Display", label: "Playfair-Display" },
+    { value: "font-Droid-Serif", label: "Droid-Serif" },
+    { value: "font-Noto-Sans", label: "Noto-Sans" },
+    { value: "font-PT-Serif", label: "PT-Serif" },
+    { value: "font-Droid-Sans", label: "Droid-Sans" },
+    { value: "font-Arimo", label: "Arimo" },
+    { value: "font-Poppins", label: "Poppins" },
+    { value: "font-Sedgwick-Ave-Display", label: "Sedgwick-Ave-Display" },
+    { value: "font-Titillium-Web", label: "Titillium-Web" },
+    { value: "font-Muli", label: "Muli" },
+    { value: "font-Sedgwick-Ave", label: "Sedgwick-Ave" },
+    { value: "font-Indie-Flower", label: "Indie-Flower" },
+    { value: "font-Mada", label: "Mada" },
+    { value: "font-PT-Sans-Narrow", label: "PT-Sans-Narrow" },
+    { value: "font-Noto-Serif", label: "Noto-Serif" },
+    { value: "font-Bitter", label: "Bitter" },
+    { value: "font-Dosis", label: "Dosis" },
+    { value: "font-Josefin-Sans", label: "Josefin-Sans" },
+    { value: "font-Inconsolata", label: "Inconsolata" },
+    { value: "font-Bowlby-One-SC", label: "Bowlby-One-SC" },
+    { value: "font-Oxygen", label: "Oxygen" },
+    { value: "font-Arvo", label: "Arvo" },
+    { value: "font-Hind", label: "Hind" },
+    { value: "font-Cabin", label: "Cabin" },
+    { value: "font-Fjalla-One", label: "Fjalla-One" },
+    { value: "font-Anton", label: "Anton" },
+    { value: "font-Acme", label: "Acme" },
+    { value: "font-Archivo-Narrow", label: "Archivo-Narrow" },
+    { value: "font-Mukta-Vaani", label: "Mukta-Vaani" },
+    { value: "font-Play", label: "Play" },
+    { value: "font-Cuprum", label: "Cuprum" },
+    { value: "font-Maven-Pro", label: "Maven-Pro" },
+    { value: "font-EB-Garamond", label: "EB-Garamond" },
+    { value: "font-Passion-One", label: "Passion-One" },
+    { value: "font-Ropa-Sans", label: "Ropa-Sans" },
+    { value: "font-Francois-One", label: "Francois-One" },
+    { value: "font-Archivo-Black", label: "Archivo-Black" },
+    { value: "font-Pathway-Gothic-One", label: "Pathway-Gothic-One" },
+    { value: "font-Exo", label: "Exo" },
+    { value: "font-Vollkorn", label: "Vollkorn" },
+    { value: "font-Libre-Franklin", label: "Libre-Franklin" },
+    { value: "font-Crete-Round", label: "Crete-Round" },
+    { value: "font-Alegreya", label: "Alegreya" },
+    { value: "font-PT-Sans-Caption", label: "PT-Sans-Caption" },
+    { value: "font-Alegreya-Sans", label: "Alegreya-Sans" },
+    { value: "font-Source-Code-Pro", label: "Source-Code-Pro" },
   ];
 
   const sizeOptions = [
@@ -37,7 +158,7 @@ const PropertiesStyleTypography = () => {
     { value: "text-3xl", label: "text-3xl" },
     { value: "text-4xl", label: "text-4xl" },
     { value: "text-5xl", label: "text-5xl" },
-    { value: "text-6xl", label: "text-6xl"},
+    { value: "text-6xl", label: "text-6xl" },
     { value: "text-7xl", label: "text-7xl" },
     { value: "text-8xl", label: "text-8xl" },
     { value: "text-9xl", label: "text-9xl" },
@@ -47,13 +168,118 @@ const PropertiesStyleTypography = () => {
     const targetNode = root.querySelector(counterState.currentFocus);
 
     if (!targetNode) {
-      return "font-sans"; 
+      return "font-sans";
     }
 
     const fontClasses = [
       "font-sans",
       "font-serif",
       "font-mono",
+      "font-roboto",
+      "font-kanit",
+      "font-prompt",
+      "font-chakra-petch",
+      "font-sarabun",
+      "font-noto-sans-thai",
+      "font-mitr",
+      "font-taviraj",
+      "font-itim",
+      "font-pridi",
+      "font-sriracha",
+      "font-bai-jamjuree",
+      "font-krub",
+      "font-niramit",
+      "font-mali",
+      "font-athiti",
+      "font-charm",
+      "font-anuphan",
+      "font-k2d",
+      "font-pattaya",
+      "font-ibm-plex-sans-thai",
+      "font-maitree",
+      "font-chonburi",
+      "font-trirong",
+      "font-thasadith",
+      "font-fahkwang",
+      "font-koho",
+      "font-kodchasan",
+      "font-noto-serif-thai",
+      "font-charmonman",
+      "font-ibm-plex-sans-thai-looped",
+      "font-srisakdi",
+      "font-noto-sans-thai-looped",
+      "font-Open-Sans",
+      "font-Spectral",
+      "font-Slabo-27px",
+      "font-Lato",
+      "font-Roboto-Condensed",
+      "font-Oswald",
+      "font-Source-Sans-Pro",
+      "font-Raleway",
+      "font-Zilla-Slab",
+      "font-Montserrat",
+      "font-PT-Sans",
+      "font-Roboto-Slab",
+      "font-Merriweather",
+      "font-Saira-Condensed",
+      "font-Saira",
+      "font-Open-Sans-Condensed",
+      "font-Saira-Semi-Condensed",
+      "font-Saira-Extra-Condensed",
+      "font-Julee",
+      "font-Archivo",
+      "font-Ubuntu",
+      "font-Lora",
+      "font-Manuale",
+      "font-Asap-Condensed",
+      "font-Faustina",
+      "font-Cairo",
+      "font-Playfair-Display",
+      "font-Droid-Serif",
+      "font-Noto-Sans",
+      "font-PT-Serif",
+      "font-Droid-Sans",
+      "font-Arimo",
+      "font-Poppins",
+      "font-Sedgwick-Ave-Display",
+      "font-Titillium-Web",
+      "font-Muli",
+      "font-Sedgwick-Ave",
+      "font-Indie-Flower",
+      "font-Mada",
+      "font-PT-Sans-Narrow",
+      "font-Noto-Serif",
+      "font-Bitter",
+      "font-Dosis",
+      "font-Josefin-Sans",
+      "font-Inconsolata",
+      "font-Bowlby-One-SC",
+      "font-Oxygen",
+      "font-Arvo",
+      "font-Hind",
+      "font-Cabin",
+      "font-Fjalla-One",
+      "font-Anton",
+      "font-Acme",
+      "font-Archivo-Narrow",
+      "font-Mukta-Vaani",
+      "font-Play",
+      "font-Cuprum",
+      "font-Maven-Pro",
+      "font-EB-Garamond",
+      "font-Passion-One",
+      "font-Ropa-Sans",
+      "font-Francois-One",
+      "font-Archivo-Black",
+      "font-Pathway-Gothic-One",
+      "font-Exo",
+      "font-Vollkorn",
+      "font-Libre-Franklin",
+      "font-Crete-Round",
+      "font-Alegreya",
+      "font-PT-Sans-Caption",
+      "font-Alegreya-Sans",
+      "font-Source-Code-Pro",
     ];
 
     for (const fontClass of fontClasses) {
@@ -210,8 +436,8 @@ const PropertiesStyleTypography = () => {
 
   const handleTextAlignJustify = () => {
     dispatch(TextAlignJustify());
-  }
-  
+  };
+
   return (
     <div className="flex flex-col w-full mt-2">
       <div className="flex flex-row w-full justify-start p-2 items-center">
@@ -219,16 +445,18 @@ const PropertiesStyleTypography = () => {
           <p>Font name</p>
         </div>
         <div className="w-7/12 text-black">
-          <select 
+          <select
             className="FontInputChange"
             value={getSelectedFontValue()}
             onChange={handleFontChange}
           >
-            {fontOptions.map((Option) => (
-              <option key={Option.value} value={Option.value}>
-                {Option.label}
+            {fontOptions
+              .sort((a, b) => a.label.localeCompare(b.label))
+              .map((Option) => (
+                <option key={Option.value} value={Option.value}>
+                  {Option.label}
                 </option>
-            ))}
+              ))}
           </select>
         </div>
       </div>
@@ -241,7 +469,7 @@ const PropertiesStyleTypography = () => {
             className="SizeInputChange"
             value={getSelectedFontSizeValue()}
             onChange={handleSizeChange}
-            >
+          >
             {sizeOptions.map((Option) => (
               <option key={Option.value} value={Option.value}>
                 {Option.label}
@@ -265,8 +493,8 @@ const PropertiesStyleTypography = () => {
             />
           </div>
           <div className="w-/12 text-center ml-4 mr-4">
-          <p
-              contentEditable  // Add contentEditable attribute
+            <p
+              contentEditable // Add contentEditable attribute
               onBlur={(e) => {
                 const textColor = e.target.innerText.trim();
                 dispatch(TextColorChange(textColor.toUpperCase()));
@@ -280,47 +508,83 @@ const PropertiesStyleTypography = () => {
       </div>
       <div className="flex flex-row w-full justify-start pb-2 items-center">
         <div className="flex flex-row w-6/12 justify-between mx-2">
-          <div className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer" 
-          onClick={handleTextStylesBold}
+          <div
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            onClick={handleTextStylesBold}
           >
-            {isBold() ? (<MdFormatBold color="skyblue" />) : (<MdFormatBold />)}
+            {isBold() ? <MdFormatBold color="skyblue" /> : <MdFormatBold />}
           </div>
-          <div className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
-          onClick={handleTextStylesItalic}
+          <div
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            onClick={handleTextStylesItalic}
           >
-            {isItalic() ? (<MdFormatItalic color="skyblue" />) : (<MdFormatItalic />)}
+            {isItalic() ? (
+              <MdFormatItalic color="skyblue" />
+            ) : (
+              <MdFormatItalic />
+            )}
           </div>
-          <div className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
-          onClick={handleTextStylesUnderline}
+          <div
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            onClick={handleTextStylesUnderline}
           >
-            {isUnderlined() ? (<MdFormatUnderlined color="skyblue" />) : (<MdFormatUnderlined />)}
+            {isUnderlined() ? (
+              <MdFormatUnderlined color="skyblue" />
+            ) : (
+              <MdFormatUnderlined />
+            )}
           </div>
-          <div className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
-          onClick={handleTextStylesStrikethrough}
+          <div
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            onClick={handleTextStylesStrikethrough}
           >
-            {isStrikethrough() ? (<MdStrikethroughS color="skyblue" />) : (<MdStrikethroughS />)}
+            {isStrikethrough() ? (
+              <MdStrikethroughS color="skyblue" />
+            ) : (
+              <MdStrikethroughS />
+            )}
           </div>
         </div>
         <div className="flex flex-row w-6/12 justify-between">
-          <div className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
-          onClick={handleTextAlignLeft}
+          <div
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            onClick={handleTextAlignLeft}
           >
-            {isTextAlignLeft() ? (<MdFormatAlignLeft color="skyblue" />) : (<MdFormatAlignLeft />)}
+            {isTextAlignLeft() ? (
+              <MdFormatAlignLeft color="skyblue" />
+            ) : (
+              <MdFormatAlignLeft />
+            )}
           </div>
-          <div className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
-          onClick={handleTextAlignCenter}
+          <div
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            onClick={handleTextAlignCenter}
           >
-            {isTextAlignCenter() ? (<MdFormatAlignCenter color="skyblue" />) : (<MdFormatAlignCenter />)}
+            {isTextAlignCenter() ? (
+              <MdFormatAlignCenter color="skyblue" />
+            ) : (
+              <MdFormatAlignCenter />
+            )}
           </div>
-          <div className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
-          onClick={handleTextAlignRight}
+          <div
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            onClick={handleTextAlignRight}
           >
-            {isTextAlignRight() ? (<MdFormatAlignRight color="skyblue" />) : (<MdFormatAlignRight />)}
+            {isTextAlignRight() ? (
+              <MdFormatAlignRight color="skyblue" />
+            ) : (
+              <MdFormatAlignRight />
+            )}
           </div>
-          <div className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
-          onClick={handleTextAlignJustify}
+          <div
+            className="rounded-sm border-2 border-neutral-600 bg-neutral-700 p-1 px-2 cursor-pointer"
+            onClick={handleTextAlignJustify}
           >
-            {isTextAlignJustify() ? (<MdFormatAlignJustify color="skyblue" />) : (<MdFormatAlignJustify />)}
+            {isTextAlignJustify() ? (
+              <MdFormatAlignJustify color="skyblue" />
+            ) : (
+              <MdFormatAlignJustify />
+            )}
           </div>
         </div>
       </div>
