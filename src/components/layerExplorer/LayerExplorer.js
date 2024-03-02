@@ -14,7 +14,7 @@ import { PiRowsLight } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { MdEdit } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
-import { focus, EditId } from "../../features/counter/counterSlice";
+import { focus, EditId, focusElement, highlightElement } from "../../features/counter/counterSlice";
 
 const LayerExplorer = () => {
   const { counter } = useSelector((state) => state);
@@ -23,30 +23,40 @@ const LayerExplorer = () => {
   const { highlightedElementId } = useSelector((state) => state.counter);
 
   const handleClick = (event) => {
-    // get the clicked element title
     const clickedElement = event.target;
-    const clickedElementId = clickedElement.title;
+    const clickedElementId = clickedElement.textContent;
 
     if (clickedElementId !== "") {
       const highlightedElement = document.querySelector(".highlighted-text");
+      const highlightedElement2 = document.querySelector(".highlighted");
 
-      // Check if the clicked element is not the "main" ID
       if (clickedElementId !== "main") {
-        // Remove the previous highlighting
         if (highlightedElement) {
           highlightedElement.classList.remove("highlighted-text");
+          highlightedElement.classList.remove("highlighted");
+          highlightedElement2.classList.remove("highlighted-text");
+          highlightedElement2.classList.remove("highlighted");
         }
 
-        // Add highlighting to the clicked element
-        clickedElement.classList.add("highlighted-text");
+        const clickedElement = document.getElementById(clickedElementId);
+
+        if (clickedElement) {
+          clickedElement.classList.add("highlighted");
+        }
       } else {
-        // Clicked element is "main" ID, remove the highlighting
         if (highlightedElement) {
           highlightedElement.classList.remove("highlighted-text");
+          highlightedElement.classList.remove("highlighted");
+          highlightedElement2.classList.remove("highlighted-text");
+          highlightedElement2.classList.remove("highlighted");
         }
       }
-      // Perform additional actions based on the clicked ID if needed
+
+      dispatch(focusElement(clickedElement.tagName.toLowerCase()));
       dispatch(focus("#" + clickedElementId));
+
+      // Dispatch the action to update highlightedElementId
+      dispatch(highlightElement(clickedElementId));
     }
   };
 

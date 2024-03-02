@@ -14,6 +14,7 @@ const DesignWorkspace = () => {
   const dispatch = useDispatch();
   const { counter } = useSelector((state) => state);
   const { value: sanitizedHTML } = counter;
+  const { highlightedElementId } = useSelector((state) => state.counter);
 
   const handleClick = useCallback(
     (event) => {
@@ -23,12 +24,16 @@ const DesignWorkspace = () => {
 
       if (clickedElementId !== "") {
         const highlightedElement = document.querySelector(".highlighted");
+        const highlightedElement2 = document.querySelector(".highlighted-text");
 
         // Check if the clicked element is not the "main" ID
         if (clickedElementId !== "main") {
           // Remove the previous highlighting
           if (highlightedElement) {
             highlightedElement.classList.remove("highlighted");
+            highlightedElement.classList.remove("highlighted-text");
+            highlightedElement2.classList.remove("highlighted");
+            highlightedElement2.classList.remove("highlighted-text");
           }
 
           const clickedElement = document.getElementById(clickedElementId);
@@ -41,6 +46,9 @@ const DesignWorkspace = () => {
           // Clicked element is "main" ID, remove the highlighting
           if (highlightedElement) {
             highlightedElement.classList.remove("highlighted");
+            highlightedElement.classList.remove("highlighted-text");
+            highlightedElement2.classList.remove("highlighted");
+            highlightedElement2.classList.remove("highlighted-text");
           }
         }
 

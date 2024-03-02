@@ -20,12 +20,12 @@
 
 .highlighted {
   outline: 2px solid DodgerBlue;
-  z-index: 0;
+  /* z-index: 999999; */
 }
 
 .highlighted-text {
   color: DodgerBlue;
-  z-index: 0;
+  /* z-index: 999999; */
 }
 
 .highlighted-dnd {
