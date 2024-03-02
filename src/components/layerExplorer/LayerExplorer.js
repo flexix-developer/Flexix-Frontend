@@ -20,6 +20,7 @@ const LayerExplorer = () => {
   const { counter } = useSelector((state) => state);
   const root = parse(`${counter.value}`);
   const dispatch = useDispatch();
+  const { highlightedElementId } = useSelector((state) => state.counter);
 
   const handleClick = (event) => {
     // get the clicked element title
@@ -140,8 +141,8 @@ const LayerExplorer = () => {
       iconMapping[tagType]?.check(tag) && iconMapping[tagType]?.icon;
 
       return (
-        <div className="border-l border-gray-300 p-2  ">
-          <div className="flex items-center">
+        <div className={`border-l border-gray-300 p-2 ${tag.id === highlightedElementId ? "highlighted-text" : ""}`}>
+        <div className="flex items-center">
             {hasNonEmptyChildNodes && (
               <span onClick={toggleExpansion} className="cursor-pointer">
                 {isExpanded ? (

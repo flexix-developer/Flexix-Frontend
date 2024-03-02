@@ -23,6 +23,7 @@ const initialState = {
   elementAction: "",
   ListPages: [],
   IndexPages: null,
+  highlightedElementId : "",
 };
 
 var root = parse(initialState.value);
@@ -1375,6 +1376,9 @@ export const counterSlice = createSlice({
       SavePage(state, root.toString());
       countElements(state);
     },
+    highlightElement: (state, action) => {
+      state.highlightedElementId = action.payload;
+    },
   },
 });
 
@@ -1451,6 +1455,7 @@ export const {
   deleteOption,
   editOptionValue,
   editOptionText,
+  highlightElement,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
