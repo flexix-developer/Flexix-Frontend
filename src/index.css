@@ -19,17 +19,17 @@
 }
 
 .highlighted {
-  outline: 2px solid royalblue;
-  /* z-index: 999999; */
+  outline: 2px solid DodgerBlue;
+  z-index: 0;
 }
 
 .highlighted-text {
-  color: royalblue;
-  /* z-index: 999999; */
+  color: DodgerBlue;
+  z-index: 0;
 }
 
 .highlighted-dnd {
-  outline: 2px solid royalblue;
+  outline: 2px solid DodgerBlue;
   opacity: 0.6;
   cursor: move;
 }
