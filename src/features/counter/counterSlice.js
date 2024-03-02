@@ -17,6 +17,7 @@ const initialState = {
   currentTextareaNumber: 0,
   currentInputNumber: 0,
   currentSelectNumber: 0,
+  currentOptionNumber: 0,
   currentFocus: "",
   currentFocusElement: "",
   elementAction: "",
@@ -27,6 +28,7 @@ const initialState = {
 var root = parse(initialState.value);
 
 export const SavePage = async (state, html) => {
+  countElements(state);
   state.value = html;
   const ID = localStorage.getItem("ID");
   const ProjectID = localStorage.getItem("ProjectID");
@@ -58,6 +60,7 @@ export const SavePage = async (state, html) => {
 };
 
 const appendElement = (state, elementType, htmlTemplate) => {
+  countElements(state);
   state[`current${elementType}Number`] += 1;
   if (state.currentFocus === "") {
     state.currentFocus = "#main";
@@ -87,6 +90,7 @@ const countElements = (state) => {
   const textareaElements = root.querySelectorAll('[id^="textarea-"]');
   const inputElements = root.querySelectorAll('[id^="input-"]');
   const selectElements = root.querySelectorAll('[id^="select-"]');
+  const optionElements = root.querySelectorAll('[id^="option-"]');
 
   // สร้างตัวแปรเก็บค่า
   let maxRowId = 0;
@@ -101,6 +105,7 @@ const countElements = (state) => {
   let maxTextareaId = 0;
   let maxInputId = 0;
   let maxSelectId = 0;
+  let maxOptionId = 0;
 
   // ฟังก์ชันหาค่า id ที่มากที่สุด
   function findMaxId(elements, prefix, maxId) {
@@ -131,6 +136,7 @@ const countElements = (state) => {
   maxTextareaId = findMaxId(textareaElements, "textarea-", maxTextareaId);
   maxInputId = findMaxId(inputElements, "input-", maxInputId);
   maxSelectId = findMaxId(selectElements, "select-", maxSelectId);
+  maxOptionId = findMaxId(optionElements, "option-", maxOptionId);
 
   state.currentRowNumber = maxRowId + 1;
   state.currentColNumber = maxColId + 1;
@@ -144,6 +150,7 @@ const countElements = (state) => {
   state.currentTextareaNumber = maxTextareaId + 1;
   state.currentInputNumber = maxInputId + 1;
   state.currentSelectNumber = maxSelectId + 1;
+  state.currentOptionNumber = maxOptionId + 1;
 };
 
 export const removeSelectedElement = () => (dispatch, getState) => {
@@ -161,14 +168,17 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     focus: (state, action) => {
+      countElements(state);
       state.currentFocus = action.payload;
       console.log(state.currentFocus);
     },
     focusElement: (state, action) => {
+      countElements(state);
       state.currentFocusElement = action.payload;
       // console.log(state.currentFocusElement);
     },
     addElementAction: (state, action) => {
+      countElements(state);
       state.elementAction = action.payload;
     },
     addRow: (state) => {
@@ -252,7 +262,7 @@ export const counterSlice = createSlice({
       appendElement(
         state,
         "Select",
-        `<select id="select-${state.currentSelectNumber}" draggable="true"></select>`
+        `<select id="select-${state.currentSelectNumber}" draggable="true"><option id ="option-${state.currentOptionNumber}" value="null">null</option></select>`
       );
     },
     removeElement: (state) => {
@@ -260,6 +270,7 @@ export const counterSlice = createSlice({
       targetNode.remove();
       state.value = root.toString();
       SavePage(state, root.toString());
+      countElements(state);
     },
     AlignHorizontalLeft: (state) => {
       const targetNode = root.querySelector(state.currentFocus);
@@ -791,7 +802,7 @@ export const counterSlice = createSlice({
         { value: "font-Alegreya", label: "Alegreya" },
         { value: "font-PT-Sans-Caption", label: "PT-Sans-Caption" },
         { value: "font-Alegreya-Sans", label: "Alegreya-Sans" },
-        { value: "font-Source-Code-Pro", label: "Source-Code-Pro"}
+        { value: "font-Source-Code-Pro", label: "Source-Code-Pro" },
       ];
 
       fontOptions.forEach((option) => {
@@ -1276,54 +1287,28 @@ export const counterSlice = createSlice({
       SavePage(state, root.toString());
     },
     AddOptionsSelect: (state, action) => {
+      countElements(state);
       const targetNode = root.querySelector(state.currentFocus);
-      const OptionValue = action.payload;
-      console.log(
-        "AddOptionsSelect",
-        OptionValue,
-        targetNode,
-        state.currentFocus
-      );
+      const optionValue = action.payload;
+      console.log("AddOptionsSelect", optionValue, targetNode, state.currentFocus);
 
-      const updateOptions = (targetNode, OptionValue) => {
-        const option = document.createElement("option");
-        option.value = OptionValue;
-        option.text = OptionValue;
-        targetNode.add(option);
-      };
-
-      if (targetNode.tagName === "SELECT") {
-        updateOptions(targetNode, OptionValue);
-      }
-
-      state.value = root.toString();
-      SavePage(state, root.toString());
-    },
-    RemoveOptionsSelect: (state, action) => {
-      const targetNode = root.querySelector(state.currentFocus);
-      const OptionValue = action.payload;
-      console.log(
-        "RemoveOptionsSelect",
-        OptionValue,
-        targetNode,
-        state.currentFocus
-      );
-
-      const removeOptions = (targetNode, OptionValue) => {
-        for (let i = 0; i < targetNode.options.length; i++) {
-          if (targetNode.options[i].value === OptionValue) {
-            targetNode.remove(i);
-          }
+      const updateOptions = (targetNode, optionValue) => {
+        if (targetNode.tagName === "SELECT") {
+          targetNode.innerHTML += `<option id="option-${state.currentOptionNumber}" value="${optionValue}">${optionValue}</option>`;
+        } else {
+          console.error("Target element is not a SELECT");
         }
       };
+      
+      updateOptions(targetNode, optionValue);
 
-      if (targetNode.tagName === "SELECT") {
-        removeOptions(targetNode, OptionValue);
-      }
-
+      // Assuming root is a DOMParser instance
       state.value = root.toString();
+      // Assuming SavePage is a function that handles saving the updated HTML content
       SavePage(state, root.toString());
     },
+    
+    
   },
 });
 
@@ -1397,7 +1382,6 @@ export const {
   addElementAction,
   dndUpdate,
   AddOptionsSelect,
-  RemoveOptionsSelect,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
