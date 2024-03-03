@@ -344,11 +344,11 @@ ${bodyInputVariable}
 `;
       setCompleteScript(script);
       console.log(script, rows);
+      SaveScriptFunctionBK(script);
     }
-    SaveScriptFunctionBK();
   };
 
-  const SaveScriptFunctionBK = async () => {
+  const SaveScriptFunctionBK = async (script) => {
     const ID = localStorage.getItem("ID");
     const ProjectID = localStorage.getItem("ProjectID");
     const token = localStorage.getItem("token");
@@ -361,7 +361,7 @@ ${bodyInputVariable}
           id: ID,
           proid: ProjectID,
           pagename: pagename,
-          scriptContent: completeScript,
+          scriptContent: script,
         },
         {
           headers: {
@@ -376,6 +376,7 @@ ${bodyInputVariable}
       return;
     }
     dispatch(AddFunc(FuncName));
+    handleClosePopupEditAction();
   };
 
   return (
