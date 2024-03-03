@@ -204,6 +204,7 @@ const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
   const getAllFunctionNames = () => {
     // ใช้ regular expression เพื่อหาชื่อฟังก์ชันใน text
     const regex = /const\s+(\w+)\s*=\s*async\s*\(\)\s*=>/g;
+    console.log(jsdataBypage);
 
     let match;
     const functionNames = [];
@@ -214,6 +215,38 @@ const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
     }
     setListjsdataBypage(functionNames);
     console.log(functionNames); // This will log: ['post', 'gost']
+  };
+
+  // const DeleteFunction = (data) => {
+  //   console.log("DeleteFunction", data);
+  //   // ใช้ regular expression เพื่อหาชื่อฟังก์ชันใน text
+  //   // const regex = /(?:const|function)\s+deletse\s*=\s*.*?{([\s\S]*?)\n};?/g;
+  //   const regex = `/(?:const|function)\s+${data}\s*=\s*.*?{([\s\S]*?)\n};?/g`;
+
+  //   console.log("-------", jsdataBypage);
+
+  //   // ทำการลบฟังก์ชัน DeleteFunction โดยใช้ replace และ regex
+  //   const updatedJsdataBypage = jsdataBypage.replace(regex, "");
+  //   setJsdataBypage(updatedJsdataBypage);
+  //   console.log("update", updatedJsdataBypage); // โค้ดที่ถูกปรับแก้ โดยลบฟังก์ชัน DeleteFunction
+  //   SaveScriptDeleteFunctionBK(updatedJsdataBypage);
+  // };
+
+  const DeleteFunction = (data) => {
+    console.log("DeleteFunction", data);
+    // ใช้ regular expression เพื่อหาชื่อฟังก์ชันใน text
+    const regex = new RegExp(
+      `(?:const|function)\\s+${data}\\s*=\\s*.*?{([\\s\\S]*?)\\n};?`,
+      "g"
+    );
+
+    console.log("-------", jsdataBypage);
+
+    // ทำการลบฟังก์ชัน DeleteFunction โดยใช้ replace และ regex
+    const updatedJsdataBypage = jsdataBypage.replace(regex, "");
+    setJsdataBypage(updatedJsdataBypage);
+    console.log("update", updatedJsdataBypage); // โค้ดที่ถูกปรับแก้ โดยลบฟังก์ชัน DeleteFunction
+    SaveScriptDeleteFunctionBK(updatedJsdataBypage);
   };
 
   const handlePapePopUp = () => {
@@ -379,6 +412,37 @@ ${bodyInputVariable}
     handleClosePopupEditAction();
   };
 
+  const SaveScriptDeleteFunctionBK = async (script) => {
+    const ID = localStorage.getItem("ID");
+    const ProjectID = localStorage.getItem("ProjectID");
+    const token = localStorage.getItem("token");
+    const pagename = activepage.slice(0, -5);
+    try {
+      const response = await axios.post(
+        // "http://127.0.0.1:8081/users/savefunc",
+        // "http://ceproject.thddns.net:3322/users/savefunc",
+        "http://localhost:8081/users/editscript",
+
+        {
+          userID: ID,
+          projectId: ProjectID,
+          pageName: pagename,
+          content: script,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data.content);
+      console.log("Save Script Function Success!");
+    } catch (error) {
+      alert("Create New Page Failed!");
+      return;
+    }
+  };
+
   return (
     <div className="bg-[#272727] p-4 w-5/12 max-h-[700px]  pb-10  rounded-lg z-100">
       <div className="flex w-full justify-end">
@@ -411,7 +475,10 @@ ${bodyInputVariable}
               </div>
               <div className="h-[38px]">
                 <button className="bg-[#595959] w-12 rounded-sm h-full">
-                  <FiTrash2 className="w-full h-6 cursor-pointer text-red-400" />
+                  <FiTrash2
+                    className="w-full h-6 cursor-pointer text-red-400"
+                    onClick={() => DeleteFunction(data)}
+                  />
                 </button>
               </div>
             </div>
