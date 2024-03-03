@@ -488,6 +488,7 @@ const OnLoadActionPopUp = ({
         \n// // Check and change src for ${element.elementOptionSelected.label}
     if (child.tagName === "BUTTON" && child.id.includes("${element.elementOptionSelected.label}")) {
     child.value = item.${element.eventOptionSelected.label}; // Set the new src
+    child.dataset.id = item.${element.eventOptionSelected.label};
     }`;
         console.log("Child string:", child); // ใส่ "Child string:" ไว้เพื่อแสดงว่ามันเป็นสตริง child ที่ถูกเชื่อมต่อแล้ว
 

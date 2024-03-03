@@ -203,7 +203,8 @@ const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
 
   const getAllFunctionNames = () => {
     // ใช้ regular expression เพื่อหาชื่อฟังก์ชันใน text
-    const regex = /const\s+(\w+)\s*=\s*async\s*\(\)\s*=>/g;
+    // const regex = /const\s+(\w+)\s*=\s*async\s*\(\)\s*=>/g;
+    const regex = /const\s+(\w+)\s*=\s*async\s*\(([^)]*)\)\s*=>/g;
     console.log(jsdataBypage);
 
     let match;
@@ -216,21 +217,6 @@ const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
     setListjsdataBypage(functionNames);
     console.log(functionNames); // This will log: ['post', 'gost']
   };
-
-  // const DeleteFunction = (data) => {
-  //   console.log("DeleteFunction", data);
-  //   // ใช้ regular expression เพื่อหาชื่อฟังก์ชันใน text
-  //   // const regex = /(?:const|function)\s+deletse\s*=\s*.*?{([\s\S]*?)\n};?/g;
-  //   const regex = `/(?:const|function)\s+${data}\s*=\s*.*?{([\s\S]*?)\n};?/g`;
-
-  //   console.log("-------", jsdataBypage);
-
-  //   // ทำการลบฟังก์ชัน DeleteFunction โดยใช้ replace และ regex
-  //   const updatedJsdataBypage = jsdataBypage.replace(regex, "");
-  //   setJsdataBypage(updatedJsdataBypage);
-  //   console.log("update", updatedJsdataBypage); // โค้ดที่ถูกปรับแก้ โดยลบฟังก์ชัน DeleteFunction
-  //   SaveScriptDeleteFunctionBK(updatedJsdataBypage);
-  // };
 
   const DeleteFunction = (data) => {
     console.log("DeleteFunction", data);
@@ -307,7 +293,7 @@ const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
     };
     let headerString = formatHeadersForScript(headers);
 
-    if (selectMethod == "GET" || selectMethod == "DELETE") {
+    if (selectMethod == "GET") {
       let script = `const ${FuncName} = async () => {
 
   try {
@@ -332,6 +318,44 @@ const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
 `;
       setCompleteScript(script);
       console.log(script);
+      SaveScriptFunctionBK(script);
+    } else if (selectMethod == "DELETE") {
+      let inputValuesString = rows
+        .map(
+          (row) =>
+            `const ${row.param} = document.getElementById("${row.dataFromID}").value;`
+        )
+        .join("\n  ");
+
+      let bodyInputVariable = rows
+        .map((row) => `${row.param}=$\{${row.param}}`)
+        .join("\n  ");
+
+      let script = `const ${FuncName} = async () => {
+  try {
+    ${inputValuesString}
+    const response = await fetch(\`${rawApi}?${bodyInputVariable}\`, {
+      method: "${selectMethod}",
+            headers: {
+        "Content-Type": "application/json", // กำหนด Content-Type header เป็น application/json
+        ${headerString}
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(\`HTTP error! status: \${response.status}\`);
+    }
+
+    const data = await response.json(); // อ่าน JSON จาก response body
+    console.log("Data:", data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+`;
+      setCompleteScript(script);
+      console.log(script);
+      SaveScriptFunctionBK(script);
     } else {
       let inputValuesString = rows
         .map(
@@ -376,7 +400,7 @@ ${bodyInputVariable}
 };
 `;
       setCompleteScript(script);
-      console.log(script, rows);
+      console.log("dsdsds", script, rows);
       SaveScriptFunctionBK(script);
     }
   };

@@ -67,8 +67,8 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
     } else {
       try {
         await axios.post(
-          // "http://localhost:8081/users/editscript",
-          "http://ceproject.thddns.net:3322/users/editscript",
+          "http://localhost:8081/users/editscript",
+          // "http://ceproject.thddns.net:3322/users/editscript",
           {
             userID: ID,
             projectId: ProjectID,
