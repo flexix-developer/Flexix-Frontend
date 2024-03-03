@@ -140,6 +140,79 @@ const HomePage = () => {
     setEditedProjectName(projectName);
   };
 
+  // const handleDownloadProject = async (projectId) => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     const id = localStorage.getItem("ID");
+  //     console.log("id", id, projectId, token);
+
+  //     const response = await axios.post(
+  //       "http://localhost:8081/users/downproject",
+  //       // "http://ceproject.thddns.net:3322/users/page",
+  //       {
+  //         id: id,
+  //         proid: projectId, // Assuming proid should also be projectId, change it accordingly
+  //         pagename: "cart",
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         responseType: "blob", // ระบุประเภทข้อมูลที่จะรับกลับเป็น blob
+  //       }
+  //     );
+
+  //     // สร้าง URL สำหรับไฟล์ zip จาก blob ที่ได้รับ
+  //     const url = window.URL.createObjectURL(new Blob([response.data]));
+  //     // สร้าง element <a> เพื่อดาวน์โหลดไฟล์ zip
+  //     const link = document.createElement("a");
+  //     link.href = url;
+  //     link.setAttribute("download", "project.zip");
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     link.remove(); // ลบ element <a> ที่สร้างขึ้นหลังจากการดาวน์โหลดเสร็จสิ้น
+  //   } catch (error) {
+  //     console.error("Error Download project", error);
+  //   }
+  // };
+
+  const handleDownloadProject = async (projectId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const id = localStorage.getItem("ID");
+      console.log("id", id, projectId);
+      const requestData = {
+        id: id,
+        proid: `${projectId.id}`, // Assuming proid should also be projectId, change it accordingly
+        pagename: "cart",
+      };
+
+      const response = await axios.post(
+        `http://localhost:8081/users/downproject`,
+        requestData, // ส่ง requestData โดยไม่ต้องแปลงเป็น JSON ซึ่ง Axios จะทำให้โดยอัตโนมัติ
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          responseType: "blob", // ระบุประเภทข้อมูลที่จะรับกลับเป็น blob
+        }
+      );
+
+      // สร้าง URL สำหรับไฟล์ zip จาก blob ที่ได้รับ
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // สร้าง element <a> เพื่อดาวน์โหลดไฟล์ zip
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${projectId.name}.zip`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove(); // ลบ element <a> ที่สร้างขึ้นหลังจากการดาวน์โหลดเสร็จสิ้น
+    } catch (error) {
+      console.error("Error Download project", error);
+    }
+  };
+
   const handleSaveEdit = async (projectId) => {
     try {
       const token = localStorage.getItem("token");
@@ -287,8 +360,11 @@ const HomePage = () => {
                 )}
                 <p>{project.lastEdit}</p>
               </div>
-              <div className="ml-auto mt-4 flex">
-                <FiDownload className="mr-2" />
+              <div className="ml-auto mt-4 flex cursor-pointer">
+                <FiDownload
+                  className="mr-2"
+                  onClick={() => handleDownloadProject(project)}
+                />
                 <FiTrash2
                   className="cursor-pointer text-red-500"
                   onClick={() => handleDeleteProject(project.id)}
