@@ -116,8 +116,8 @@ const DesignPage = () => {
       const ProjectID = localStorage.getItem("ProjectID");
 
       const response = await axios.get(
-        `http://localhost:8081/users/getpages/${ID}/${ProjectID}`,
-        // `http://ceproject.thddns.net:3322/users/getpages/${ID}/${ProjectID}`,
+        // `http://localhost:8081/users/getpages/${ID}/${ProjectID}`,
+        `http://ceproject.thddns.net:3322/users/getpages/${ID}/${ProjectID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -149,8 +149,8 @@ const DesignPage = () => {
       const ID = localStorage.getItem("ID");
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:8081/users/readall/${ID}`,
-        // `http://ceproject.thddns.net:3322/users/readall/${ID}`,
+        // `http://localhost:8081/users/readall/${ID}`,
+        `http://ceproject.thddns.net:3322/users/readall/${ID}`,
 
         {
           headers: {
@@ -225,8 +225,8 @@ const DesignPage = () => {
     } else {
       try {
         await axios.post(
-          "http://127.0.0.1:8081/users/page",
-          // "http://ceproject.thddns.net:3322/users/page",
+          // "http://127.0.0.1:8081/users/page",
+          "http://ceproject.thddns.net:3322/users/page",
           {
             userID: ID,
             projectId: ProjectID,
@@ -277,8 +277,8 @@ const DesignPage = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8081/users/gethtmlandscript",
-        // "http://ceproject.thddns.net:3322/users/gethtmlandscript",
+        // "http://127.0.0.1:8081/users/gethtmlandscript",
+        "http://ceproject.thddns.net:3322/users/gethtmlandscript",
         {
           id: ID,
           proid: ProjectID,

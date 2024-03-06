@@ -27,13 +27,14 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://127.0.0.1:8081/login", {
-        // const response = await axios.post(
-        //   "http://ceproject.thddns.net:3322/login",
-        //   {
-        email: email,
-        pass: password,
-      });
+      // const response = await axios.post("http://127.0.0.1:8081/login", {
+      const response = await axios.post(
+        "http://ceproject.thddns.net:3322/login",
+        {
+          email: email,
+          pass: password,
+        }
+      );
 
       const { status, message, token, ID } = response.data;
 

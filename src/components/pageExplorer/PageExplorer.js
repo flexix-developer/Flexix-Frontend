@@ -70,8 +70,8 @@ const PageExplorer = ({
 
     try {
       await axios.post(
-        "http://127.0.0.1:8081/users/deletepage",
-        // "http://ceproject.thddns.net:3322/users/deletepage",
+        // "http://127.0.0.1:8081/users/deletepage",
+        "http://ceproject.thddns.net:3322/users/deletepage",
         {
           id: ID,
           proid: ProjectID,
@@ -141,8 +141,8 @@ const PageExplorer = ({
         console.log(editedPageName.slice(0, -5), editedNewPageName);
 
         await axios.post(
-          "http://127.0.0.1:8081/users/editpage",
-          // "http://ceproject.thddns.net:3322/users/editpage",
+          // "http://127.0.0.1:8081/users/editpage",
+          "http://ceproject.thddns.net:3322/users/editpage",
           {
             id: ID,
             proid: ProjectID,
@@ -179,8 +179,8 @@ const PageExplorer = ({
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        "http://127.0.0.1:8081/users/getpage",
-        // "http://ceproject.thddns.net:3322/users/getpage",
+        // "http://127.0.0.1:8081/users/getpage",
+        "http://ceproject.thddns.net:3322/users/getpage",
         {
           id: ID,
           proid: ProjectID,

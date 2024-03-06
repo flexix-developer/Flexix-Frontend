@@ -108,6 +108,7 @@ const OnLoadActionPopUp = ({
 
   // ฟังก์ชันเพื่อเข้าถึงข้อมูลโดยใช้เส้นทาง (path)
   const getNestedData = (path, obj) => {
+    console.log(path, obj);
     return path.split(".").reduce((acc, part) => {
       const match = part.match(/^(.+)\[(\d+)\]$/); // จับคู่ส่วนที่เป็น array index
       if (match) {
@@ -135,18 +136,21 @@ const OnLoadActionPopUp = ({
     let keysOptions = [];
     if (Array.isArray(sampleData)) {
       // ถ้าเป็น array, สร้าง options จาก keys ของ object แรกใน array
+      console.log(sampleData);
       keysOptions =
         sampleData.length > 0
           ? Object.keys(sampleData[0]).map((key) => ({
               value: key,
-              label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+              // label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+              label: key, // Capitalize the first letter
             }))
           : [];
     } else if (typeof sampleData === "object") {
       // ถ้าเป็น object, สร้าง options จาก keys
       keysOptions = Object.keys(sampleData).map((key) => ({
         value: key,
-        label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+        // label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+        label: key, // Capitalize the first letter
       }));
     }
 
@@ -231,7 +235,8 @@ const OnLoadActionPopUp = ({
       // Generating options from the keys of sampleData
       const keysOptions = Object.keys(sampleData).map((key) => ({
         value: key,
-        label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+        // label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize the first letter
+        label: key, // Capitalize the first letter
       }));
 
       setEventOptions(keysOptions);
@@ -355,8 +360,8 @@ const OnLoadActionPopUp = ({
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        "http://127.0.0.1:8081/users/getpage",
-        // "http://ceproject.thddns.net:3322/users/getpage",
+        // "http://127.0.0.1:8081/users/getpage",
+        "http://ceproject.thddns.net:3322/users/getpage",
         {
           id: ID,
           proid: ProjectID,
@@ -642,8 +647,8 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
       const token = localStorage.getItem("token");
       console.log(pagename);
       await axios.post(
-        "http://localhost:8081/users/editscript",
-        // "http://ceproject.thddns.net:3322/users/editscript",
+        // "http://localhost:8081/users/editscript",
+        "http://ceproject.thddns.net:3322/users/editscript",
         {
           userID: ID,
           projectId: ProjectID,

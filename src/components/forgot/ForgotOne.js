@@ -121,12 +121,13 @@ function ForgotOne({ onNextStep }) {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8081/forgot", {
-        // const response = await axios.post(
-        //   "http://ceproject.thddns.net:3322/forgot",
-        //   {
-        email: email,
-      });
+      // const response = await axios.post("http://localhost:8081/forgot", {
+      const response = await axios.post(
+        "http://ceproject.thddns.net:3322/forgot",
+        {
+          email: email,
+        }
+      );
 
       if (response.status === 200) {
         console.log(response.data.message);

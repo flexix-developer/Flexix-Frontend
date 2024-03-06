@@ -175,8 +175,8 @@ const OnClickActionPopUp = ({ handleClosePopupEditAction, activepage }) => {
 
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8081/users/getscript",
-          // "http://ceproject.thddns.net:3322/users/getscript",
+          // "http://127.0.0.1:8081/users/getscript",
+          "http://ceproject.thddns.net:3322/users/getscript",
           {
             id: ID,
             proid: ProjectID,
@@ -412,8 +412,8 @@ ${bodyInputVariable}
     const pagename = activepage.slice(0, -5);
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8081/users/savefunc",
-        // "http://ceproject.thddns.net:3322/users/savefunc",
+        // "http://127.0.0.1:8081/users/savefunc",
+        "http://ceproject.thddns.net:3322/users/savefunc",
         {
           id: ID,
           proid: ProjectID,
@@ -444,8 +444,8 @@ ${bodyInputVariable}
     try {
       const response = await axios.post(
         // "http://127.0.0.1:8081/users/savefunc",
-        // "http://ceproject.thddns.net:3322/users/savefunc",
-        "http://localhost:8081/users/editscript",
+        "http://ceproject.thddns.net:3322/users/editscript",
+        // "http://localhost:8081/users/editscript",
 
         {
           userID: ID,

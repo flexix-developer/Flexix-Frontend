@@ -34,13 +34,14 @@ function ForgotTwo({ onNextStep }) {
     const otpCode = numbers.join("");
 
     try {
-      const response = await axios.post("http://localhost:8081/check", {
-        // const response = await axios.post(
-        //   "http://ceproject.thddns.net:3322/check",
-        //   {
-        otp_code: otpCode,
-        email: userData.email,
-      });
+      // const response = await axios.post("http://localhost:8081/check", {
+      const response = await axios.post(
+        "http://ceproject.thddns.net:3322/check",
+        {
+          otp_code: otpCode,
+          email: userData.email,
+        }
+      );
 
       if (response.status === 200) {
         console.log(response.data.message);
@@ -59,12 +60,13 @@ function ForgotTwo({ onNextStep }) {
     e.preventDefault();
     console.log(userData.email);
     try {
-      const response = await axios.post("http://localhost:8081/forgot", {
-        // const response = await axios.post(
-        //   "http://ceproject.thddns.net:3322/forgot",
-        //   {
-        email: userData.email,
-      });
+      // const response = await axios.post("http://localhost:8081/forgot", {
+      const response = await axios.post(
+        "http://ceproject.thddns.net:3322/forgot",
+        {
+          email: userData.email,
+        }
+      );
 
       if (response.status === 200) {
         console.log(response.data.message);
