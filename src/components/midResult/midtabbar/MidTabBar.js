@@ -14,8 +14,7 @@ const MidTabBar = ({
   activepage,
   handleClickTabBar,
 }) => {
-  // console.log("activatepage", activepage);
-  // const [activePage, setActivePage] = useState("");
+  console.log(activepage);
   const dispatch = useDispatch();
   if (ArrPageList.length === 0) {
     setFirstpage();

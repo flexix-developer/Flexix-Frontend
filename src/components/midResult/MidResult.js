@@ -21,7 +21,8 @@ const MidResult = ({
   const [height, SetHeight] = useState("");
   const { value: sanitizedHTML } = counter;
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
-  // console.log("ArrayList", ArrPageList);
+
+  console.log(activepage);
   const handlePnameChange = (event, SetNewPageName) => {
     let newName = event.target.value;
 

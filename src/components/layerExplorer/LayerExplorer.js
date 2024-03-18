@@ -14,7 +14,12 @@ import { PiRowsLight } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { MdEdit } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
-import { focus, EditId, focusElement, highlightElement } from "../../features/counter/counterSlice";
+import {
+  focus,
+  EditId,
+  focusElement,
+  highlightElement,
+} from "../../features/counter/counterSlice";
 
 const LayerExplorer = () => {
   const { counter } = useSelector((state) => state);
@@ -26,11 +31,11 @@ const LayerExplorer = () => {
     try {
       const clickedElement = event.target;
       const clickedElementId = clickedElement.textContent;
-  
+
       if (clickedElementId !== "") {
         const highlightedElement = document.querySelector(".highlighted-text");
         const highlightedElement2 = document.querySelector(".highlighted");
-  
+
         if (clickedElementId !== "main") {
           if (highlightedElement) {
             // highlightedElement.classList.remove("highlighted-text");
@@ -40,9 +45,9 @@ const LayerExplorer = () => {
             highlightedElement2.classList.remove("highlighted-text");
             highlightedElement2.classList.remove("highlighted");
           }
-  
+
           const clickedElement = document.getElementById(clickedElementId);
-  
+
           if (clickedElement) {
             clickedElement.classList.add("highlighted");
           }
@@ -56,10 +61,10 @@ const LayerExplorer = () => {
             highlightedElement2.classList.remove("highlighted");
           }
         }
-  
+
         dispatch(focusElement(clickedElement.tagName.toLowerCase()));
         dispatch(focus("#" + clickedElementId));
-  
+
         // Dispatch the action to update highlightedElementId
         dispatch(highlightElement(clickedElementId));
       }
@@ -67,7 +72,6 @@ const LayerExplorer = () => {
       console.error("Error in handleClick:", error);
     }
   };
-  
 
   const findAllMainDivTags = () =>
     root
@@ -77,11 +81,11 @@ const LayerExplorer = () => {
   const RenderContentItem = ({ tag, depth }) => {
     const [isExpanded, setIsExpanded] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
-    const [editedText, setEditedText] = useState(tag.id || ''); // Initial value is the tag's ID
+    const [editedText, setEditedText] = useState(tag.id || ""); // Initial value is the tag's ID
 
     const toggleExpansion = () => setIsExpanded(!isExpanded);
     const hasNonEmptyChildNodes = tag.childNodes.some(
-      (child) => child.nodeType === 1 && child.rawTagName !== 'script'
+      (child) => child.nodeType === 1 && child.rawTagName !== "script"
     );
 
     const handleEditClick = (event) => {
@@ -159,103 +163,115 @@ const LayerExplorer = () => {
     const tagIcon =
       iconMapping[tagType]?.check(tag) && iconMapping[tagType]?.icon;
 
-      return (
-        <div className="border-l border-gray-300 p-2">
-        <div className="flex items-center">
-            {hasNonEmptyChildNodes && (
-              <span onClick={toggleExpansion} className="cursor-pointer">
-                {isExpanded ? (
-                  <SlArrowDown className="transform rotate-0" />
-                ) : (
-                  <SlArrowRight className="transform rotate-0" />
-                )}
-              </span>
-            )}
-  
-            {tagIcon && <span className={`ml-2 ${tag.id === highlightedElementId ? "highlighted-text" : ""}`}>{tagIcon}</span>}
-  
-            {isEditing ? (
-              <div className="flex items-center">
-                <input
-                  type="text"
-                  value={editedText}
-                  onChange={handleInputChange}
-                  onBlur={handleInputBlur}
-                  className="ml-2 font-semibold border-none focus:outline-none bg-transparent"
-                />
-                <span
-                  className="cursor-pointer ml-2 text-white-500"
-                  onClick={handleInputBlur}
-                >
-                  <FaCheck size={20} className="text-green-500" />
-                </span>
-              </div>
-            ) : (
-              <div className="flex items-center">
-                <span
-                  className={`ml-2 font-semibold ${tag.id === highlightedElementId ? "highlighted-text" : ""}`}
-                  title={tag.id}
-                  onClick={handleClick}
-                >
-                  {tag.id}
-                </span>
-  
-                <span
-                  className={`cursor-pointer ml-2 text-white-500 ${tag.id === highlightedElementId ? "highlighted-text" : ""}`}
-                  title={tag.id}
-                  onClick={handleEditClick}
-                >
-                  <MdEdit size={20} />
-                </span>
-              </div>
-            )}
-          </div>
-          <div
-            className={`ml-2 transition-all duration-300 w-full overflow-x-auto ${
-              isExpanded ? "block" : "h-0"
-            }`}
-          >
-            {hasNonEmptyChildNodes &&
-              tag.childNodes
-                .filter(
-                  (node) =>
-                    node.nodeType === 1 &&
-                    node.rawTagName !== "script" &&
-                    node.rawTagName !== "style"
-                )
-                .map((child, index) => (
-                  <RenderContentItem key={index} tag={child} depth={depth + 1} />
-                ))}
-          </div>
-        </div>
-      );
-    };
-  
-    const mainDivTags = findAllMainDivTags();
-  
     return (
-      <div>
-        <div className="bg-black p-1 pl-3 flex items-center">
-          <IoSearchOutline className="text-gray-500" size={25} color="white" />
-          <input
-            type="text"
-            placeholder="search..."
-            className="bg-black p-2 ml-2 rounded-md focus:outline-none focus:border-blue-500 w-full text-white h-0.5"
-          />
-        </div>
-        <div className="flex flex-col text-white items-start mt-4 ml-2 overflow-y-scroll overflow-x-scroll h-screen">
-          {mainDivTags &&
-            mainDivTags.map((tag, index) => (
-              <RenderContentItem key={index} tag={tag} depth={0} />
-            ))}
-          <div className="flex flex-row bg-neutral-700 w-12/12">
-            <div className="flex flex-row px-5 py-1 text-lg items-center h-52">
-              <p className="invisible">Hello, Hacker!</p>
+      <div className="border-l border-gray-300 p-2">
+        <div className="flex items-center">
+          {hasNonEmptyChildNodes && (
+            <span onClick={toggleExpansion} className="cursor-pointer">
+              {isExpanded ? (
+                <SlArrowDown className="transform rotate-0" />
+              ) : (
+                <SlArrowRight className="transform rotate-0" />
+              )}
+            </span>
+          )}
+
+          {tagIcon && (
+            <span
+              className={`ml-2 ${
+                tag.id === highlightedElementId ? "highlighted-text" : ""
+              }`}
+            >
+              {tagIcon}
+            </span>
+          )}
+
+          {isEditing ? (
+            <div className="flex items-center">
+              <input
+                type="text"
+                value={editedText}
+                onChange={handleInputChange}
+                onBlur={handleInputBlur}
+                className="ml-2 font-semibold border-none focus:outline-none bg-transparent"
+              />
+              <span
+                className="cursor-pointer ml-2 text-white-500"
+                onClick={handleInputBlur}
+              >
+                <FaCheck size={20} className="text-green-500" />
+              </span>
             </div>
-          </div>
+          ) : (
+            <div className="flex items-center">
+              <span
+                className={`ml-2 font-semibold ${
+                  tag.id === highlightedElementId ? "highlighted-text" : ""
+                }`}
+                title={tag.id}
+                onClick={handleClick}
+              >
+                {tag.id}
+              </span>
+
+              <span
+                className={`cursor-pointer ml-2 text-white-500 ${
+                  tag.id === highlightedElementId ? "highlighted-text" : ""
+                }`}
+                title={tag.id}
+                onClick={handleEditClick}
+              >
+                <MdEdit size={20} />
+              </span>
+            </div>
+          )}
+        </div>
+        <div
+          className={`ml-2 transition-all duration-300 w-full overflow-x-auto ${
+            isExpanded ? "block" : "h-0"
+          }`}
+        >
+          {hasNonEmptyChildNodes &&
+            tag.childNodes
+              .filter(
+                (node) =>
+                  node.nodeType === 1 &&
+                  node.rawTagName !== "script" &&
+                  node.rawTagName !== "style"
+              )
+              .map((child, index) => (
+                <RenderContentItem key={index} tag={child} depth={depth + 1} />
+              ))}
         </div>
       </div>
     );
   };
-  
-  export default LayerExplorer;
+
+  const mainDivTags = findAllMainDivTags();
+
+  return (
+    <div>
+      <div className="bg-black p-1 pl-3 flex items-center h-4">
+        {/* <IoSearchOutline className="text-gray-500" size={25} color="white" />
+        <input
+          type="text"
+          placeholder="search..."
+          className="bg-black p-2 ml-2 rounded-md focus:outline-none focus:border-blue-500 w-full text-white h-0.5"
+        /> */}
+      </div>
+      <div className="flex flex-col text-white items-start mt-4 ml-2 overflow-y-scroll overflow-x-scroll h-screen">
+        {mainDivTags &&
+          mainDivTags.map((tag, index) => (
+            <RenderContentItem key={index} tag={tag} depth={0} />
+          ))}
+        <div className="flex flex-row bg-neutral-700 w-12/12">
+          <div className="flex flex-row px-5 py-1 text-lg items-center h-52">
+            <p className="invisible">Hello, Hacker!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LayerExplorer;

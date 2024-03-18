@@ -48,6 +48,7 @@ const DesignPage = () => {
   useEffect(() => {
     console.log("activepage", activepage);
   }, [activepage]);
+
   useEffect(() => {
     console.log("TbIndex", TbIndex);
   }, [TbIndex]);
@@ -86,26 +87,27 @@ const DesignPage = () => {
       const newArray = titleNameListPage.filter(
         (page) => page !== deletedPageName
       );
+      console.log(newArray);
 
       setTitleNameListPage(newArray);
 
-      // หลังจากลบ, ต้องการเลือกหน้าใดหน้าหนึ่ง
-      if (newArray.length > 0) {
-        let newSelectedIndex = index;
-        if (index === 0) {
-          // ถ้าหน้าที่ลบคือหน้าแรก, ให้หน้าใหม่ที่ index 0 เป็นหน้าที่ active
-          newSelectedIndex = 0;
-        } else {
-          // ถ้าลบหน้าที่ไม่ใช่หน้าแรก, ลองเลือกหน้าก่อนหน้านั้น
-          newSelectedIndex = Math.max(index - 1, 0);
-        }
-        handlePageActivate(newArray[newSelectedIndex]);
-        setTbIndex(newSelectedIndex);
-      } else {
-        // ถ้าไม่เหลือหน้าอื่นหลังจากลบ
-        handlePageActivate("");
-        setTbIndex(null);
-      }
+      // // หลังจากลบ, ต้องการเลือกหน้าใดหน้าหนึ่ง
+      // if (newArray.length > 0) {
+      //   let newSelectedIndex = index;
+      //   if (index === 0) {
+      //     // ถ้าหน้าที่ลบคือหน้าแรก, ให้หน้าใหม่ที่ index 0 เป็นหน้าที่ active
+      //     newSelectedIndex = 0;
+      //   } else {
+      //     // ถ้าลบหน้าที่ไม่ใช่หน้าแรก, ลองเลือกหน้าก่อนหน้านั้น
+      //     newSelectedIndex = Math.max(index - 1, 0);
+      //   }
+      //   handlePageActivate(newArray[newSelectedIndex]);
+      //   setTbIndex(newSelectedIndex);
+      // } else {
+      //   // ถ้าไม่เหลือหน้าอื่นหลังจากลบ
+      //   handlePageActivate("");
+      //   setTbIndex(null);
+      // }
     }
   };
 
