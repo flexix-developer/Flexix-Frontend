@@ -15,6 +15,7 @@ const OnLoadActionPopUp = ({
   const [apiInputValue2, setApiInputValue2] = useState("");
   const [paramInputValue, setParamInputValue] = useState("");
   const [dataTestInputValue, setDataTestInputValue] = useState("");
+  const [paramid, setparamid] = useState("");
 
   const [testConnect, setTestConnect] = useState(null); // State to track selected event option
   const [eventOptions, setEventOptions] = useState([]);
@@ -508,11 +509,24 @@ const OnLoadActionPopUp = ({
 
         combinedChild += child; // เพิ่มสตริง child ในลูปนี้เข้าไปใน combinedChild
       }
+      // if (nameactionButton !== null) {
+      //   let child = `          \n// // Check and change src for ${nameactionButton}
+      //              if (child.id.includes("${nameactionButton}")) {
+      //               child.addEventListener("click", function () {
+      //                 window.location.href = \`${pageAction}?${paramInputValue}=\${item.ID}\`;
+      //                 console.log(item.ID);
+      //               });
+      //             }`;
+      //   console.log("Child string:", child); // ใส่ "Child string:" ไว้เพื่อแสดงว่ามันเป็นสตริง child ที่ถูกเชื่อมต่อแล้ว
+
+      //   combinedChild += child; // เพิ่มสตริง child ในลูปนี้เข้าไปใน combinedChild
+      // }
+
       if (nameactionButton !== null) {
         let child = `          \n// // Check and change src for ${nameactionButton}
                    if (child.id.includes("${nameactionButton}")) {
                     child.addEventListener("click", function () {
-                      window.location.href = \`${pageAction}?${paramInputValue}=\${item.ID}\`;
+                      window.location.href = \`${pageAction}?${paramInputValue}=\${item.${element.eventOptionSelected.label}}\`;
                       console.log(item.ID);
                     });
                   }`;
