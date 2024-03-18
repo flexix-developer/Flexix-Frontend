@@ -44,8 +44,8 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
     if (selectedCode === "html") {
       try {
         const response = await axios.post(
-          // "http://127.0.0.1:8081/users/savepage",
-          "http://ceproject.thddns.net:3322/users/savepage",
+          "http://127.0.0.1:8081/users/savepage",
+          // "http://ceproject.thddns.net:3322/users/savepage",
           {
             id: ID,
             proid: ProjectID,
@@ -67,8 +67,8 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
     } else {
       try {
         await axios.post(
-          // "http://localhost:8081/users/editscript",
-          "http://ceproject.thddns.net:3322/users/editscript",
+          "http://localhost:8081/users/editscript",
+          // "http://ceproject.thddns.net:3322/users/editscript",
           {
             userID: ID,
             projectId: ProjectID,
@@ -110,8 +110,8 @@ const CodePopUp = ({ htmlCode, jsCode, closePopUp, activepage }) => {
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        // "http://127.0.0.1:8081/users/getpage",
-        "http://ceproject.thddns.net:3322/users/getpage",
+        "http://127.0.0.1:8081/users/getpage",
+        // "http://ceproject.thddns.net:3322/users/getpage",
         {
           id: ID,
           proid: ProjectID,

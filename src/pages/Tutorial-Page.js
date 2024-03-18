@@ -16,8 +16,8 @@ const TutorialPage = () => {
       const ID = localStorage.getItem("ID");
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        // `http://localhost:8081/users/readall/${ID}`,
-        `http://ceproject.thddns.net:3322/users/readall/${ID}`,
+        `http://localhost:8081/users/readall/${ID}`,
+        // `http://ceproject.thddns.net:3322/users/readall/${ID}`,
 
         {
           headers: {

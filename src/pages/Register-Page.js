@@ -178,8 +178,8 @@ const RegisterPage = () => {
 
     try {
       // Your axios post request here...
-      // await axios.post("http://127.0.0.1:8081/register", {
-      await axios.post("http://ceproject.thddns.net:3322/register", {
+      await axios.post("http://127.0.0.1:8081/register", {
+        // await axios.post("http://ceproject.thddns.net:3322/register", {
         fname: fname,
         lname: lname,
         email: email,

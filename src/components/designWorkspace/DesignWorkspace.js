@@ -22,11 +22,12 @@ const DesignWorkspace = () => {
         const clickedElementId = event.target.id;
         const clickedElement = event.target;
         const elementType = clickedElement.tagName.toLowerCase();
-  
+
         if (clickedElementId !== "") {
           const highlightedElement = document.querySelector(".highlighted");
-          const highlightedElement2 = document.querySelector(".highlighted-text");
-  
+          const highlightedElement2 =
+            document.querySelector(".highlighted-text");
+
           // Check if the clicked element is not the "main" ID
           if (clickedElementId !== "main") {
             // Remove the previous highlighting
@@ -38,9 +39,9 @@ const DesignWorkspace = () => {
               highlightedElement2.classList.remove("highlighted");
               // highlightedElement2.classList.remove("highlighted-text");
             }
-  
+
             const clickedElement = document.getElementById(clickedElementId);
-  
+
             // Add highlighting to the clicked element
             if (clickedElement) {
               clickedElement.classList.add("highlighted");
@@ -56,7 +57,7 @@ const DesignWorkspace = () => {
               // highlightedElement2.classList.remove("highlighted-text");
             }
           }
-  
+
           dispatch(focusElement(elementType));
           dispatch(focus("#" + clickedElementId));
           if (clickedElementId !== "") {
@@ -70,7 +71,6 @@ const DesignWorkspace = () => {
     },
     [dispatch]
   );
-  
 
   // Attach the click event listener to the document
   useEffect(() => {
@@ -122,22 +122,41 @@ const DesignWorkspace = () => {
   allElements.forEach((element) => {
     element.addEventListener("dragstart", draggableElement);
     element.addEventListener("dragleave", function (event) {
-      document
-        .getElementById(event.target.id)
-        .classList.remove("highlighted-dndover");
+      try {
+        document
+          .getElementById(event.target.id)
+          .classList.remove("highlighted-dndover");
+      } catch (error) {
+        console.error("Error in dragleave event:", error);
+      }
+    });
+    // เพิ่มการจัดการเหตุการณ์ dragend
+    element.addEventListener("dragend", function (event) {
+      try {
+        document
+          .getElementById(event.target.id)
+          .classList.remove("highlighted-dnd");
+      } catch (error) {
+        console.error("Error in dragend event:", error);
+      }
     });
   });
 
   function allowDrop(event) {
-    event.preventDefault();
-    document
-      .getElementById(event.target.id)
-      .classList.add("highlighted-dndover");
+    try {
+      event.preventDefault();
+      document
+        .getElementById(event.target.id)
+        .classList.add("highlighted-dndover");
+    } catch (error) {
+      console.error("Error in allowDrop function:", error);
+    }
   }
 
   function dropElement(event) {
     try {
-      event.preventDefault();
+      event.preventDefault(); // ยกเลิกการลาก
+
       var data = event.dataTransfer.getData("text/plain");
       var draggedElement = document.getElementById(data);
 
@@ -146,9 +165,7 @@ const DesignWorkspace = () => {
           document
             .getElementById(event.target.id)
             .classList.remove("highlighted-dndover");
-          document
-            .getElementById(draggedElement.id)
-            .classList.remove("highlighted-dnd");
+          draggedElement.classList.remove("highlighted-dnd");
           console.log("Cannot drop onto the same element.");
           return;
         }
@@ -158,17 +175,13 @@ const DesignWorkspace = () => {
           !allowedContainers.includes(event.currentTarget.tagName.toLowerCase())
         ) {
           event.currentTarget.classList.remove("highlighted-dndover");
-
-          document
-            .getElementById(draggedElement.id)
-            .classList.remove("highlighted-dnd");
+          draggedElement.classList.remove("highlighted-dnd");
           console.log("Cannot drop outside allowed containers.");
           return;
         }
+
         event.currentTarget.classList.remove("highlighted-dndover");
-        document
-          .getElementById(draggedElement.id)
-          .classList.remove("highlighted-dnd");
+        draggedElement.classList.remove("highlighted-dnd");
         document.querySelectorAll(".highlighted-dndover").forEach((element) => {
           element.classList.remove("highlighted-dndover");
         });
@@ -185,11 +198,6 @@ const DesignWorkspace = () => {
           const targetParent = event.target.parentNode;
           const draggedParent = draggedElement.parentNode;
 
-          // console.log("targetParent", targetParent);
-          // console.log("draggedParent", draggedParent);
-          // console.log("event.target", event.target);
-          // console.log("draggedElement", draggedElement);
-
           targetParent.insertBefore(draggedElement, event.target);
           draggedParent.insertBefore(event.target, draggedElement);
         }
@@ -198,6 +206,14 @@ const DesignWorkspace = () => {
       }
     } catch (error) {
       console.error("Error in dropElement:", error);
+      // ถ้าเกิดข้อผิดพลาดในการวาง ให้ยกเลิกการลากและจัดการ highlight
+      event.preventDefault();
+      document.querySelectorAll(".highlighted-dnd").forEach((element) => {
+        element.classList.remove("highlighted-dnd");
+      });
+      document.querySelectorAll(".highlighted-dndover").forEach((element) => {
+        element.classList.remove("highlighted-dndover");
+      });
     }
   }
 
@@ -206,7 +222,7 @@ const DesignWorkspace = () => {
       {/* Use dangerouslySetInnerHTML to render sanitized HTML */}
       <div
         dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
-        style={{ padding: "2px", minHeight: "720px" }}
+        style={{ padding: "2px", minHeight: "720px", zoom: 0.665 }}
         id="main"
         onDrop={dropElement}
         onDragOver={allowDrop}

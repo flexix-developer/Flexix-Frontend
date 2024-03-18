@@ -361,8 +361,8 @@ const OnLoadActionPopUp = ({
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        // "http://127.0.0.1:8081/users/getpage",
-        "http://ceproject.thddns.net:3322/users/getpage",
+        "http://127.0.0.1:8081/users/getpage",
+        // "http://ceproject.thddns.net:3322/users/getpage",
         {
           id: ID,
           proid: ProjectID,
@@ -661,8 +661,8 @@ fetch(\`${apiInputValue2}?id=\${param}\`, {
       const token = localStorage.getItem("token");
       console.log(pagename);
       await axios.post(
-        // "http://localhost:8081/users/editscript",
-        "http://ceproject.thddns.net:3322/users/editscript",
+        "http://localhost:8081/users/editscript",
+        // "http://ceproject.thddns.net:3322/users/editscript",
         {
           userID: ID,
           projectId: ProjectID,
