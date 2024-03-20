@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 // import useTokenCheckRegister from "../components/useTokenCheck/useTokenCheckRegister";
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
+import Swal from "sweetalert2";
 
 const RegisterPage = () => {
   // useTokenCheck("/register");
@@ -194,11 +195,25 @@ const RegisterPage = () => {
       setConfirmPassword("");
       setPasswordsMatch(true);
 
+      // Show a stylish success message
+      Swal.fire({
+        icon: "success",
+        title: "Register Success!",
+        text: "You have successfully registered.",
+        showConfirmButton: false,
+        timer: 2000, // Auto close after 2 seconds
+      });
       // Redirect to login page after successful registration
       navigate("/login");
-      alert("Register Success!");
+      // alert("Register Success!");
     } catch (err) {
-      alert("This Email is already in use.");
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: "This Email is already in use.",
+        confirmButtonText: "OK",
+      });
+      // alert("This Email is already in use.");
     }
   };
 

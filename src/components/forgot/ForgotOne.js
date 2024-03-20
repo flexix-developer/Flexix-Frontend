@@ -110,6 +110,7 @@ import { GoArrowLeft } from "react-icons/go";
 import BottomSlideBar from "../sidebar/BottomSlideBar";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 function ForgotOne({ onNextStep }) {
   const { setUserDataValue } = useAuth();
@@ -130,16 +131,35 @@ function ForgotOne({ onNextStep }) {
 
       if (response.status === 200) {
         console.log(response.data.message);
-        alert("Send Email Complete");
+        // alert("Send Email Complete");
+        Swal.fire({
+          icon: "success",
+          title: "Send Email Success!",
+          text: "Please check your email.",
+          showConfirmButton: false,
+          timer: 10000, // Auto close after 2 seconds
+        });
         setUserDataValue({ email }); // Set email to context
         onNextStep(); // If needed, uncomment this line
       } else {
         console.error(response.data.message);
-        alert("Email not found in the system.");
+        // alert("Email not found in the system.");
+        Swal.fire({
+          icon: "error",
+          title: "Wrong Email",
+          text: "Email not found in the system.",
+          confirmButtonText: "OK",
+        });
       }
     } catch (error) {
       console.error("An error occurred:", error);
-      alert("Email not found in the system.");
+      // alert("Email not found in the system.");
+      Swal.fire({
+        icon: "error",
+        title: "Wrong Email",
+        text: "Email not found in the system.",
+        confirmButtonText: "OK",
+      });
     }
   };
 

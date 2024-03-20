@@ -242,7 +242,7 @@ const DesignPage = () => {
             },
           }
         );
-        alert("Create New Page Success!");
+        // alert("Create New Page Success!");
         setCreateButtonClicked(true);
         setShowModal(false);
         SetNewPageName("");

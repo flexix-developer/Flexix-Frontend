@@ -40,9 +40,9 @@ function NavBarWorkspace({ fname, lname }) {
           {/* Dropdown Menu */}
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 bg-white rounded-md shadow-lg p-2">
-              <Link to="/settings" className="block px-4 py-2 text-gray-800">
+              {/* <Link to="/settings" className="block px-4 py-2 text-gray-800">
                 Settings
-              </Link>
+              </Link> */}
               <div className="border-t border-gray-200"></div>
               <a
                 href="/login"

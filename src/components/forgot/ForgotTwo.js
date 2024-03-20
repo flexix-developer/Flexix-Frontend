@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import BottomSlideBar from "../sidebar/BottomSlideBar";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function ForgotTwo({ onNextStep }) {
   const { userData } = useAuth();
@@ -44,15 +45,34 @@ function ForgotTwo({ onNextStep }) {
 
       if (response.status === 200) {
         console.log(response.data.message);
-        alert("OK");
+        // // alert("OK");
+        // Swal.fire({
+        //   icon: "success",
+        //   title: "Send Email Success!",
+        //   text: "Please check your email.",
+        //   showConfirmButton: false,
+        //   timer: 10000, // Auto close after 2 seconds
+        // });
         onNextStep();
       } else {
         console.error(response.data.message);
-        alert("Wrong OTP");
+        // alert("Wrong OTP");
+        Swal.fire({
+          icon: "error",
+          title: "Wrong OTP",
+          text: "Please check your email.",
+          confirmButtonText: "OK",
+        });
       }
     } catch (error) {
       console.error("An error occurred:", error);
-      alert("Please Enter Your OTP");
+      // alert("Please Enter Your OTP");
+      Swal.fire({
+        icon: "error",
+        title: "Please Enter Your OTP",
+        text: "Please Enter Your OTP",
+        confirmButtonText: "OK",
+      });
     }
   };
   const handleTrySendEmail = async (e) => {
@@ -67,8 +87,16 @@ function ForgotTwo({ onNextStep }) {
       });
 
       if (response.status === 200) {
-        console.log(response.data.message);
-        alert("Send Email Agian Complete");
+        // console.log(response.data.message);
+        // alert("Send Email Agian Complete");
+        // alert("OK");
+        Swal.fire({
+          icon: "success",
+          title: "Send Email Again Success!",
+          text: "Please check your email.",
+          showConfirmButton: false,
+          timer: 10000, // Auto close after 2 seconds
+        });
       } else {
         console.error(response.data.message);
         alert("Email not found in the system.");

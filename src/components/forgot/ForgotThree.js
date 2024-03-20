@@ -90,6 +90,7 @@ import BottomSlideBar from "../sidebar/BottomSlideBar";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function ForgotThree() {
   const { userData } = useAuth();
@@ -166,19 +167,19 @@ function ForgotThree() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Check if passwords match
-    if (!passwordsMatch) {
-      console.error("Passwords do not match");
-      alert("Passwords do not match");
-      return;
-    }
+    // // Check if passwords match
+    // if (!passwordsMatch) {
+    //   console.error("Passwords do not match");
+    //   alert("Passwords do not match");
+    //   return;
+    // }
 
-    // Check if the password is valid
-    if (!isValidPassword) {
-      console.error("Invalid password");
-      alert("Invalid password");
-      return;
-    }
+    // // Check if the password is valid
+    // if (!isValidPassword) {
+    //   console.error("Invalid password");
+    //   alert("Invalid password");
+    //   return;
+    // }
 
     const apiUrl = "http://localhost:8081/reset";
     // const apiUrl = "http://ceproject.thddns.net:3322/reset";
@@ -191,10 +192,22 @@ function ForgotThree() {
       });
 
       console.log(response.data);
-      alert("Set new password complete");
+      // alert("Set new password complete");
+      Swal.fire({
+        icon: "success",
+        title: "Set new password complete!",
+        showConfirmButton: false,
+        timer: 10000, // Auto close after 2 seconds
+      });
       navigate("/login");
     } catch (error) {
-      console.error("Error updating password:", error);
+      // console.error("Error updating password:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error updating password",
+        text: "Please Try Again.",
+        confirmButtonText: "OK",
+      });
       // Handle the error (e.g., show an error message to the user)
     }
   };

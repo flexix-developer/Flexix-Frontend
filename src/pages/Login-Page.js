@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
+import Swal from "sweetalert2";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -44,12 +45,18 @@ const LoginPage = () => {
         // console.log("Login Success", message);
         // console.log("Token:", token);
         // console.log("Token In Local", localStorage.getItem("token"));
-        alert("Login Success!");
+        // alert("Login Success!");
         navigate("/workspace");
       } else {
         // ลงทะเบียนไม่สำเร็จ
-        console.error("Login Failed", message);
-        alert("Email or Password Invalid");
+        // console.error("Login Failed", message);
+        // alert("Email or Password Invalid");
+        Swal.fire({
+          icon: "error",
+          title: "Registration Failed",
+          text: "This Email is already in use.",
+          confirmButtonText: "OK",
+        });
       }
     } catch (error) {
       console.error("Error during login", error);

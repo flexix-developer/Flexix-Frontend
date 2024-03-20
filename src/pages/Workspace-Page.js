@@ -5,7 +5,7 @@ import { FiDownload, FiTrash2, FiEdit, FiCheck } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import useTokenCheck from "../components/useTokenCheck/useTokenCheck";
 import axios from "axios";
-
+import Swal from "sweetalert2";
 const HomePage = () => {
   useTokenCheck("/workspace");
   const navigate = useNavigate();
@@ -269,21 +269,31 @@ const HomePage = () => {
               },
             }
           );
-          alert("Create New Project Success!");
+          // alert("Create New Project Success!");
           setShowNewProjectPopup(false);
           setEditedProjectName("");
           // Fetch projects after creating a new one
           fetchProject();
         } catch (error) {
-          alert("Create New Project Failed!");
+          // alert("Create New Project Failed!");
+          Swal.fire({
+            icon: "error",
+            title: "Create New Project Failed!",
+            text: "Please Try Again.",
+            confirmButtonText: "OK",
+          });
         }
       } else {
-        alert(
-          "Invalid characters in Project Name. Please use A-Z, a-z, 0-9, ., _, %, +, -"
-        );
+        // alert(
+        //   "Invalid characters in Project Name. Please use A-Z, a-z, 0-9, ., _, %, +, -"
+        // );
+        Swal.fire({
+          icon: "error",
+          title: "Create New Project Failed!",
+          text: "Invalid characters in Project Name. Please use A-Z, a-z, 0-9, ., _, %, +, -",
+          confirmButtonText: "OK",
+        });
       }
-    } else {
-      alert("Please Enter Project Name!");
     }
   };
   const handleClickProject = (id) => {
