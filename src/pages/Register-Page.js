@@ -196,10 +196,10 @@ const RegisterPage = () => {
       setPasswordsMatch(true);
 
       // Show a stylish success message
-      Swal.fire({
+      await Swal.fire({
         icon: "success",
-        title: "Register Success!",
-        text: "You have successfully registered.",
+        title: "Sign Up Success!",
+        text: "You have successfully sign up.",
         showConfirmButton: false,
         timer: 2000, // Auto close after 2 seconds
       });
